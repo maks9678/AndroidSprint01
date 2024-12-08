@@ -14,14 +14,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         viewBinding = true
-    }
-    viewBinding {
-            enabled = true
     }
     buildTypes {
         release {
@@ -49,6 +45,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.engage.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="fon_main">#F4FAFF</color>
+    <color name="text_favorites_and_categories">#FFFFFF</color>
+    <color name="fon_categories">#525DC0</color> />
+    <color name="fon_favorites">#E13E3E</color> />
+
 </resources>
