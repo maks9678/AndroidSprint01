@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <dimen name=""
     <dimen name="main_padding">16dp</dimen>
     <dimen name="half_main_padding">8dp</dimen>
     <style name="Theme.AndroidSprint01" parent="Base.Theme.AndroidSprint01" />
