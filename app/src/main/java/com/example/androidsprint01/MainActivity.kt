@@ -1,20 +1,29 @@
 package com.example.androidsprint01
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.ContextCompat
+import com.example.androidsprint01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setStatusAndNavigationBarColor()
+    }
+
+    private fun setStatusAndNavigationBarColor(
+        fonStatusBar: Int = R.color.fon_status_bar,
+        fonNavigationBar: Int = R.color.fon_navigation_bar
+    ) {
+        val statusBarColor = ContextCompat.getColor(this, fonStatusBar)
+        val navigationBarColor = ContextCompat.getColor(this, fonNavigationBar)
+
+        window.statusBarColor = statusBarColor
+        window.navigationBarColor = navigationBarColor
     }
 }
