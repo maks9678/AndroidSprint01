@@ -4,7 +4,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fon_main">
+    android:background="@color/fon_main"
+
+    >
 
 
     <LinearLayout
@@ -25,9 +27,10 @@
             android:layout_weight="1"
             android:layout_width="173dp"
             android:layout_height="wrap_content"
-            android:background="@color/fon_categories"
+            android:backgroundTint="@color/fon_categories"
             android:text="@string/categories"
-            style="@style/StyleNavButton"/>
+            style="@style/StyleNavButton"
+            />
 
         <Button
             android:id="@+id/favorites"
@@ -37,11 +40,9 @@
             android:layout_gravity="center"
             android:layout_marginStart="4dp"
             android:backgroundTint="@color/fon_favorites"
-            android:background="@color/fon_favorites"
             android:text="@string/favorites"
             app:icon ="@drawable/ic_favourites"
             app:iconGravity = "end"
-
             style="@style/StyleNavButton"/>
 
     </LinearLayout>
