@@ -28,4 +28,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "AndroidSprint01"
 include(":app")
- 
