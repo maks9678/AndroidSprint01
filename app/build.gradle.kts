@@ -16,9 +16,6 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures {
-        viewBinding = true
-    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,7 +25,9 @@ android {
             )
         }
     }
-
+    viewBinding {
+        enable = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

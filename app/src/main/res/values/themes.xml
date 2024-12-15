@@ -1,11 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.AndroidSprint01" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:statusBarColor">@color/fon_status_bar</item>
+        <item name="android:navigationBarColor">@color/fon_navigation_bar</item>
     </style>
-    <dimen name=""
-    <dimen name="main_padding">16dp</dimen>
-    <dimen name="half_main_padding">8dp</dimen>
+
     <style name="Theme.AndroidSprint01" parent="Base.Theme.AndroidSprint01" />
 </resources>

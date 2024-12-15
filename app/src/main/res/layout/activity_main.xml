@@ -4,45 +4,40 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fon_main"
-
-    >
-
+    android:background="@color/fon_main">
 
     <LinearLayout
-        android:id="@+id/buttonContainer"
+        android:id="@+id/Container_categories_and_favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/button_categories"
-            android:layout_weight="1"
+            style="@style/StyleNavButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:backgroundTint="@color/fon_categories"
-            android:text="@string/categories"
-            style="@style/StyleNavButton"
-            />
+            android:text="@string/categories" />
 
         <Button
-            android:id="@+id/favorites"
-            android:layout_weight="1"
+            android:id="@+id/button_favorites"
+            style="@style/StyleNavButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="4dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/fon_favorites"
             android:text="@string/favorites"
-            app:icon ="@drawable/ic_favourites"
-            app:iconGravity = "end"
-            style="@style/StyleNavButton"/>
+            app:icon="@drawable/ic_favourites"
+            app:iconGravity="end" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
