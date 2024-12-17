@@ -2,6 +2,8 @@ package com.example.androidsprint01
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import com.example.androidsprint01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,5 +15,13 @@ class MainActivity : AppCompatActivity() {
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<CategoriesListFragment>(R.id.main_Container)
+            }
+
+        }
     }
 }

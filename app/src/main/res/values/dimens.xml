@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="main_padding">16dp</dimen>
-    <dimen name="half_main_padding">8dp</dimen>
     <dimen name="indent_container_categories_and_favorites">16dp</dimen>
     <dimen name="half_indent_container_categories_and_favorites">8dp</dimen>
+    <dimen name="indent_categories_favorites">4dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
 </resources>

@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/fon_main">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_Container"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="@dimen/_0dp"
+        app:layout_constraintBottom_toTopOf="@+id/Container_categories_and_favorites"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/Container_categories_and_favorites"
         android:layout_width="match_parent"
@@ -20,7 +29,7 @@
         <Button
             android:id="@+id/button_categories"
             style="@style/StyleNavButton"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/fon_categories"
@@ -29,10 +38,10 @@
         <Button
             android:id="@+id/button_favorites"
             style="@style/StyleNavButton"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/indent_categories_favorites"
             android:layout_weight="1"
             android:backgroundTint="@color/fon_favorites"
             android:text="@string/favorites"
