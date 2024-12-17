@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
                 add<CategoriesListFragment>(R.id.main_Container)
             }
-
         }
     }
 }
