@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_categories"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fon_main">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/_32dp">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CategoriesListFragments"
+        android:src="@drawable/bcg_categories"
+        tools:ignore="ContentDescription,MissingConstraints">
+
+    </ImageView>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/categories"
+        android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
+        style = "@style/StyleHeading"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.fragment.app.FragmentContainerView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/shape_drawable"
+        android:padding="@dimen/_10dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat >

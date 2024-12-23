@@ -4,7 +4,7 @@
     <color name="fon_main">#F4FAFF</color>
     <color name="text_favorites_and_categories">#FFFFFF</color>
     <color name="text_name_categories">#5F3678</color>
-    <color name="text_description_categories">##666666</color>
+    <color name="text_description_categories">#666666</color>
     <color name="fon_status_bar">#4D4D87</color>
     <color name="fon_navigation_bar">#F5F5F5</color>
     <color name="fon_favorites">#E13E3E</color>
