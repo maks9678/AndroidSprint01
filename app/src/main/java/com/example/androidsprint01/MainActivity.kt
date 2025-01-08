@@ -22,12 +22,19 @@ class MainActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
                 add<CategoriesListFragment>(R.id.main_container)
             }
-            binding.buttonFavorites.setOnClickListener {
-                supportFragmentManager.commit {
-                    replace<FavoritesFragment>(R.id.layout_favorites)
-                    setReorderingAllowed(true)
-                    addToBackStack(null)
-                }
+        }
+        binding.buttonFavorites.setOnClickListener {
+            supportFragmentManager.commit {
+                replace<FavoritesFragment>(R.id.main_container)
+                setReorderingAllowed(true)
+                addToBackStack(null)
+            }
+        }
+        binding.buttonCategories.setOnClickListener {
+            supportFragmentManager.commit {
+                replace<CategoriesListFragment>(R.id.main_container)
+                setReorderingAllowed(true)
+                addToBackStack(null)
             }
         }
     }
