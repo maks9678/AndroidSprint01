@@ -47,5 +47,4 @@
         >
     </androidx.recyclerview.widget.RecyclerView>
 
-
 </androidx.appcompat.widget.LinearLayoutCompat>
