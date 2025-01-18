@@ -9,7 +9,9 @@ import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
     private var _binding: FragmentListCategoriesBinding? = null
-    private val binding get() = _binding?: throw  IllegalStateException("Binding accessed before initialized")
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
