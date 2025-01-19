@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/fon_main"
     android:orientation="vertical">
-  
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,12 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
-       android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
-        tools:listitem="@layout/item_category"
-        tools:itemCount="6"
+        android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
