@@ -3,7 +3,7 @@ package com.example.androidsprint01
 data class Recipes(
     val id: Int,
     val title: String,
-    val ingredients: Ingredient,
+    val ingredients: List<Ingredient>,
     val method: List<String>,
     val imageUrl: String
 )
@@ -16,7 +16,7 @@ data class Categories(
 )
 
 data class Ingredient(
-    val quantity: Float,
+    val quantity: String,
     val unitOfMeasure: String,
     val description: String
 )

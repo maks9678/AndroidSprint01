@@ -6,4 +6,7 @@
     <dimen name="_0dp">0dp</dimen>
     <dimen name="margin_text_header">10dp</dimen>
     <dimen name="margin_top_heider_screen">32dp</dimen>
+    <dimen name="dimen_height_iv_card">130dp</dimen>
+    <dimen name="dimen_card_width">156dp</dimen>
+    <dimen name="dimen_card_height">220dp</dimen>
 </resources>
