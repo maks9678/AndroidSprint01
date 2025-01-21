@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_categories"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fon_main">
+    android:background="@color/fon_main"
+    android:orientation="vertical">
 
-    <TextView
-
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CategoriesListFragments"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:paddingTop="@dimen/margin_top_heider_screen">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="224dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bcg_categories"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <TextView
+
+            style="@style/StyleHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+            android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
+            android:background="@drawable/shape_drawable"
+            android:padding="@dimen/margin_text_header"
+            android:text="@string/categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
+        android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_category"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

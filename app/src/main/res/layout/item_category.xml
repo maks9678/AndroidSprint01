@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dimen_card_height"
+    android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
+    android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
+    android:background="@color/fon_main"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/margin_text_header"
+    app:cardPreventCornerOverlap="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/text_favorites_and_categories_and_fon_card"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_height_iv_card"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/burger" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/StyleHeadingCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/half_indent_container_categories_and_favorites"
+            android:layout_marginTop="@dimen/half_indent_container_categories_and_favorites"
+            tools:text="ЗАГОЛОВОК" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/StyleDescriptionCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/half_indent_container_categories_and_favorites"
+            tools:text="СОДЕРЖАНИЕ" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

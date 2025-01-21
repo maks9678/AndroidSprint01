@@ -1,8 +1,9 @@
 package com.example.androidsprint01
 
+
 object STUB {
     private val categories: List<Categories> = listOf(
-        Categories(0, "Бургеры", "Рецепты всех популярных видов бургеров", "burger.png"),
+        Categories(0, "Бургеры", "Рецепты всех популярных видов бургеров", "drawable/burger.png"),
         Categories(
             1,
             "Десерты",
