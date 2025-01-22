@@ -24,8 +24,7 @@
             android:id="@+id/iv_card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_height_iv_card"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/burger" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_title"

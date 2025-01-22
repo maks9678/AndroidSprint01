@@ -20,4 +20,8 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
+    private fun initRecycler(){
+        val categoriesAdapter = CategoriesListAdapter(BackendSingleton.getCategories())
+        binding.rvCategories.adapter = categoriesAdapter
+    }
 }
