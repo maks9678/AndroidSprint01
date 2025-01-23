@@ -19,6 +19,17 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
     ): View {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecycler()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun initRecycler() {

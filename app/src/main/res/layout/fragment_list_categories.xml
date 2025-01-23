@@ -18,7 +18,9 @@
             android:layout_height="224dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
-            tools:ignore="ContentDescription,MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:contentDescription="@string/content_description_image_categories"
+            />
 
         <TextView
 

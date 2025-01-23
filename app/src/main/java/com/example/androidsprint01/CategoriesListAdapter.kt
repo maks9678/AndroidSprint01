@@ -1,6 +1,5 @@
 package com.example.androidsprint01
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,6 +37,7 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
 
+        viewHolder.itemView.contentDescription = "Изображение категории ${dataSet[position].title}"
     }
 
     override fun getItemCount() = dataSet.size

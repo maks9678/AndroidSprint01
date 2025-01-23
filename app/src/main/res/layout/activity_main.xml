@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/fon_categories"
-            android:text="@string/categories" />
+            android:text="@string/categories"
+            android:contentDescription="@string/content_description_button_categories"/>
 
         <Button
             android:id="@+id/button_favorites"
@@ -46,7 +47,8 @@
             android:backgroundTint="@color/fon_favorites"
             android:text="@string/favorites"
             app:icon="@drawable/ic_favourites"
-            app:iconGravity="end" />
+            app:iconGravity="end"
+            android:contentDescription="@string/content_description_button_favourites"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
