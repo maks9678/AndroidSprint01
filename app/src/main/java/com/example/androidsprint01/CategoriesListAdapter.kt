@@ -17,6 +17,8 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
         fun bind(category: Categories) {
             binding.tvTitle.text = category.title
             binding.tvDescription.text = category.description
+            binding.ivCard.contentDescription =
+                binding.root.context.getString(R.string.content_description_image_category,category.title)
             try {
                 val inputStream = binding.root.context.assets.open(category.imageUrl)
                 val drawable = Drawable.createFromStream(inputStream, null)
@@ -37,7 +39,7 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
 
-        viewHolder.itemView.contentDescription = "Изображение категории ${dataSet[position].title}"
+
     }
 
     override fun getItemCount() = dataSet.size

@@ -1,10 +1,10 @@
 <resources>
-    <style name="Base.Theme.AndroidSprint01" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.AndroidSprint01" parent="Theme.Material3.DayNight.NoActionBar">
 
-        <item name="android:statusBarColor">@color/fon_status_bar</item>
+        <item name="android:statusBarColor">@color/symbol_status_and_navigation_bar</item>
+        <item name="colorPrimary">@color/fon_status_bar</item>
         <item name="android:navigationBarColor">@color/fon_navigation_bar</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.AndroidSprint01" parent="Base.Theme.AndroidSprint01" />
 </resources>

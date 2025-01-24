@@ -27,7 +27,7 @@
 
     <style name="StyleDescriptionCard" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/text_description_categories</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/montserrat</item>
     </style>
 

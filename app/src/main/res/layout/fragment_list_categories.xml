@@ -10,17 +10,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_top_heider_screen">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="224dp"
+            android:contentDescription="@string/content_description_image_categories"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
-            tools:ignore="MissingConstraints"
-            android:contentDescription="@string/content_description_image_categories"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
