@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:toolse="http://schemas.android.com/tools"
+    android:id="@+id/layout_categories"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fon_main"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/iv_height_list_recipes"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        android:contentDescription="@string/content_description_image_categories"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        toolse:src="@drawable/bcg_categories" />
+
+    <TextView
+        android:id="@+id/tv_height_list_recipes"
+        style="@style/StyleHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/indent_container_categories_and_favorites"
+        android:background="@drawable/shape_drawable"
+        android:padding="@dimen/margin_text_header"
+        toolse:text="@string/tv_heading_list_recipes"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_height_list_recipes"
+        app:layout_constraintStart_toStartOf="@+id/iv_height_list_recipes" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/iv_height_list_recipes"
+        app:layout_constraintTop_toBottomOf="@+id/iv_height_list_recipes">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            toolse:src = "@drawable/bcg_categories"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            toolse:text = "чизбургер"
+            style="@style/StyleHeadingCard"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

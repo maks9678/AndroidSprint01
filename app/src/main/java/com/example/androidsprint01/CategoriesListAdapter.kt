@@ -4,15 +4,23 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemCategoryBinding
 
+interface OnItemClickListener{
 
+    fun onItemClick(itemClickListener: AdapterView.OnItemClickListener)
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        val itemClickListener=listener
+    }
+}
 class CategoriesListAdapter(private val dataSet: List<Categories>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
 
         fun bind(category: Categories) {
             binding.tvTitle.text = category.title
@@ -38,7 +46,8 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
-
+        val itemClickListener: OnItemClickListener?=null
+        itemClickListener.onItemClick {  }
 
     }
 
