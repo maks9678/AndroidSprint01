@@ -10,15 +10,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_top_heider_screen">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="224dp"
+            android:contentDescription="@string/content_description_image_categories"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
-            tools:ignore="ContentDescription,MissingConstraints" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
@@ -43,6 +44,6 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="6"
-        tools:listitem="@layout/item_category"/>
+        tools:listitem="@layout/item_category" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

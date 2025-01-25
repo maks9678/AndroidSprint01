@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="StyleTitle14" parent="TextAppearance.AppCompat" >
-        <item name= "android:textColor">@color/text_favorites_and_categories_and_fon_card</item>
+
+    <style name="StyleTitle14" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_favorites_and_categories_and_fon_card</item>
         <item name="android:textSize">14sp</item>
-        <item name = "android:fontFamily">@font/montserrat_alternates</item>
+        <item name="android:fontFamily">@font/montserrat_alternates</item>
         <item name="android:textAllCaps">true</item>
 
     </style>
@@ -12,11 +13,11 @@
         <item name="android:textAppearance">@style/StyleTitle14</item>
         <item name="cornerRadius">8dp</item>
     </style>
-    
+
     <style name="StyleHeading" parent="TextAppearance.AppCompat">
-        <item name= "android:textColor">@color/text_name_categories</item>
+        <item name="android:textColor">@color/text_name_categories</item>
         <item name="android:textSize">20sp</item>
-        <item name = "android:fontFamily">@font/montserrat_alternates</item>
+        <item name="android:fontFamily">@font/montserrat_alternates</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -26,8 +27,8 @@
 
     <style name="StyleDescriptionCard" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/text_description_categories</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/montserrat</item>
     </style>
-    
+
 </resources>

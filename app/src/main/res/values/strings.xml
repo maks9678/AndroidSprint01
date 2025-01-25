@@ -2,4 +2,8 @@
     <string name="app_name">AndroidSprint01</string>
     <string name="favorites">Избранное</string>
     <string name="categories">Категории</string>
+    <string name="content_description_button_favourites">Перейти в Избранное</string>
+    <string name="content_description_button_categories">Перейти в Категории</string>
+    <string name="content_description_image_categories">Изображение всех категорий</string>
+    <string name="content_description_image_category">Изображение категории %1$s</string>
 </resources>
