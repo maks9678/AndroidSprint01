@@ -27,9 +27,9 @@
         android:layout_margin="@dimen/indent_container_categories_and_favorites"
         android:background="@drawable/shape_drawable"
         android:padding="@dimen/margin_text_header"
-        toolse:text="@string/tv_heading_list_recipes"
         app:layout_constraintBottom_toBottomOf="@+id/iv_height_list_recipes"
-        app:layout_constraintStart_toStartOf="@+id/iv_height_list_recipes" />
+        app:layout_constraintStart_toStartOf="@+id/iv_height_list_recipes"
+        toolse:text="@string/tv_heading_list_recipes" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,15 +43,14 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            toolse:src = "@drawable/bcg_categories"
             android:scaleType="centerCrop"
-            />
+            toolse:src="@drawable/bcg_categories" />
 
         <TextView
+            style="@style/StyleHeadingCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            toolse:text = "чизбургер"
-            style="@style/StyleHeadingCard"/>
+            android:text="чизбургер" />
     </LinearLayout>
 
 

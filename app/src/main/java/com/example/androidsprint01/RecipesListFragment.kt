@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.androidsprint01.databinding.FragmentFavoritesBinding
+import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
-    private var _binding: FragmentFavoritesBinding? = null
+    private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
 
@@ -17,7 +17,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentListRecipesBinding.inflate(inflater, container, false)
         return binding.root
     }
 }
