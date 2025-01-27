@@ -14,7 +14,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="224dp"
+            android:layout_height="@dimen/height_iv_heading"
             android:contentDescription="@string/content_description_image_categories"
             android:scaleType="centerCrop"
             android:src="@drawable/bcg_categories"
