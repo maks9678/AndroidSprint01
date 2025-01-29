@@ -13,6 +13,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
         const val ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME"
         const val ARG_CATEGORY_IMAGE_URL = "ARG_CATEGORY_IMAGE_URL"
     }
+
     private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
