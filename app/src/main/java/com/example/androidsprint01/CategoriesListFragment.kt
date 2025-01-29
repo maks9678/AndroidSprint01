@@ -1,12 +1,12 @@
 package com.example.androidsprint01
 
+import android.R.attr.category
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
@@ -34,11 +34,28 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
         _binding = null
     }
 
-    fun openRecipesByCategoryId() {
-        requireActivity().supportFragmentManager.commit {
-            replace<RecipesListFragment>(R.id.main_container)
-            setReorderingAllowed(true)
-            addToBackStack(null)
+    fun openRecipesByCategoryId(categoryId: Int) {
+        val categories = BackendSingleton.getCategories()
+        val selectedCategory = categories.firstOrNull { it.id == categoryId }
+
+        if (selectedCategory != null) {
+            val categoryName = selectedCategory.title
+            val categoryImageUrl = selectedCategory.imageUrl
+
+            val bundle = Bundle()
+            bundle.putInt("ARG_CATEGORY_ID", categoryId)
+            bundle.putString("ARG_CATEGORY_NAME", categoryName)
+            bundle.putString("ARG_CATEGORY_IMAGE_URL", categoryImageUrl)
+
+            val recipesListFragment = RecipesListFragment().apply{
+                arguments = bundle
+            }
+
+            requireActivity().supportFragmentManager.commit {
+                replace(R.id.main_container,recipesListFragment)
+                setReorderingAllowed(true)
+                addToBackStack(null)
+            }
         }
     }
 
@@ -47,10 +64,11 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
         binding.rvCategories.adapter = categoriesAdapter
         categoriesAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick() {
-                openRecipesByCategoryId()
+            override fun onItemClick(categoryId: Int) {
+                openRecipesByCategoryId(categoryId)
 
             }
+
         })
     }
 }
