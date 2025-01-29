@@ -15,6 +15,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/text_favorites_and_categories_and_fon_card"

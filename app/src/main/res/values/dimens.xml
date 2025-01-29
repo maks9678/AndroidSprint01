@@ -9,4 +9,5 @@
     <dimen name="dimen_height_iv_card">130dp</dimen>
     <dimen name="dimen_card_width">156dp</dimen>
     <dimen name="dimen_card_height">220dp</dimen>
+    <dimen name="height_iv_heading">224dp</dimen>
 </resources>

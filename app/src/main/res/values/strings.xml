@@ -6,4 +6,5 @@
     <string name="content_description_button_categories">Перейти в Категории</string>
     <string name="content_description_image_categories">Изображение всех категорий</string>
     <string name="content_description_image_category">Изображение категории %1$s</string>
+    <string name="tv_heading_list_recipes">tv_heading_list_recipes</string>
 </resources>

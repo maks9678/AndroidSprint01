@@ -2,7 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_categories"
+    android:id="@+id/layout_recipes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fon_main"
@@ -13,16 +13,17 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/iv_height_list_recipes"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_iv_heading"
             android:contentDescription="@string/content_description_image_categories"
             android:scaleType="centerCrop"
-            android:src="@drawable/bcg_categories"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
-
+            android:id="@+id/tv_height_list_recipes"
             style="@style/StyleHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,20 +31,15 @@
             android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
             android:background="@drawable/shape_drawable"
             android:padding="@dimen/margin_text_header"
-            android:text="@string/categories"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/tv_heading_list_recipes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCategories"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
-        android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="6"
-        tools:listitem="@layout/item_category" />
+    <TextView
+        style="@style/StyleHeadingCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="чизбургер" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
