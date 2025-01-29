@@ -1,12 +1,14 @@
 package com.example.androidsprint01
 
-import android.R.attr.category
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_ID
+import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL
+import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_NAME
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
@@ -42,17 +44,18 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
             val categoryName = selectedCategory.title
             val categoryImageUrl = selectedCategory.imageUrl
 
-            val bundle = Bundle()
-            bundle.putInt("ARG_CATEGORY_ID", categoryId)
-            bundle.putString("ARG_CATEGORY_NAME", categoryName)
-            bundle.putString("ARG_CATEGORY_IMAGE_URL", categoryImageUrl)
+            val bundle = Bundle().apply {
+                putInt(ARG_CATEGORY_ID, categoryId)
+                putString(ARG_CATEGORY_NAME, categoryName)
+                putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
+            }
 
-            val recipesListFragment = RecipesListFragment().apply{
+            val recipesListFragment = RecipesListFragment().apply {
                 arguments = bundle
             }
 
             requireActivity().supportFragmentManager.commit {
-                replace(R.id.main_container,recipesListFragment)
+                replace(R.id.main_container, recipesListFragment)
                 setReorderingAllowed(true)
                 addToBackStack(null)
             }
