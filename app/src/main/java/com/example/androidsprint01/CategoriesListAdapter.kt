@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemCategoryBinding
 
@@ -13,7 +12,7 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick()
+        fun onItemClick(id: Int)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -54,7 +53,7 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(dataSet[position])
         viewHolder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick()
+            itemClickListener?.onItemClick(dataSet[position].id)
         }
 
     }
