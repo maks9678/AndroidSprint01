@@ -35,11 +35,12 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/tv_heading_list_recipes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        style="@style/StyleHeadingCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="чизбургер" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -20,3 +20,7 @@ data class Ingredient(
     val unitOfMeasure: String,
     val description: String
 )
+data class Dish(
+    val title: String,
+    val imageUrl: String
+        )

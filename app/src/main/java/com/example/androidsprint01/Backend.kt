@@ -17,4 +17,15 @@ object BackendSingleton {
     )
 
     fun getCategories(): List<Categories> = categories
+    private val burgerRecipes = listOf(
+        Dish("класический гамбургер","burger-hamburger.png"),
+         Dish("чизбургер","burger-cheeseburger.png"),
+         Dish("бургер с грибами и сыром","burger-mushrooms.png"),
+         Dish("бургер с курицей и авокадо","burger-avocado.png"),
+         Dish("бургер с рыбой","burger-fish.png"),
+         Dish("бургер с беконом","burger-bacon.png"),
+         Dish("веганский бургер","burger-vegan.png"),
+         Dish("острый гамбургер","burger-chili.png"),
+    )
+    fun getRecipesByCategoryId(categoryId:Int): List<Dish> = if(categoryId==0) burgerRecipes else emptyList()
 }
