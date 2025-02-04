@@ -2,7 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_recipes"
+    android:id="@+id/layout_list_recipes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fon_main"
@@ -35,6 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/tv_heading_list_recipes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_recipes"
         android:layout_width="match_parent"
@@ -44,5 +45,6 @@
         android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
         tools:listitem="@layout/item_list_recipes"
         />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
