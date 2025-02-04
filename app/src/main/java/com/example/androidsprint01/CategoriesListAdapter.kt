@@ -23,9 +23,9 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
 
 
         fun bind(category: Categories) {
-            binding.tvTitle.text = category.title
-            binding.tvDescription.text = category.description
-            binding.ivCard.contentDescription =
+            binding.tvTitleCategory.text = category.title
+            binding.tvDescriptionCategory.text = category.description
+            binding.ivCardCategory.contentDescription =
                 binding.root.context.getString(
                     R.string.content_description_image_category,
                     category.title
@@ -33,7 +33,7 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
             try {
                 val inputStream = binding.root.context.assets.open(category.imageUrl)
                 val drawable = Drawable.createFromStream(inputStream, null)
-                binding.ivCard.setImageDrawable(drawable)
+                binding.ivCardCategory.setImageDrawable(drawable)
                 inputStream.close()
             } catch (e: Exception) {
                 Log.e("CategoriesListAdapter", "${e.message}", e)

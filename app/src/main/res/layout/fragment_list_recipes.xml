@@ -36,11 +36,13 @@
             tools:text="@string/tv_heading_list_recipes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
         android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
         android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
+        tools:listitem="@layout/item_list_recipes"
         />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

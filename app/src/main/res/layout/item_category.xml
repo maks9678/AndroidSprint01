@@ -22,13 +22,13 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_card"
+            android:id="@+id/iv_card_category"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_height_iv_card"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_title_category"
             style="@style/StyleHeadingCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             tools:text="ЗАГОЛОВОК" />
 
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/tv_description_category"
             style="@style/StyleDescriptionCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
