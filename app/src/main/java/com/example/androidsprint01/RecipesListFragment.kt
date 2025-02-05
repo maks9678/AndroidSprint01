@@ -24,7 +24,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var categoryId: Int? = null
     private var categoryName: String? = null
     private var categoryImageUrl: String? = null
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

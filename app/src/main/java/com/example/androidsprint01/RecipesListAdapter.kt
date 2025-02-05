@@ -43,9 +43,9 @@ class RecipesListAdapter(private val dataSetRecipes: List<Recipe>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view =
+        val binding =
             ItemListRecipesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(
