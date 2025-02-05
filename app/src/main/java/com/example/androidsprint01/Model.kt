@@ -1,6 +1,6 @@
 package com.example.androidsprint01
 
-data class Recipes(
+data class Recipe(
     val id: Int,
     val title: String,
     val ingredients: List<Ingredient>,

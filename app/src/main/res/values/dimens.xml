@@ -10,4 +10,7 @@
     <dimen name="dimen_card_width">156dp</dimen>
     <dimen name="dimen_card_height">220dp</dimen>
     <dimen name="height_iv_heading">224dp</dimen>
+    <dimen name="margin_bottom_list_recipes">20dp</dimen>
+    <dimen name="height_iv_list_recipes">100dp</dimen>
+    <dimen name="dimen_card_height_list_recipes">132dp</dimen>
 </resources>

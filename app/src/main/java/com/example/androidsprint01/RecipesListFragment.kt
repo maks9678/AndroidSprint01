@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
@@ -21,7 +24,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var categoryId: Int? = null
     private var categoryName: String? = null
     private var categoryImageUrl: String? = null
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,16 +36,35 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let { bundle ->
-            categoryId = bundle.getInt(ARG_CATEGORY_ID)
-            categoryName = bundle.getString(ARG_CATEGORY_NAME)
-            categoryImageUrl = bundle.getString(ARG_CATEGORY_IMAGE_URL)
 
+        initRecycler()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    fun openRecipeByRecipeId(recipeId: Int) {
+        requireActivity().supportFragmentManager.commit {
+            replace<RecipeFragment>(R.id.main_container)
+            setReorderingAllowed(true)
+            addToBackStack(null)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    private fun initRecycler() {
+        binding.rvListRecipes.layoutManager = LinearLayoutManager(context)
+        val recipesListAdapter =
+            RecipesListAdapter(BackendSingleton.getRecipesByCategoryId(id))
+        binding.rvListRecipes.adapter = recipesListAdapter
+
+        recipesListAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnRecipeClickListener {
+            override fun onRecipeItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId)
+
+            }
+        })
     }
 }
