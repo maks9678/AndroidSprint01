@@ -15,6 +15,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
         const val ARG_CATEGORY_ID = "ARG_CATEGORY_ID"
         const val ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME"
         const val ARG_CATEGORY_IMAGE_URL = "ARG_CATEGORY_IMAGE_URL"
+        const val ARG_RECIPE = "ARG_RECIPE"
     }
 
     private var _binding: FragmentListRecipesBinding? = null
@@ -24,7 +25,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var categoryId: Int? = null
     private var categoryName: String? = null
     private var categoryImageUrl: String? = null
-    
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,8 +47,10 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
+        val recipe = BackendSingleton.getRecipeById(recipeId)
+        val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
         requireActivity().supportFragmentManager.commit {
-            replace<RecipeFragment>(R.id.main_container)
+            replace<RecipeFragment>(R.id.main_container, args = bundle)
             setReorderingAllowed(true)
             addToBackStack(null)
         }
