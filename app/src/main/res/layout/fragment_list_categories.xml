@@ -29,7 +29,7 @@
             android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
             android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
             android:background="@drawable/shape_drawable"
-            android:padding="@dimen/margin_text_header"
+            android:padding="@dimen/tv_padding_header"
             android:text="@string/categories"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

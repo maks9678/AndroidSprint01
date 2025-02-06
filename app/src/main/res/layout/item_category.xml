@@ -10,7 +10,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/margin_text_header"
+    app:cardCornerRadius="@dimen/tv_padding_header"
     app:cardPreventCornerOverlap="true">
 
 
