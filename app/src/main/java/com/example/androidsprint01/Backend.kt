@@ -17,7 +17,7 @@ object BackendSingleton {
     )
 
     fun getCategories(): List<Categories> = categories
-
+    fun getRecipeById(id: Int) = burgerRecipes[id]
 
     private val burgerRecipes = listOf(
         Recipe(

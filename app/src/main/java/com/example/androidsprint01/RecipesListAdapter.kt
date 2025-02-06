@@ -11,7 +11,7 @@ class RecipesListAdapter(private val dataSetRecipes: List<Recipe>) :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
 
     interface OnRecipeClickListener {
-        fun onRecipeItemClick(id:Int)
+        fun onRecipeItemClick(id: Int)
     }
 
     var recipeClickListener: OnRecipeClickListener? = null
@@ -35,8 +35,9 @@ class RecipesListAdapter(private val dataSetRecipes: List<Recipe>) :
             }
         }
     }
+
     fun setOnItemClickListener(listener: OnRecipeClickListener) {
-         recipeClickListener= listener
+        recipeClickListener = listener
     }
 
     override fun onCreateViewHolder(
@@ -57,7 +58,6 @@ class RecipesListAdapter(private val dataSetRecipes: List<Recipe>) :
             recipeClickListener?.onRecipeItemClick(dataSetRecipes[position].id)
         }
     }
-
 
     override fun getItemCount(): Int = dataSetRecipes.size
 }
