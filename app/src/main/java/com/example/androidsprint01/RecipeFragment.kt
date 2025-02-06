@@ -2,7 +2,6 @@ package com.example.androidsprint01
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +22,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(ARG_RECIPE)
         }
-        recipe?.let {
-           binding.tvRecipe.text = it.title
-        }
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,5 +35,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recipe?.let {
+            binding.tvRecipe.text = it.title
+        }
     }
 }
