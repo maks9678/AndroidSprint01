@@ -1,10 +1,12 @@
 package com.example.androidsprint01
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemIngregientBinding
+import com.example.androidsprint01.databinding.ItemMethodBinding
 
-class IngredientsAdapter(dataSet: List<Ingredient>) :
+class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
 
@@ -13,6 +15,9 @@ class IngredientsAdapter(dataSet: List<Ingredient>) :
 
 
         fun bind(dataSet: Ingredient) {
+            binding.tvIngredientName.text = dataSet.description
+            binding.tvIngredientAmount.text = dataSet.quantity + dataSet.unitOfMeasure
+
         }
     }
 
@@ -20,17 +25,17 @@ class IngredientsAdapter(dataSet: List<Ingredient>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        TODO("Not yet implemented")
+        val view = ItemIngregientBinding.
+        inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(
         holder: ViewHolder,
         position: Int
     ) {
-        TODO("Not yet implemented")
+        holder.bind(dataSet[position])
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = dataSet.size
 }
