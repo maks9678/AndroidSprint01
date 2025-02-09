@@ -22,8 +22,7 @@ class MethodAdapter(private val dataSet: List<String>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = ItemMethodBinding.
-        inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMethodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

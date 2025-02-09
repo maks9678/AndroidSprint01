@@ -24,8 +24,8 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = ItemIngredientBinding.
-        inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemIngredientBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

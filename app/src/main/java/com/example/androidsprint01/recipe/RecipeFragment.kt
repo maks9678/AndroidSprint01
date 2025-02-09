@@ -76,5 +76,4 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         rvMethod.layoutManager = LinearLayoutManager(context)
         rvMethod.addItemDecoration(dividerItem)
     }
-
 }
