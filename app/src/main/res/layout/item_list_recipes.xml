@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_card_height_list_recipes"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
     android:clickable="true"
     android:focusable="true"
+    android:background="@color/text_favorites_and_categories_and_fon_card"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="4dp"
     app:cardPreventCornerOverlap="true">
@@ -27,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
-            android:layout_marginTop="@dimen/half_indent_container_categories_and_favorites"
-            tools:text="dsfgdf" />
+            android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
+            tools:text="dsfgdf"
+            style="@style/StyleHeadingCard"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

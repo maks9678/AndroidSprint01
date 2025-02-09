@@ -64,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
-            android:layout_marginTop="@dimen/indent_container_categories_and_favorites" />
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
-            android:layout_marginTop="@dimen/indent_container_categories_and_favorites" />
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>
 

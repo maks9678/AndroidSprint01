@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.R
 import com.example.androidsprint01.Recipe
@@ -30,7 +29,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
         }
-
     }
 
     override fun onCreateView(
@@ -55,9 +53,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         val tvRecipeTitle: TextView = binding.tvRecipe
         val ivRecipeImage: ImageView = binding.ivHeightRecipe
 
-
-        tvRecipeTitle.text = recipe?.title ?: "Рецепт"
-        ivRecipeImage.textAlignment
+        tvRecipeTitle.text = recipe?.title
     }
 
     fun initRecycler() {
@@ -67,13 +63,11 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         val rvIngredients: RecyclerView = binding.rvIngredients
         val ingredientsAdapter = IngredientsAdapter(recipe?.ingredients ?: emptyList())
         rvIngredients.adapter = ingredientsAdapter
-        rvIngredients.layoutManager = LinearLayoutManager(context)
         rvIngredients.addItemDecoration(dividerItem)
 
         val rvMethod: RecyclerView = binding.rvMethod
         val methodAdapter = MethodAdapter(recipe?.method ?: emptyList())
         rvMethod.adapter = methodAdapter
-        rvMethod.layoutManager = LinearLayoutManager(context)
         rvMethod.addItemDecoration(dividerItem)
     }
 }

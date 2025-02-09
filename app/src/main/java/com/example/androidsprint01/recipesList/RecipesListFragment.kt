@@ -71,8 +71,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
 
     private fun initRecycler() {
         val recipesListAdapter: RecipesListAdapter =
-            RecipesListAdapter(BackendSingleton.getRecipesByCategoryId(id))
-        binding.rvListRecipes.layoutManager = LinearLayoutManager(context)
+            RecipesListAdapter(BackendSingleton.getRecipesByCategoryId(categoryId))
         binding.rvListRecipes.adapter = recipesListAdapter
 
         recipesListAdapter.setOnItemClickListener(object :

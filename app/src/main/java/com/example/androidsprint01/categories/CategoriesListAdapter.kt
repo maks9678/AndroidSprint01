@@ -56,7 +56,6 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
         viewHolder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(dataSet[position].id)
         }
-
     }
 
     override fun getItemCount() = dataSet.size

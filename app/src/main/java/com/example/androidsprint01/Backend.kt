@@ -241,6 +241,6 @@ object BackendSingleton {
         )
     )
 
-    fun getRecipesByCategoryId(categoryId: Int): List<Recipe> =
+    fun getRecipesByCategoryId(categoryId: Int?): List<Recipe> =
         if (categoryId == 0) burgerRecipes else emptyList()
 }

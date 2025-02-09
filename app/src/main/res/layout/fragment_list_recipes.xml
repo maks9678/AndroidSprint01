@@ -44,6 +44,7 @@
         android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
         android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
         tools:listitem="@layout/item_list_recipes"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
 
