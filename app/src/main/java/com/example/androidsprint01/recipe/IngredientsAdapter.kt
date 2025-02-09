@@ -1,23 +1,22 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidsprint01.databinding.ItemIngregientBinding
-import com.example.androidsprint01.databinding.ItemMethodBinding
+import com.example.androidsprint01.Ingredient
+import com.example.androidsprint01.databinding.ItemIngredientBinding
 
 class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
 
-    class ViewHolder(private val binding: ItemIngregientBinding) :
+    class ViewHolder(private val binding: ItemIngredientBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
         fun bind(dataSet: Ingredient) {
             binding.tvIngredientName.text = dataSet.description
-            binding.tvIngredientAmount.text = dataSet.quantity + dataSet.unitOfMeasure
-
+            binding.tvIngredientAmount.text = "${dataSet.quantity} ${dataSet.unitOfMeasure}"
         }
     }
 
@@ -25,9 +24,9 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view = ItemIngregientBinding.
+        val binding = ItemIngredientBinding.
         inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(

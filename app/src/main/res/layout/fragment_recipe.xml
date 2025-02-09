@@ -24,6 +24,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bcg_categories" />
             <ImageButton
+                android:id="@+id/ib_favorites_recipe"
                 android:layout_width="@dimen/b_size_favorites"
                 android:layout_height="@dimen/b_size_favorites"
                 app:layout_constraintEnd_toEndOf="parent"

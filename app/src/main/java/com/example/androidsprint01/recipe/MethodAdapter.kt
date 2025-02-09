@@ -1,11 +1,11 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemMethodBinding
 
-class MethodAdapter(private val dataSet: List<Recipe>) :
+class MethodAdapter(private val dataSet: List<String>) :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
 
 
@@ -13,8 +13,8 @@ class MethodAdapter(private val dataSet: List<Recipe>) :
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(dataSet: Recipe) {
-            binding.tvMethodCooking.text = dataSet.method[0]
+        fun bind(stringMethod: String) {
+            binding.tvMethodCooking.text = stringMethod
         }
     }
 
@@ -22,9 +22,9 @@ class MethodAdapter(private val dataSet: List<Recipe>) :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view = ItemMethodBinding.
+        val binding = ItemMethodBinding.
         inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(

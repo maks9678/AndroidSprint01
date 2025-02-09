@@ -1,4 +1,4 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.recipesList
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidsprint01.BackendSingleton
+import com.example.androidsprint01.R
+import com.example.androidsprint01.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
@@ -25,6 +28,16 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var categoryId: Int? = null
     private var categoryName: String? = null
     private var categoryImageUrl: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            categoryId = it.getInt(ARG_CATEGORY_ID)
+            categoryName = it.getString(ARG_CATEGORY_NAME)
+            categoryImageUrl = it.getString(ARG_CATEGORY_IMAGE_URL)
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +70,9 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     }
 
     private fun initRecycler() {
-        binding.rvListRecipes.layoutManager = LinearLayoutManager(context)
-        val recipesListAdapter =
+        val recipesListAdapter: RecipesListAdapter =
             RecipesListAdapter(BackendSingleton.getRecipesByCategoryId(id))
+        binding.rvListRecipes.layoutManager = LinearLayoutManager(context)
         binding.rvListRecipes.adapter = recipesListAdapter
 
         recipesListAdapter.setOnItemClickListener(object :
