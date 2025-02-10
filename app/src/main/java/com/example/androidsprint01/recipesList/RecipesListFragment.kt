@@ -60,6 +60,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
+
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
         requireActivity().supportFragmentManager.commit {
