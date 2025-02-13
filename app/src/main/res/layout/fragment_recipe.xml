@@ -23,19 +23,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bcg_categories" />
+
             <ImageButton
                 android:id="@+id/ib_favorites_recipe"
                 android:layout_width="@dimen/b_size_favorites"
                 android:layout_height="@dimen/b_size_favorites"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="@dimen/indent_container_categories_and_favorites"
                 android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+                android:layout_marginEnd="@dimen/indent_container_categories_and_favorites"
                 android:background="@null"
-                android:src="@drawable/ic_favourites"
-                android:scaleType="fitCenter"
                 android:contentDescription="@string/ib_cd_favorites"
-                />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_favourites"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_recipe"
@@ -52,12 +52,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            style="@style/StyleHeading"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/tv_ingredients"
-            style="@style/StyleHeading"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"/>
+            android:text="@string/tv_ingredients" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Ingredients"
@@ -65,15 +65,17 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:paddingTop="@dimen/indent_categories_favorites"
+            android:paddingBottom="@dimen/half_indent_container_categories_and_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <TextView
+            style="@style/StyleHeading"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/tv_cooking_method"
-            style="@style/StyleHeading"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"/>
+            android:text="@string/tv_cooking_method" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Method"
@@ -81,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:paddingVertical="@dimen/indent_categories_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 
