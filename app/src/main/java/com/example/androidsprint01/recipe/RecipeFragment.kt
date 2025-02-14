@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.androidsprint01.Ingredient
@@ -83,6 +84,9 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     fun initRecycler() {
         val dividerItem =
             MaterialDividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        dividerItem.isLastItemDecorated = false
+        dividerItem.dividerColor =
+            ContextCompat.getColor(requireContext(), R.color.fon_navigation_bar)
 
         binding.rvIngredients.addItemDecoration(dividerItem)
         binding.rvMethod.addItemDecoration(dividerItem)
