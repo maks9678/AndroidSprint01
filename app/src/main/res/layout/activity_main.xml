@@ -34,8 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/fon_categories"
+            android:contentDescription="@string/content_description_button_categories"
             android:text="@string/categories"
-            android:contentDescription="@string/content_description_button_categories"/>
+            android:textColor="@color/text_favorites_and_categories_and_fon_card" />
 
         <Button
             android:id="@+id/button_favorites"
@@ -46,10 +47,12 @@
             android:layout_marginStart="@dimen/indent_categories_favorites"
             android:layout_weight="1"
             android:backgroundTint="@color/fon_favorites"
+            android:contentDescription="@string/content_description_button_favourites"
             android:text="@string/favorites"
+            android:textColor="@color/text_favorites_and_categories_and_fon_card"
             app:icon="@drawable/ic_favourites"
-            app:iconGravity="end"
-            android:contentDescription="@string/content_description_button_favourites"/>
+            app:iconTint="@color/text_favorites_and_categories_and_fon_card"
+            app:iconGravity="end" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

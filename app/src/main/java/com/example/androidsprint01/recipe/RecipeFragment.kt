@@ -82,11 +82,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     }
 
     fun initRecycler() {
-        val dividerItem =
+        val dividerItem: MaterialDividerItemDecoration =
             MaterialDividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         dividerItem.isLastItemDecorated = false
         dividerItem.dividerColor =
             ContextCompat.getColor(requireContext(), R.color.fon_navigation_bar)
+        dividerItem.setDividerInsetStartResource(requireContext(),R.dimen._0dp)
+        dividerItem.setDividerInsetEndResource(requireContext(),R.dimen._0dp)
 
         binding.rvIngredients.addItemDecoration(dividerItem)
         binding.rvMethod.addItemDecoration(dividerItem)

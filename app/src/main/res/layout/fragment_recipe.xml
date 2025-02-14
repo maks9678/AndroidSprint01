@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            android:background="@color/text_favorites_and_categories_and_fon_card"
+            android:background="@drawable/shape_drawable_card"
             android:paddingHorizontal="@dimen/_12dp"
             android:paddingTop="@dimen/indent_categories_favorites"
             android:paddingBottom="@dimen/half_indent_container_categories_and_favorites"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
-            android:background="@color/text_favorites_and_categories_and_fon_card"
+            android:background="@drawable/shape_drawable_card"
             android:paddingHorizontal="@dimen/_12dp"
             android:paddingVertical="@dimen/indent_categories_favorites"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

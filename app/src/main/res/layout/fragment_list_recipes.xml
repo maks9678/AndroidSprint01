@@ -43,6 +43,7 @@
         android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
         android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
         android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
+        android:background="@color/text_favorites_and_categories_and_fon_card"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_list_recipes" />
 
