@@ -1,13 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_recipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fon_main"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_height_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_iv_heading"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/bcg_categories" />
+
+            <ImageButton
+                android:id="@+id/ib_favorites_recipe"
+                android:layout_width="@dimen/b_size_favorites"
+                android:layout_height="@dimen/b_size_favorites"
+                android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+                android:layout_marginEnd="@dimen/indent_container_categories_and_favorites"
+                android:background="@null"
+                android:contentDescription="@string/ib_cd_favorites"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_favourites"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_recipe"
+                style="@style/StyleHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+                android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
+                android:background="@drawable/shape_drawable"
+                android:padding="@dimen/tv_padding_header"
+                app:layout_constraintBottom_toBottomOf="@id/iv_height_recipe"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="dfg" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            style="@style/StyleHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            android:text="@string/tv_ingredients" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_Ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            android:background="@drawable/shape_drawable_card"
+            android:paddingHorizontal="@dimen/_12dp"
+            android:paddingTop="@dimen/indent_categories_favorites"
+            android:paddingBottom="@dimen/half_indent_container_categories_and_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <TextView
+            style="@style/StyleHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            android:text="@string/tv_cooking_method" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_Method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
+            android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
+            android:background="@drawable/shape_drawable_card"
+            android:paddingHorizontal="@dimen/_12dp"
+            android:paddingVertical="@dimen/indent_categories_favorites"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

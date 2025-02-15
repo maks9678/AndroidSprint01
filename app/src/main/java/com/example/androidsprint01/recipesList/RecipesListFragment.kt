@@ -1,13 +1,17 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.recipesList
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidsprint01.BackendSingleton
+import com.example.androidsprint01.R
+import com.example.androidsprint01.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
@@ -26,6 +30,16 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var categoryName: String? = null
     private var categoryImageUrl: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            categoryId = it.getInt(ARG_CATEGORY_ID)
+            categoryName = it.getString(ARG_CATEGORY_NAME)
+            categoryImageUrl = it.getString(ARG_CATEGORY_IMAGE_URL)
+        }
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +51,14 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        categoryName?.let {
+            binding.tvHeightListRecipes.text = it
+            binding.tvHeightListRecipes.contentDescription = binding.root.context.getString(
+                R.string.content_description_image_recipe,
+                categoryName
+            )
+        }
+        loadImageFromAssets(categoryImageUrl)
         initRecycler()
     }
 
@@ -47,6 +68,7 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
+
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
         requireActivity().supportFragmentManager.commit {
@@ -56,17 +78,27 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
         }
     }
 
+    private fun loadImageFromAssets(imageUrl: String?) {
+        imageUrl?.let {
+            try {
+                val inputStream = requireContext().assets.open(it)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                binding.ivHeightListRecipes.setImageBitmap(bitmap)
+            } catch (e: Exception) {
+                Log.e("RecipesListFragment", "${e.message}", e)
+            }
+        }
+    }
+
     private fun initRecycler() {
-        binding.rvListRecipes.layoutManager = LinearLayoutManager(context)
-        val recipesListAdapter =
-            RecipesListAdapter(BackendSingleton.getRecipesByCategoryId(id))
+        val recipes = BackendSingleton.getRecipesByCategoryId(categoryId)
+        val recipesListAdapter = RecipesListAdapter(recipes)
         binding.rvListRecipes.adapter = recipesListAdapter
 
         recipesListAdapter.setOnItemClickListener(object :
             RecipesListAdapter.OnRecipeClickListener {
             override fun onRecipeItemClick(recipeId: Int) {
                 openRecipeByRecipeId(recipeId)
-
             }
         })
     }

@@ -1,4 +1,4 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_ID
-import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL
-import com.example.androidsprint01.RecipesListFragment.Companion.ARG_CATEGORY_NAME
+import com.example.androidsprint01.BackendSingleton
+import com.example.androidsprint01.R
+import com.example.androidsprint01.recipesList.RecipesListFragment
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
@@ -45,9 +45,9 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
             val categoryImageUrl = selectedCategory.imageUrl
 
             val bundle = Bundle().apply {
-                putInt(ARG_CATEGORY_ID, categoryId)
-                putString(ARG_CATEGORY_NAME, categoryName)
-                putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
+                putInt(RecipesListFragment.Companion.ARG_CATEGORY_ID, categoryId)
+                putString(RecipesListFragment.Companion.ARG_CATEGORY_NAME, categoryName)
+                putString(RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
             }
 
             val recipesListFragment = RecipesListFragment().apply {

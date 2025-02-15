@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_card_height_list_recipes"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="4dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardPreventCornerOverlap="true"
+    app:cardBackgroundColor="@android:color/transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,15 +21,16 @@
             android:id="@+id/iv_card_list_recipes"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_iv_list_recipes"
-            tools:src="@drawable/bcg_categories"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bcg_categories" />
 
         <TextView
             android:id="@+id/tv_card_list_recipes"
+            style="@style/StyleHeadingCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/half_indent_container_categories_and_favorites"
             android:layout_marginVertical="@dimen/half_indent_container_categories_and_favorites"
-            android:layout_marginTop="@dimen/half_indent_container_categories_and_favorites"
             tools:text="dsfgdf" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

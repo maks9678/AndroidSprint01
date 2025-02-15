@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.androidsprint01.categories.CategoriesListFragment
 import com.example.androidsprint01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

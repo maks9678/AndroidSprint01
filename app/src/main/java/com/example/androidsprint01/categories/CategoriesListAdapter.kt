@@ -1,12 +1,13 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.categories
 
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.androidsprint01.Categories
+import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ItemCategoryBinding
-
 
 class CategoriesListAdapter(private val dataSet: List<Categories>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
@@ -55,7 +56,6 @@ class CategoriesListAdapter(private val dataSet: List<Categories>) :
         viewHolder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(dataSet[position].id)
         }
-
     }
 
     override fun getItemCount() = dataSet.size

@@ -7,5 +7,11 @@
     <string name="content_description_image_categories">Изображение всех категорий</string>
     <string name="content_description_image_category">Изображение категории %1$s</string>
     <string name="content_description_image_recipe">Изображение рецепта %1$s</string>
+
     <string name="tv_heading_list_recipes">tv_heading_list_recipes</string>
+
+    <string name="tv_ingredients">Ингредиенты</string>
+    <string name="tv_cooking_method">Способ приготовления</string>
+    <string name="ib_cd_favorites">Добавить в избранное</string>
+    <string name="recipe">Рецепт</string>
 </resources>
