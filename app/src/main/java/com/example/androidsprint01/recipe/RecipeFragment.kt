@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.androidsprint01.Ingredient
 import com.example.androidsprint01.R
 import com.example.androidsprint01.Recipe
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
@@ -22,6 +22,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     var recipe: Recipe? = null
+    private var ingredientsAdapter: IngredientsAdapter? = null
+    private var stepsAdapter: MethodAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,9 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
         }
+        ingredientsAdapter = IngredientsAdapter(emptyList())
+        stepsAdapter = MethodAdapter(emptyList())
+
         initUI()
         initRecycler()
     }
@@ -47,8 +52,10 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         recipe?.let {
             binding.tvRecipe.text = it.title
             loadImageFromAssets(it.imageUrl)
-            setupIngredients(it.ingredients)
-            setupCookingSteps(it.method)
+            binding.rvIngredients.adapter = ingredientsAdapter
+            binding.rvMethod.adapter = stepsAdapter
+            ingredientsAdapter?.updateData(it.ingredients)
+            stepsAdapter?.updateData(it.method)
         } ?: run {
             Log.e("RecipeFragment", "Recipe is null")
         }
@@ -71,26 +78,29 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         }
     }
 
-    fun setupIngredients(ingredients: List<Ingredient>) {
-        val ingredientsAdapter = IngredientsAdapter(ingredients)
-        binding.rvIngredients.adapter = ingredientsAdapter
-    }
-
-    private fun setupCookingSteps(steps: List<String>) {
-        val stepsAdapter = MethodAdapter(steps)
-        binding.rvMethod.adapter = stepsAdapter
-    }
-
     fun initRecycler() {
-        val dividerItem: MaterialDividerItemDecoration =
+        val dividerItem =
             MaterialDividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         dividerItem.isLastItemDecorated = false
         dividerItem.dividerColor =
             ContextCompat.getColor(requireContext(), R.color.fon_navigation_bar)
-        dividerItem.setDividerInsetStartResource(requireContext(),R.dimen._0dp)
-        dividerItem.setDividerInsetEndResource(requireContext(),R.dimen._0dp)
+        dividerItem.setDividerInsetStartResource(requireContext(), R.dimen._0dp)
+        dividerItem.setDividerInsetEndResource(requireContext(), R.dimen._0dp)
 
         binding.rvIngredients.addItemDecoration(dividerItem)
         binding.rvMethod.addItemDecoration(dividerItem)
+        binding.sbPortions.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(
+                seekBar: SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                ingredientsAdapter?.updateIngredients(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 }

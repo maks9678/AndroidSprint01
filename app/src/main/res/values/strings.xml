@@ -14,4 +14,5 @@
     <string name="tv_cooking_method">Способ приготовления</string>
     <string name="ib_cd_favorites">Добавить в избранное</string>
     <string name="recipe">Рецепт</string>
+    <string name="text_portions">Порции:</string>
 </resources>
