@@ -56,6 +56,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             binding.rvMethod.adapter = stepsAdapter
             ingredientsAdapter?.updateData(it.ingredients)
             stepsAdapter?.updateData(it.method)
+            binding.tvNumberPortions.text = "1"
         } ?: run {
             Log.e("RecipeFragment", "Recipe is null")
         }
@@ -97,9 +98,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 fromUser: Boolean
             ) {
                 ingredientsAdapter?.updateIngredients(progress)
+                binding.tvNumberPortions.text = progress.toString()
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
     }

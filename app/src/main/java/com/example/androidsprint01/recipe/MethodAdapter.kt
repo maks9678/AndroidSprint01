@@ -29,7 +29,7 @@ class MethodAdapter(private var dataSet: List<String>) :
         holder: ViewHolder,
         position: Int
     ) {
-        holder.bind("${position+1}. ${dataSet[position]}")
+        holder.bind("${position + 1}. ${dataSet[position]}")
     }
 
     override fun getItemCount(): Int = dataSet.size
