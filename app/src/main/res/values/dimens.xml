@@ -15,4 +15,5 @@
     <dimen name="dimen_card_height_list_recipes">132dp</dimen>
     <dimen name="b_size_favorites">40dp</dimen>
     <dimen name="_12dp">12dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
 </resources>

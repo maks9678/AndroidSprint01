@@ -59,6 +59,35 @@
             android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
             android:text="@string/tv_ingredients" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="@dimen/_6dp"
+            android:layout_marginStart="@dimen/indent_container_categories_and_favorites">
+
+            <TextView
+                style="@style/StyleTextPortions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_portions" />
+
+            <TextView
+                android:id="@+id/tv_number_portions"
+                style="@style/StyleTextPortions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6dp"
+                tools:text="5" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sb_portions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="5"
+            android:min="1" />
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Ingredients"
             android:layout_width="match_parent"

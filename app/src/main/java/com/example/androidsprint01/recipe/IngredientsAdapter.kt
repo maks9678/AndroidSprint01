@@ -5,18 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.Ingredient
 import com.example.androidsprint01.databinding.ItemIngredientBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
-class IngredientsAdapter(private val dataSet: List<Ingredient>) :
+class IngredientsAdapter(private var dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
-
+    var quantity: Int = 1
 
     class ViewHolder(private val binding: ItemIngredientBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(dataSet: Ingredient) {
+        fun bind(dataSet: Ingredient, quantity: Int) {
             binding.tvIngredientName.text = dataSet.description
-            binding.tvIngredientAmount.text = "${dataSet.quantity} ${dataSet.unitOfMeasure}"
+            val totalQuantity = BigDecimal(dataSet.quantity) * BigDecimal(quantity)
+            val formatQuantity = if (totalQuantity.remainder(BigDecimal.ONE) != BigDecimal.ZERO) {
+                totalQuantity.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
+            } else {
+                totalQuantity.toInt().toString()
+            }
+            binding.tvIngredientAmount.text =
+                "$formatQuantity ${dataSet.unitOfMeasure}"
         }
     }
 
@@ -33,8 +42,18 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
         holder: ViewHolder,
         position: Int
     ) {
-        holder.bind(dataSet[position])
+        holder.bind(dataSet[position], quantity)
     }
 
     override fun getItemCount(): Int = dataSet.size
+
+    fun updateData(newData: List<Ingredient>) {
+        dataSet = newData
+        notifyDataSetChanged()
+    }
+
+    fun updateIngredients(progress: Int) {
+        quantity = progress
+        notifyDataSetChanged()
+    }
 }
