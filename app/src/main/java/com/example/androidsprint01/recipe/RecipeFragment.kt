@@ -60,6 +60,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
             }
         }
+
         ingredientsAdapter = IngredientsAdapter(emptyList())
         stepsAdapter = MethodAdapter(emptyList())
 
