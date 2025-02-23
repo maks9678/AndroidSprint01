@@ -41,6 +41,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
         }
+        binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
         ingredientsAdapter = IngredientsAdapter(emptyList())
         stepsAdapter = MethodAdapter(emptyList())
 
@@ -52,6 +53,18 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         recipe?.let {
             binding.tvRecipe.text = it.title
             loadImageFromAssets(it.imageUrl)
+
+            var isFavorite = false
+            binding.ibFavoritesRecipe.setOnClickListener {
+                if (isFavorite) {
+                    isFavorite = !isFavorite
+                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
+                } else {
+                    isFavorite = !isFavorite
+                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
+                }
+            }
+
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvMethod.adapter = stepsAdapter
             ingredientsAdapter?.updateData(it.ingredients)
