@@ -76,14 +76,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             var isFavorite = favorites.contains(currentRecipe.id.toString())
             binding.ibFavoritesRecipe.setOnClickListener {
                 if (isFavorite) {
-                    isFavorite = !isFavorite
                     favorites.remove(currentRecipe.id.toString())
                     binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
                 } else {
-                    isFavorite = !isFavorite
                     favorites.add(currentRecipe.id.toString())
                     binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
                 }
+                isFavorite = !isFavorite
                 saveFavorites(favorites)
             }
 
