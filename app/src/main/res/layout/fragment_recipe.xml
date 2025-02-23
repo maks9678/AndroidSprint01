@@ -30,10 +30,10 @@
                 android:layout_height="@dimen/b_size_favorites"
                 android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
                 android:layout_marginEnd="@dimen/indent_container_categories_and_favorites"
-                android:background="@null"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/ib_cd_favorites"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_favourites"
+                tools:src="@drawable/ic_favourites"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
