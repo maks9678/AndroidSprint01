@@ -49,6 +49,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
         }
+
         sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
         recipe?.let {
             if (sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet())
@@ -152,5 +153,4 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
         return HashSet(currentFavorites)
     }
-
 }
