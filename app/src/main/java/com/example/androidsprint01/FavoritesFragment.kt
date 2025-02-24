@@ -11,8 +11,10 @@ import com.example.androidsprint01.recipesList.RecipesListAdapter
 
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private var _binding: FragmentFavoritesBinding? = null
-    private val binding get() = _binding?: throw  IllegalStateException("Binding accessed before initialized")
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     var recycler: RecipesListAdapter? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,12 +24,22 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         return binding.root
     }
 
-    private fun getFavorites():Set<Int> {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recycler=view.findViewById(R.id.rv_Favorites)
+        setRecycler()
+    }
+
+    private fun getFavorites(): Set<Int> {
 
     }
 
     fun setRecycler() {
         val favoritesRecipe = getFavorites()
         recycler = RecipesListAdapter(getRecipesByIds(favoritesRecipe))
+    }
+    private fun openRecipeByRecipeId(recipeId: Int) {
+        val action = FavoritesFragmentDirections.actionFavoritesToRecipeDetail(recipeId)
+        findNavController().navigate(action)
     }
 }

@@ -43,6 +43,7 @@ tools:src ="@drawable/bcg_favorites"
         app:layout_constraintTop_toBottomOf="@+id/iv_height_favorites" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
