@@ -1,5 +1,7 @@
 package com.example.androidsprint01.recipe
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +26,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     var recipe: Recipe? = null
     private var ingredientsAdapter: IngredientsAdapter? = null
     private var stepsAdapter: MethodAdapter? = null
+    var sharedPrefs: SharedPreferences? = null
+
+    companion object {
+        const val ARG_PREFERENCES = "RecipePreferences"
+        const val KEY_FAVORITES = "recipe_favourites"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +49,18 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         } else {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
         }
-        binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
+
+        sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
+        recipe?.let {
+            if (sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet())
+                    ?.contains(it.id.toString()) == true
+            ) {
+                binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
+            } else {
+                binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
+            }
+        }
+
         ingredientsAdapter = IngredientsAdapter(emptyList())
         stepsAdapter = MethodAdapter(emptyList())
 
@@ -50,25 +69,28 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     }
 
     private fun initUI() {
-        recipe?.let {
-            binding.tvRecipe.text = it.title
-            loadImageFromAssets(it.imageUrl)
+        recipe?.let { currentRecipe ->
+            binding.tvRecipe.text = currentRecipe.title
+            loadImageFromAssets(currentRecipe.imageUrl)
 
-            var isFavorite = false
+            val favorites = getFavorites()
+            var isFavorite = favorites.contains(currentRecipe.id.toString())
             binding.ibFavoritesRecipe.setOnClickListener {
                 if (isFavorite) {
-                    isFavorite = !isFavorite
+                    favorites.remove(currentRecipe.id.toString())
                     binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
                 } else {
-                    isFavorite = !isFavorite
+                    favorites.add(currentRecipe.id.toString())
                     binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
                 }
+                isFavorite = !isFavorite
+                saveFavorites(favorites)
             }
 
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvMethod.adapter = stepsAdapter
-            ingredientsAdapter?.updateData(it.ingredients)
-            stepsAdapter?.updateData(it.method)
+            ingredientsAdapter?.updateData(currentRecipe.ingredients)
+            stepsAdapter?.updateData(currentRecipe.method)
             binding.tvNumberPortions.text = "1"
         } ?: run {
             Log.e("RecipeFragment", "Recipe is null")
@@ -120,5 +142,15 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    fun saveFavorites(favorites: Set<String>) {
+        sharedPrefs?.edit()?.putStringSet(KEY_FAVORITES, favorites)?.apply()
+    }
+
+    fun getFavorites(): MutableSet<String> {
+        val currentFavorites =
+            sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
+        return HashSet(currentFavorites)
     }
 }
