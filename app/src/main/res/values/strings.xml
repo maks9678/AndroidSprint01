@@ -15,4 +15,5 @@
     <string name="ib_cd_favorites">Добавить в избранное</string>
     <string name="recipe">Рецепт</string>
     <string name="text_portions">Порции:</string>
+    <string name="tv_0_favorites">Вы еще не добавили ни одного рецепта в избранное</string>
 </resources>
