@@ -11,49 +11,54 @@
         android:id="@+id/iv_height_favorites"
         android:layout_width="match_parent"
         android:layout_height="224dp"
-tools:src ="@drawable/bcg_favorites"
         android:scaleType="centerCrop"
+        android:src="@drawable/bcg_favorites"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_image_favorites"/>
 
     <TextView
+        style="@style/StyleHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/favorites"
-        android:textAllCaps="true"
-        style="@style/StyleHeading"
+        android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+        android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
         android:background="@drawable/shape_drawable"
         android:padding="@dimen/tv_padding_header"
-        android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
-        android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
-        app:layout_constraintStart_toStartOf="@+id/iv_height_favorites"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_height_favorites" />
+        android:text="@string/favorites"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_height_favorites"
+        app:layout_constraintStart_toStartOf="@+id/iv_height_favorites" />
 
     <TextView
+        android:id="@+id/tv_0_favorites"
         style="@style/StyleFavorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
         android:layout_marginTop="@dimen/_212dp"
+        android:gravity="center"
         android:text="@string/tv_0_favorites"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
         app:layout_constraintTop_toBottomOf="@+id/iv_height_favorites" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_Favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_height_favorites"
         android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
         android:layout_marginTop="@dimen/indent_container_categories_and_favorites"
         android:layout_marginBottom="@dimen/margin_bottom_list_recipes"
         android:background="@color/text_favorites_and_categories_and_fon_card"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_height_favorites"
         tools:listitem="@layout/item_list_recipes" />
 
 

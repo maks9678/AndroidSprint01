@@ -1,6 +1,5 @@
 package com.example.androidsprint01.recipesList
 
-import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
