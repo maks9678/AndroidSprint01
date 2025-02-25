@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/iv_height_favorites"
         android:layout_width="match_parent"
-        android:layout_height="224dp"
+        android:layout_height="@dimen/height_iv_heading"
         android:scaleType="centerCrop"
         android:src="@drawable/bcg_favorites"
         app:layout_constraintEnd_toEndOf="parent"

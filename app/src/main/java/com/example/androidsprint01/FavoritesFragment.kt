@@ -22,11 +22,11 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     private var favoritesAdapter: RecipesListAdapter? = null
-    private var sharedPrefs: SharedPreferences? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        sharedPrefs = context.getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
+    private val sharedPrefs: SharedPreferences by lazy {
+        requireActivity().getSharedPreferences(
+            ARG_PREFERENCES,
+            Context.MODE_PRIVATE
+        )
     }
 
     override fun onCreateView(
@@ -44,7 +44,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     private fun getFavorites(): Set<Int> {
-        val stringFavorites = sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
+        val stringFavorites = sharedPrefs.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
         return stringFavorites.map { it.toInt() }.toSet()
     }
 
