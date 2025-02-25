@@ -243,4 +243,13 @@ object BackendSingleton {
 
     fun getRecipesByCategoryId(categoryId: Int?): List<Recipe> =
         if (categoryId == 0) burgerRecipes else emptyList()
+
+    fun getRecipesByIds(setId: Set<Int>): List<Recipe> {
+        if(setId.isEmpty()) return emptyList()
+        val listRecipe = mutableListOf<Recipe>()
+        setId.forEach {
+            listRecipe.add(burgerRecipes[it])
+        }
+        return listRecipe
+    }
 }

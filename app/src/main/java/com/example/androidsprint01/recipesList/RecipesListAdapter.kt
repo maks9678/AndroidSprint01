@@ -9,7 +9,9 @@ import com.example.androidsprint01.R
 import com.example.androidsprint01.Recipe
 import com.example.androidsprint01.databinding.ItemListRecipesBinding
 
-class RecipesListAdapter(private val dataSetRecipes: List<Recipe>) :
+class RecipesListAdapter(
+    private val dataSetRecipes: List<Recipe>
+) :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
 
     interface OnRecipeClickListener {
