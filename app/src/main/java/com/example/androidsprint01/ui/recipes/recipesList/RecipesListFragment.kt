@@ -1,4 +1,4 @@
-package com.example.androidsprint01.recipesList
+package com.example.androidsprint01.ui.recipes.recipesList
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.example.androidsprint01.BackendSingleton
+import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
-import com.example.androidsprint01.recipe.RecipeFragment
+import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {

@@ -1,10 +1,10 @@
-package com.example.androidsprint01.recipe
+package com.example.androidsprint01.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidsprint01.Ingredient
 import com.example.androidsprint01.databinding.ItemIngredientBinding
+import com.example.androidsprint01.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
