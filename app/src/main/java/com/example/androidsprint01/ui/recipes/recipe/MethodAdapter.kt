@@ -1,4 +1,4 @@
-package com.example.androidsprint01.recipe
+package com.example.androidsprint01.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
