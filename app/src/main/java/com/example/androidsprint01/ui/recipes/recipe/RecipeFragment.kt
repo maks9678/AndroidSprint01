@@ -1,4 +1,4 @@
-package com.example.androidsprint01.recipe
+package com.example.androidsprint01.ui.recipes.recipe
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.androidsprint01.R
-import com.example.androidsprint01.Recipe
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
-import com.example.androidsprint01.recipesList.RecipesListFragment
+import com.example.androidsprint01.model.Recipe
+import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {

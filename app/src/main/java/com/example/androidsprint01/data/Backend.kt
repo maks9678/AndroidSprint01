@@ -1,4 +1,8 @@
-package com.example.androidsprint01
+package com.example.androidsprint01.data
+
+import com.example.androidsprint01.model.Categories
+import com.example.androidsprint01.model.Ingredient
+import com.example.androidsprint01.model.Recipe
 
 
 object BackendSingleton {

@@ -1,4 +1,4 @@
-package com.example.androidsprint01.recipesList
+package com.example.androidsprint01.ui.recipes.recipesList
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.R
-import com.example.androidsprint01.Recipe
+import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.databinding.ItemListRecipesBinding
 
 class RecipesListAdapter(

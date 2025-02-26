@@ -1,4 +1,4 @@
-package com.example.androidsprint01.categories
+package com.example.androidsprint01.ui.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.androidsprint01.BackendSingleton
 import com.example.androidsprint01.R
-import com.example.androidsprint01.recipesList.RecipesListFragment
+import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
+import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
     private var _binding: FragmentListCategoriesBinding? = null

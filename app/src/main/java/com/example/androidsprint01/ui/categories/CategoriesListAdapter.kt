@@ -1,13 +1,13 @@
-package com.example.androidsprint01.categories
+package com.example.androidsprint01.ui.categories
 
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidsprint01.Categories
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ItemCategoryBinding
+import com.example.androidsprint01.model.Categories
 
 class CategoriesListAdapter(private val dataSet: List<Categories>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
