@@ -8,6 +8,6 @@ class ViewModelRecipe() : ViewModel() {
     data class RecipeState(
         val recipe: Recipe? = null,
         val isFavorites: Boolean = false,
-        val portion: Int? = null
+        val portion: Int = 1
     )
 }
