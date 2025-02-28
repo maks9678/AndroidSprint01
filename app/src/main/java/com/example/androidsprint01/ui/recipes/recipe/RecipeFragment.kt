@@ -28,6 +28,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
 
+    val viewModel: ViewModelRecipe by lazy { ViewModelRecipe() }
+
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
         const val KEY_FAVORITES = "recipe_favourites"
@@ -44,6 +46,13 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.state.observe(viewLifecycleOwner) { recipeState ->
+            Log.i("!!!", "${recipeState.isFavorites}")
+
+        }
+
+
         recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE, Recipe::class.java)
         } else {
