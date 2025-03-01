@@ -28,7 +28,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
 
-    val viewModel: ViewModelRecipe by lazy { ViewModelRecipe() }
+    val viewModel: RecipeViewModel by lazy { RecipeViewModel() }
 
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
@@ -46,12 +46,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.state.observe(viewLifecycleOwner) { recipeState ->
-            Log.i("!!!", "${recipeState.isFavorites}")
-
-        }
-
 
         recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE, Recipe::class.java)
@@ -78,6 +72,14 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     }
 
     private fun initUI() {
+
+        viewModel.recipeState.observe(viewLifecycleOwner) { recipeState ->
+            Log.i("!!!", "${recipeState.isFavorites}")
+            binding.ibFavoritesRecipe.setOnClickListener {
+                val newFavoriteState = !recipeState.isFavorites
+                viewModel.updateRecipe(newFavoriteState)
+            }
+        }
         recipe?.let { currentRecipe ->
             binding.tvRecipe.text = currentRecipe.title
             loadImageFromAssets(currentRecipe.imageUrl)
