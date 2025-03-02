@@ -75,36 +75,22 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
         viewModel.recipeState.observe(viewLifecycleOwner) { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            binding.ibFavoritesRecipe.setOnClickListener {
-                val newFavoriteState = !recipeState.isFavorites
-                viewModel.updateRecipe(newFavoriteState)
+            val currentRecipe = recipeState.recipe?: run {
+                Log.e("RecipeFragment", "Recipe is null")
+                return@observe
             }
-        }
-        recipe?.let { currentRecipe ->
+
             binding.tvRecipe.text = currentRecipe.title
             loadImageFromAssets(currentRecipe.imageUrl)
 
-            val favorites = getFavorites()
-            var isFavorite = favorites.contains(currentRecipe.id.toString())
             binding.ibFavoritesRecipe.setOnClickListener {
-                if (isFavorite) {
-                    favorites.remove(currentRecipe.id.toString())
-                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
-                } else {
-                    favorites.add(currentRecipe.id.toString())
-                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
-                }
-                isFavorite = !isFavorite
-                saveFavorites(favorites)
+                viewModel.onFavoritesClicked()
             }
-
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvMethod.adapter = stepsAdapter
             ingredientsAdapter?.updateData(currentRecipe.ingredients)
             stepsAdapter?.updateData(currentRecipe.method)
             binding.tvNumberPortions.text = "1"
-        } ?: run {
-            Log.e("RecipeFragment", "Recipe is null")
         }
     }
 
@@ -154,10 +140,4 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
     }
-
-    fun saveFavorites(favorites: Set<String>) {
-        sharedPrefs?.edit()?.putStringSet(KEY_FAVORITES, favorites)?.apply()
-    }
-
-
 }
