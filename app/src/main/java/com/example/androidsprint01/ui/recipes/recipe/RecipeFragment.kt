@@ -75,23 +75,33 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
         viewModel.recipeState.observe(viewLifecycleOwner) { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            val currentRecipe = recipeState.recipe?: run {
-                Log.e("RecipeFragment", "Recipe is null")
-                return@observe
-            }
+
+        }
+        recipe?.let { currentRecipe ->
+            viewModel.loadRecipe(currentRecipe.id)
 
             binding.tvRecipe.text = currentRecipe.title
             loadImageFromAssets(currentRecipe.imageUrl)
 
+
             binding.ibFavoritesRecipe.setOnClickListener {
                 viewModel.onFavoritesClicked()
+                updateFavoriteIcon(currentRecipe)
             }
+
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvMethod.adapter = stepsAdapter
             ingredientsAdapter?.updateData(currentRecipe.ingredients)
             stepsAdapter?.updateData(currentRecipe.method)
             binding.tvNumberPortions.text = "1"
+        } ?: run {
+            Log.e("RecipeFragment", "Recipe is null")
         }
+    }
+
+    fun updateFavoriteIcon(currentRecipe: Recipe) {
+        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
+        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites else R.drawable.ic_favourites_true)
     }
 
     private fun loadImageFromAssets(imageUrl: String?) {

@@ -58,7 +58,6 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
                 categoryName
             )
         }
-        .id = arguments?.getString("recipeId") ?: return
         loadImageFromAssets(categoryImageUrl)
         initRecycler()
     }
