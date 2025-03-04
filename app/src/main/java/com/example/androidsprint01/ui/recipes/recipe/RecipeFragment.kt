@@ -31,7 +31,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var ingredientsAdapter: IngredientsAdapter? = null
     private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
-
+var portion :Int = 1
     private val viewModel: RecipeViewModel by viewModels()
 
     companion object {
@@ -75,7 +75,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         initUI()
         initRecycler()
     }
-
     private fun initUI() {
 
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
@@ -95,7 +94,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 binding.rvMethod.adapter = stepsAdapter
                 ingredientsAdapter?.updateData(currentRecipe.ingredients)
                 stepsAdapter?.updateData(currentRecipe.method)
-                binding.tvNumberPortions.text = "1"
+                binding.tvNumberPortions.text = portion.toString()
+                Log.e("!!!", "${binding.tvNumberPortions.text}")
             } ?: run {
                 Log.e("RecipeFragment", "Recipe is null")
             }
@@ -142,6 +142,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 progress: Int,
                 fromUser: Boolean
             ) {
+                portion=progress
                 ingredientsAdapter?.updateIngredients(progress)
                 binding.tvNumberPortions.text = progress.toString()
             }
