@@ -19,8 +19,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portion: Int = 1
     )
     private val context = getApplication<Application>().applicationContext
-    val sharedPrefs: SharedPreferences = context.getSharedPreferences(ARG_PREFERENCES,Context.MODE_PRIVATE)
-    private val _recipeState = MutableLiveData<RecipeState>()
+    private val sharedPrefs: SharedPreferences = context.getSharedPreferences(ARG_PREFERENCES,Context.MODE_PRIVATE)
+    private val _recipeState = MutableLiveData(RecipeState())
 
     val recipeState: LiveData<RecipeState>
         get() = _recipeState

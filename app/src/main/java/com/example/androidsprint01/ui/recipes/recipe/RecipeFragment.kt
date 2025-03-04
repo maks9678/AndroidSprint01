@@ -66,9 +66,11 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             } else {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
             }
+            viewModel.loadRecipe(it.id)
         }
         ingredientsAdapter = IngredientsAdapter(emptyList())
         stepsAdapter = MethodAdapter(emptyList())
+
 
         initUI()
         initRecycler()
@@ -81,7 +83,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             val recipe = recipeState.recipe?: BackendSingleton.getRecipeById(1)
 
             recipe?.let { currentRecipe ->
-                viewModel.loadRecipe(currentRecipe.id)
                 binding.tvRecipe.text = currentRecipe.title
                 loadImageFromAssets(currentRecipe.imageUrl)
 
@@ -103,7 +104,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     fun updateFavoriteIcon(currentRecipe: Recipe) {
         var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
-        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites else R.drawable.ic_favourites_true)
+        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 
     private fun loadImageFromAssets(imageUrl: String?) {
