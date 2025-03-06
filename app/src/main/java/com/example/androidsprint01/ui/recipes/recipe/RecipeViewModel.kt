@@ -52,14 +52,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         val currentRecipe = BackendSingleton.getRecipeById(recipeId)
-        currentRecipe?.let {
+        currentRecipe.let {
             _recipeState.postValue(
                 recipeState.value?.copy(
                     recipe = it,
                     isFavorites = getFavorites().contains(recipeId.toString()),
+                    recipeImage = loadImage(it)
                 )
             )
-            inputStream(it)
         }
 //        TODO("load from network")
     }
@@ -74,13 +74,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         sharedPrefs.edit().putStringSet(KEY_FAVORITES, favorites).apply()
     }
 
-    fun inputStream(currentRecipe: Recipe) {
+    private fun loadImage(currentRecipe: Recipe): Drawable? {
         try {
             val inputStream = context.assets.open(currentRecipe.imageUrl)
             val drawable = Drawable.createFromStream(inputStream, null)
-            _recipeState.value = recipeState.value?.copy(recipeImage = drawable)
+            return drawable
         } catch (e: Exception) {
             Log.e("RecipeViewModel", "${e.message}")
+            return null
         }
     }
 }
