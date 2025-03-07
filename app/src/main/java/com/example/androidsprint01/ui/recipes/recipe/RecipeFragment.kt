@@ -2,7 +2,6 @@ package com.example.androidsprint01.ui.recipes.recipe
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,12 +11,16 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.androidsprint01.R
+import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
 import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import kotlin.getValue
 
 class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var _binding: FragmentRecipeBinding? = null
@@ -27,8 +30,8 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var ingredientsAdapter: IngredientsAdapter? = null
     private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
-
-    val viewModel: RecipeViewModel by lazy { RecipeViewModel() }
+var portion :Int = 1
+    private val viewModel: RecipeViewModel by viewModels()
 
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
@@ -54,75 +57,56 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         }
 
         sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
+
         recipe?.let {
-            if (sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet())
-                    ?.contains(it.id.toString()) == true
+            if (viewModel.getFavorites().contains(it.id.toString())
             ) {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
             } else {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
             }
+            viewModel.loadRecipe(it.id)
         }
-
         ingredientsAdapter = IngredientsAdapter(emptyList())
         stepsAdapter = MethodAdapter(emptyList())
+
 
         initUI()
         initRecycler()
     }
-
     private fun initUI() {
 
-        viewModel.recipeState.observe(viewLifecycleOwner) { recipeState ->
+        viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            binding.ibFavoritesRecipe.setOnClickListener {
-                val newFavoriteState = !recipeState.isFavorites
-                viewModel.updateRecipe(newFavoriteState)
-            }
-        }
-        recipe?.let { currentRecipe ->
-            binding.tvRecipe.text = currentRecipe.title
-            loadImageFromAssets(currentRecipe.imageUrl)
+            val recipe = recipeState.recipe?: BackendSingleton.getRecipeById(1)
 
-            val favorites = getFavorites()
-            var isFavorite = favorites.contains(currentRecipe.id.toString())
-            binding.ibFavoritesRecipe.setOnClickListener {
-                if (isFavorite) {
-                    favorites.remove(currentRecipe.id.toString())
-                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
-                } else {
-                    favorites.add(currentRecipe.id.toString())
-                    binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
+            recipe?.let { currentRecipe ->
+                binding.tvRecipe.text = currentRecipe.title
+
+                recipeState.recipeImage?.let{
+                    binding.ivHeightRecipe.setImageDrawable(it)
                 }
-                isFavorite = !isFavorite
-                saveFavorites(favorites)
-            }
 
-            binding.rvIngredients.adapter = ingredientsAdapter
-            binding.rvMethod.adapter = stepsAdapter
-            ingredientsAdapter?.updateData(currentRecipe.ingredients)
-            stepsAdapter?.updateData(currentRecipe.method)
-            binding.tvNumberPortions.text = "1"
-        } ?: run {
-            Log.e("RecipeFragment", "Recipe is null")
-        }
+                binding.ibFavoritesRecipe.setOnClickListener {
+                    viewModel.onFavoritesClicked()
+                    updateFavoriteIcon(currentRecipe)
+                }
+
+                binding.rvIngredients.adapter = ingredientsAdapter
+                binding.rvMethod.adapter = stepsAdapter
+                ingredientsAdapter?.updateData(currentRecipe.ingredients)
+                stepsAdapter?.updateData(currentRecipe.method)
+                binding.tvNumberPortions.text = portion.toString()
+                Log.e("!!!", "${binding.tvNumberPortions.text}")
+            } ?: run {
+                Log.e("RecipeFragment", "Recipe is null")
+            }
+        })
     }
 
-    private fun loadImageFromAssets(imageUrl: String?) {
-        imageUrl?.let {
-            try {
-                requireContext().assets.open(it).use { inputStream ->
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    binding.ivHeightRecipe.setImageBitmap(bitmap)
-                    binding.ivHeightRecipe.contentDescription = binding.root.context.getString(
-                        R.string.content_description_image_recipe,
-                        recipe?.title
-                    )
-                }
-            } catch (e: Exception) {
-                Log.e("RecipeFragment", "Ошибка загрузки изображения: ${e.message}", e)
-            }
-        }
+    fun updateFavoriteIcon(currentRecipe: Recipe) {
+        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
+        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 
     fun initRecycler() {
@@ -143,6 +127,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 progress: Int,
                 fromUser: Boolean
             ) {
+                portion=progress
                 ingredientsAdapter?.updateIngredients(progress)
                 binding.tvNumberPortions.text = progress.toString()
             }
@@ -153,15 +138,5 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-    }
-
-    fun saveFavorites(favorites: Set<String>) {
-        sharedPrefs?.edit()?.putStringSet(KEY_FAVORITES, favorites)?.apply()
-    }
-
-    fun getFavorites(): MutableSet<String> {
-        val currentFavorites =
-            sharedPrefs?.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
-        return HashSet(currentFavorites)
     }
 }
