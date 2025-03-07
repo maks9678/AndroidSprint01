@@ -30,7 +30,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     private var ingredientsAdapter: IngredientsAdapter? = null
     private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
-var portion :Int = 1
     private val viewModel: RecipeViewModel by viewModels()
 
     companion object {
@@ -72,44 +71,9 @@ var portion :Int = 1
 
 
         initUI()
-        initRecycler()
     }
+
     private fun initUI() {
-
-        viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
-            Log.i("!!!", "${recipeState.isFavorites}")
-            val recipe = recipeState.recipe?: BackendSingleton.getRecipeById(1)
-
-            recipe?.let { currentRecipe ->
-                binding.tvRecipe.text = currentRecipe.title
-
-                recipeState.recipeImage?.let{
-                    binding.ivHeightRecipe.setImageDrawable(it)
-                }
-
-                binding.ibFavoritesRecipe.setOnClickListener {
-                    viewModel.onFavoritesClicked()
-                    updateFavoriteIcon(currentRecipe)
-                }
-
-                binding.rvIngredients.adapter = ingredientsAdapter
-                binding.rvMethod.adapter = stepsAdapter
-                ingredientsAdapter?.updateData(currentRecipe.ingredients)
-                stepsAdapter?.updateData(currentRecipe.method)
-                binding.tvNumberPortions.text = portion.toString()
-                Log.e("!!!", "${binding.tvNumberPortions.text}")
-            } ?: run {
-                Log.e("RecipeFragment", "Recipe is null")
-            }
-        })
-    }
-
-    fun updateFavoriteIcon(currentRecipe: Recipe) {
-        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
-        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
-    }
-
-    fun initRecycler() {
         val dividerItem =
             MaterialDividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         dividerItem.isLastItemDecorated = false
@@ -127,8 +91,7 @@ var portion :Int = 1
                 progress: Int,
                 fromUser: Boolean
             ) {
-                portion=progress
-                ingredientsAdapter?.updateIngredients(progress)
+                viewModel.updatePortion(progress, ingredientsAdapter)
                 binding.tvNumberPortions.text = progress.toString()
             }
 
@@ -138,5 +101,37 @@ var portion :Int = 1
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+        viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
+            Log.i("!!!", "${recipeState.isFavorites}")
+            val recipe = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
+
+            recipe?.let { currentRecipe ->
+                binding.tvRecipe.text = currentRecipe.title
+
+                binding.tvNumberPortions.text = recipeState.portion.toString()
+
+                recipeState.recipeImage?.let {
+                    binding.ivHeightRecipe.setImageDrawable(it)
+                }
+
+                binding.ibFavoritesRecipe.setOnClickListener {
+                    viewModel.onFavoritesClicked()
+                    updateFavoriteIcon(currentRecipe)
+                }
+
+                binding.rvIngredients.adapter = ingredientsAdapter
+                binding.rvMethod.adapter = stepsAdapter
+                ingredientsAdapter?.updateData(currentRecipe.ingredients)
+                stepsAdapter?.updateData(currentRecipe.method)
+                Log.e("!!!", "${binding.tvNumberPortions.text}")
+            } ?: run {
+                Log.e("RecipeFragment", "Recipe is null")
+            }
+        })
+    }
+
+    fun updateFavoriteIcon(currentRecipe: Recipe) {
+        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
+        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 }
