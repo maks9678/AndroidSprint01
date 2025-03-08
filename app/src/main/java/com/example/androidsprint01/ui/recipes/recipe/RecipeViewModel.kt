@@ -86,4 +86,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             return null
         }
     }
+
+
+
+    fun updatePortion(newPortion: Int) {
+        _recipeState.postValue(
+            recipeState.value?.copy(portion = newPortion)
+        )
+    }
 }
