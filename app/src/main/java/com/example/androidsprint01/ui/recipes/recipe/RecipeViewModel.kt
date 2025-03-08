@@ -52,11 +52,13 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         val currentRecipe = BackendSingleton.getRecipeById(recipeId)
+
         currentRecipe.let {
             _recipeState.postValue(
                 recipeState.value?.copy(
                     recipe = it,
                     isFavorites = getFavorites().contains(recipeId.toString()),
+
                     recipeImage = loadImage(it)
                 )
             )
