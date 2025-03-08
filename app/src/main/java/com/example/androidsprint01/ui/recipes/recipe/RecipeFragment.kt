@@ -91,8 +91,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 progress: Int,
                 fromUser: Boolean
             ) {
-                viewModel.updatePortion(progress, ingredientsAdapter)
-                binding.tvNumberPortions.text = progress.toString()
+                viewModel.updatePortion(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
