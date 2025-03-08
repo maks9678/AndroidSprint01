@@ -2,7 +2,6 @@ package com.example.androidsprint01.ui.recipes.recipe
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -81,6 +80,7 @@ var portion :Int = 1
             Log.i("!!!", "${recipeState.isFavorites}")
             val recipe = recipeState.recipe?: BackendSingleton.getRecipeById(1)
 
+
             recipe?.let { currentRecipe ->
                 binding.tvRecipe.text = currentRecipe.title
                 loadImageFromAssets(currentRecipe.imageUrl)
@@ -107,21 +107,31 @@ var portion :Int = 1
         binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 
-    private fun loadImageFromAssets(imageUrl: String?) {
-        imageUrl?.let {
-            try {
-                requireContext().assets.open(it).use { inputStream ->
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    binding.ivHeightRecipe.setImageBitmap(bitmap)
-                    binding.ivHeightRecipe.contentDescription = binding.root.context.getString(
-                        R.string.content_description_image_recipe,
-                        recipe?.title
-                    )
+
+                recipeState.recipeImage?.let{
+                    binding.ivHeightRecipe.setImageDrawable(it)
                 }
-            } catch (e: Exception) {
-                Log.e("RecipeFragment", "Ошибка загрузки изображения: ${e.message}", e)
+
+                binding.ibFavoritesRecipe.setOnClickListener {
+                    viewModel.onFavoritesClicked()
+                    updateFavoriteIcon(currentRecipe)
+                }
+
+                binding.rvIngredients.adapter = ingredientsAdapter
+                binding.rvMethod.adapter = stepsAdapter
+                ingredientsAdapter?.updateData(currentRecipe.ingredients)
+                stepsAdapter?.updateData(currentRecipe.method)
+                binding.tvNumberPortions.text = portion.toString()
+                Log.e("!!!", "${binding.tvNumberPortions.text}")
+            } ?: run {
+                Log.e("RecipeFragment", "Recipe is null")
             }
-        }
+        })
+    }
+
+    fun updateFavoriteIcon(currentRecipe: Recipe) {
+        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
+        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 
     fun initRecycler() {

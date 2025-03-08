@@ -3,6 +3,8 @@ package com.example.androidsprint01.ui.recipes.recipe
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,10 +18,13 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     data class RecipeState(
         val recipe: Recipe? = null,
         val isFavorites: Boolean = false,
-        val portion: Int = 1
+        val portion: Int = 1,
+        val recipeImage: Drawable? = null,
     )
+
     private val context = getApplication<Application>().applicationContext
-    private val sharedPrefs: SharedPreferences = context.getSharedPreferences(ARG_PREFERENCES,Context.MODE_PRIVATE)
+    private val sharedPrefs: SharedPreferences =
+        context.getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
     private val _recipeState = MutableLiveData(RecipeState())
 
     val recipeState: LiveData<RecipeState>
@@ -47,11 +52,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         val currentRecipe = BackendSingleton.getRecipeById(recipeId)
-        currentRecipe?.let {
+
+        currentRecipe.let {
             _recipeState.postValue(
                 recipeState.value?.copy(
                     recipe = it,
                     isFavorites = getFavorites().contains(recipeId.toString()),
+
+                    recipeImage = loadImage(it)
                 )
             )
         }
@@ -66,5 +74,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun saveFavorites(favorites: Set<String>) {
         sharedPrefs.edit().putStringSet(KEY_FAVORITES, favorites).apply()
+    }
+
+    private fun loadImage(currentRecipe: Recipe): Drawable? {
+        try {
+            val inputStream = context.assets.open(currentRecipe.imageUrl)
+            val drawable = Drawable.createFromStream(inputStream, null)
+            return drawable
+        } catch (e: Exception) {
+            Log.e("RecipeViewModel", "${e.message}")
+            return null
+        }
     }
 }
