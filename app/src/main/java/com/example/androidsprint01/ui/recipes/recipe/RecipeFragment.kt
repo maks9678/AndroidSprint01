@@ -22,13 +22,14 @@ import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlin.getValue
 
-class RecipeFragment : Fragment(R.layout.fragment_recipe) {
+class RecipeFragment(
+    private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(emptyList()),
+    private var stepsAdapter: MethodAdapter = MethodAdapter(emptyList())
+) : Fragment(R.layout.fragment_recipe) {
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     var recipe: Recipe? = null
-    private var ingredientsAdapter: IngredientsAdapter? = null
-    private var stepsAdapter: MethodAdapter? = null
     var sharedPrefs: SharedPreferences? = null
     private val viewModel: RecipeViewModel by viewModels()
 
@@ -66,10 +67,6 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             }
             viewModel.loadRecipe(it.id)
         }
-        ingredientsAdapter = IngredientsAdapter(emptyList())
-        stepsAdapter = MethodAdapter(emptyList())
-
-
         initUI()
     }
 
@@ -84,8 +81,11 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
         binding.rvIngredients.addItemDecoration(dividerItem)
         binding.rvMethod.addItemDecoration(dividerItem)
-        binding.sbPortions.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.rvIngredients.adapter = ingredientsAdapter
+        binding.rvMethod.adapter = stepsAdapter
 
+
+        binding.sbPortions.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
@@ -94,18 +94,14 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                 viewModel.updatePortion(progress)
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            val recipe: Recipe? = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
+            val recipe: Recipe = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
 
-
-            recipe?.let { currentRecipe ->
+            recipe.let { currentRecipe ->
                 binding.tvRecipe.text = currentRecipe.title
                 binding.tvNumberPortions.text = recipeState.portion.toString()
                 recipeState.recipeImage?.let {
@@ -115,14 +111,10 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
                     viewModel.onFavoritesClicked()
                     updateFavoriteIcon(currentRecipe)
                 }
-
-                binding.rvIngredients.adapter = ingredientsAdapter
-                binding.rvMethod.adapter = stepsAdapter
-                ingredientsAdapter?.updateData(currentRecipe.ingredients)
-                stepsAdapter?.updateData(currentRecipe.method)
+                ingredientsAdapter.updateIngredients(recipeState.portion)
+                ingredientsAdapter.updateData(currentRecipe.ingredients)
+                stepsAdapter.updateData(currentRecipe.method)
                 Log.e("!!!", "${binding.tvNumberPortions.text}")
-            } ?: run {
-                Log.e("RecipeFragment", "Recipe is null")
             }
         })
     }
