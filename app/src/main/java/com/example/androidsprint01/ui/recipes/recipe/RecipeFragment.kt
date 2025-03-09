@@ -102,42 +102,15 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            val recipe = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
+            val recipe: Recipe? = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
 
 
             recipe?.let { currentRecipe ->
                 binding.tvRecipe.text = currentRecipe.title
-                loadImageFromAssets(currentRecipe.imageUrl)
-
-                binding.ibFavoritesRecipe.setOnClickListener {
-                    viewModel.onFavoritesClicked()
-                    updateFavoriteIcon(currentRecipe)
-                }
-
-                binding.rvIngredients.adapter = ingredientsAdapter
-                binding.rvMethod.adapter = stepsAdapter
-                ingredientsAdapter?.updateData(currentRecipe.ingredients)
-                stepsAdapter?.updateData(currentRecipe.method)
-                binding.tvNumberPortions.text = portion.toString()
-                Log.e("!!!", "${binding.tvNumberPortions.text}")
-            } ?: run {
-                Log.e("RecipeFragment", "Recipe is null")
-            }
-        })
-    }
-
-    fun updateFavoriteIcon(currentRecipe: Recipe) {
-        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
-        binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
-    }
-
-
                 binding.tvNumberPortions.text = recipeState.portion.toString()
-
                 recipeState.recipeImage?.let {
                     binding.ivHeightRecipe.setImageDrawable(it)
                 }
-
                 binding.ibFavoritesRecipe.setOnClickListener {
                     viewModel.onFavoritesClicked()
                     updateFavoriteIcon(currentRecipe)
@@ -153,6 +126,7 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
             }
         })
     }
+
     fun updateFavoriteIcon(currentRecipe: Recipe) {
         var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
         binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
