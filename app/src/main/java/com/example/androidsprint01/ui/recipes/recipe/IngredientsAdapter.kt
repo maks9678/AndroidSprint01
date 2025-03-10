@@ -8,7 +8,7 @@ import com.example.androidsprint01.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-class IngredientsAdapter(private var dataSet: List<Ingredient>) :
+class IngredientsAdapter(private var dataSet: List<Ingredient> = emptyList<Ingredient>()) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     var quantity: Int = 1
 

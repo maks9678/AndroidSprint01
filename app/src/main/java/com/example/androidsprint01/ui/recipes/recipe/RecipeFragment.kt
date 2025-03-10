@@ -23,8 +23,8 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlin.getValue
 
 class RecipeFragment(
-    private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(emptyList()),
-    private var stepsAdapter: MethodAdapter = MethodAdapter(emptyList())
+    private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(),
+    private var stepsAdapter: MethodAdapter = MethodAdapter()
 ) : Fragment(R.layout.fragment_recipe) {
     private var _binding: FragmentRecipeBinding? = null
     private val binding
