@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,12 +27,26 @@ class RecipeFragment(
     private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(),
     private var stepsAdapter: MethodAdapter = MethodAdapter()
 ) : Fragment(R.layout.fragment_recipe) {
+
+    class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit) : OnSeekBarChangeListener {
+        override fun onProgressChanged(
+            seekBar: SeekBar?,
+            progress: Int,
+            fromUser: Boolean
+        ) {
+            onChangeIngredients(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+    }
+
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     var recipe: Recipe? = null
     var sharedPrefs: SharedPreferences? = null
-    private val viewModel: RecipeViewModel by viewModels()
+    val viewModel: RecipeViewModel by viewModels()
 
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
@@ -85,17 +100,9 @@ class RecipeFragment(
         binding.rvMethod.adapter = stepsAdapter
 
 
-        binding.sbPortions.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(
-                seekBar: SeekBar?,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                viewModel.updatePortion(progress)
-            }
+        binding.sbPortions.setOnSeekBarChangeListener(PortionSeekBarListener { progress ->
+            viewModel.updatePortion(progress)
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
