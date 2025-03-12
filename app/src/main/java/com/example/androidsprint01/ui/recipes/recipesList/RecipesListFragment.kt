@@ -1,20 +1,22 @@
 package com.example.androidsprint01.ui.recipes.recipesList
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
-class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
+class RecipesListFragment(
+    val recipesListAdapter: RecipesListAdapter = RecipesListAdapter(emptyList()),
+) : Fragment(R.layout.fragment_list_recipes) {
     companion object {
         const val ARG_CATEGORY_ID = "ARG_CATEGORY_ID"
         const val ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME"
@@ -25,20 +27,13 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
     private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-
-    private var categoryId: Int? = null
-    private var categoryName: String? = null
-    private var categoryImageUrl: String? = null
+    val viewModel: RecipesListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            categoryId = it.getInt(ARG_CATEGORY_ID)
-            categoryName = it.getString(ARG_CATEGORY_NAME)
-            categoryImageUrl = it.getString(ARG_CATEGORY_IMAGE_URL)
-        }
-    }
 
+        viewModel.getList(arguments ?: Bundle())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,20 +46,33 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoryName?.let {
-            binding.tvHeightListRecipes.text = it
-            binding.tvHeightListRecipes.contentDescription = binding.root.context.getString(
-                R.string.content_description_image_recipe,
-                categoryName
-            )
-        }
-        loadImageFromAssets(categoryImageUrl)
         initRecycler()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun initRecycler() {
+        binding.rvListRecipes.adapter = recipesListAdapter
+
+        recipesListAdapter.setOnItemClickListener(object :
+            RecipesListAdapter.OnRecipeClickListener {
+            override fun onRecipeItemClick(recipeId: Int) {
+                openRecipeByRecipeId(recipeId)
+            }
+        })
+
+        viewModel.recipeListState.observe(viewLifecycleOwner, Observer { recipeListState ->
+            recipeListState.categoryImage?.let {
+                binding.ivHeightListRecipes.setImageDrawable(it)
+            }
+
+            recipeListState.categoryName?.let {
+                binding.tvHeightListRecipes.text = it
+                binding.tvHeightListRecipes.contentDescription = binding.root.context.getString(
+                    R.string.content_description_image_recipe,
+                    it
+                )
+            }
+            recipesListAdapter.updateData(recipeListState.recipesList)
+        })
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
@@ -77,29 +85,8 @@ class RecipesListFragment : Fragment(R.layout.fragment_list_recipes) {
             addToBackStack(null)
         }
     }
-
-    private fun loadImageFromAssets(imageUrl: String?) {
-        imageUrl?.let {
-            try {
-                val inputStream = requireContext().assets.open(it)
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                binding.ivHeightListRecipes.setImageBitmap(bitmap)
-            } catch (e: Exception) {
-                Log.e("RecipesListFragment", "${e.message}", e)
-            }
-        }
-    }
-
-    private fun initRecycler() {
-        val recipes = BackendSingleton.getRecipesByCategoryId(categoryId)
-        val recipesListAdapter = RecipesListAdapter(recipes)
-        binding.rvListRecipes.adapter = recipesListAdapter
-
-        recipesListAdapter.setOnItemClickListener(object :
-            RecipesListAdapter.OnRecipeClickListener {
-            override fun onRecipeItemClick(recipeId: Int) {
-                openRecipeByRecipeId(recipeId)
-            }
-        })
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

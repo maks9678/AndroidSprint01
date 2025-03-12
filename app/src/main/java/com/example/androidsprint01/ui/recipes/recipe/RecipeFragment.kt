@@ -105,7 +105,6 @@ class RecipeFragment(
             }
         }
 
-
         binding.sbPortions.setOnSeekBarChangeListener(PortionSeekBarListener { progress ->
             viewModel.updatePortion(progress)
 
