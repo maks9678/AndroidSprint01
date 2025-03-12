@@ -49,11 +49,11 @@ class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()
 
     fun updateData(newData: List<Ingredient>) {
         dataSet = newData
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, dataSet.size)
     }
 
     fun updateIngredients(progress: Int) {
         quantity = progress
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, dataSet.size)
     }
 }
