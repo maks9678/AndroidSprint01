@@ -19,18 +19,18 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         get() = _categoriesListState
 
     fun loadCategoriesList() {
+        val categories = BackendSingleton.getCategories()
         _categoriesListState.postValue(
             categoriesListState.value?.copy(
-                categoriesList = BackendSingleton.getCategories()
+                categoriesList = categories
             )
         )
 
     }
 
-    fun prepareDataForRecipesListFragment(categoryId: Int): RecipesListFragment {
+    fun prepareDataForRecipesListFragment(categoryId: Int): RecipesListFragment? {
         val selectedCategory =
             _categoriesListState.value?.categoriesList?.firstOrNull { it.id == categoryId }
-        var recipesListFragment: RecipesListFragment = RecipesListFragment()
         if (selectedCategory != null) {
             val categoryName = selectedCategory.title
             val categoryImageUrl = selectedCategory.imageUrl
@@ -40,10 +40,10 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 putString(RecipesListFragment.Companion.ARG_CATEGORY_NAME, categoryName)
                 putString(RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
             }
-            recipesListFragment = RecipesListFragment().apply {
+            return RecipesListFragment().apply {
                 arguments = bundle
             }
         }
-        return recipesListFragment
+        else return null
     }
 }
