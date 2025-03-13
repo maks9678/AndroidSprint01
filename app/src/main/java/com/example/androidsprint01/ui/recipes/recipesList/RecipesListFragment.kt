@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
@@ -47,6 +46,7 @@ class RecipesListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
+        setupObservers()
     }
 
     private fun initRecycler() {
@@ -58,21 +58,22 @@ class RecipesListFragment(
                 openRecipeByRecipeId(recipeId)
             }
         })
+    }
 
-        viewModel.recipeListState.observe(viewLifecycleOwner, Observer { recipeListState ->
-            recipeListState.categoryImage?.let {
-                binding.ivHeightListRecipes.setImageDrawable(it)
-            }
+    private fun setupObservers() {
+        viewModel.recipeListState.observe(viewLifecycleOwner) { recipeListState ->
 
-            recipeListState.categoryName?.let {
-                binding.tvHeightListRecipes.text = it
+            binding.ivHeightListRecipes.setImageDrawable(recipeListState.categoryImage)
+
+            recipeListState.categoryName.let {
+                binding.tvHeightListRecipes.text =  it
                 binding.tvHeightListRecipes.contentDescription = binding.root.context.getString(
                     R.string.content_description_image_recipe,
                     it
                 )
             }
             recipesListAdapter.updateData(recipeListState.recipesList)
-        })
+        }
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
@@ -85,6 +86,7 @@ class RecipesListFragment(
             addToBackStack(null)
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
