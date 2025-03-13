@@ -6,15 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.androidsprint01.R
-import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
-class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
+class CategoriesListFragment(
+    val categoriesListAdapter: CategoriesListAdapter = CategoriesListAdapter(emptyList())
+) : Fragment(R.layout.fragment_list_categories) {
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
+    private val viewModel: CategoriesListViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadCategoriesList()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,50 +36,33 @@ class CategoriesListFragment : Fragment(R.layout.fragment_list_categories) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecycler()
+        initUI()
+        setupObservers()
     }
 
+    private fun initUI() {
+        binding.rvCategories.adapter = categoriesListAdapter
+        categoriesListAdapter.setOnItemClickListener(object :
+            CategoriesListAdapter.OnItemClickListener {
+
+            override fun onItemClick(categoryId: Int) {
+                val bundle = viewModel.prepareDataForRecipesListFragment(categoryId)
+                bundle?.let{
+                requireActivity().supportFragmentManager.commit {
+                    replace(R.id.main_container, bundle)
+                    setReorderingAllowed(true)
+                    addToBackStack(null)
+                }
+            }}
+        })
+    }
+    private fun setupObservers(){
+        viewModel.categoriesListState.observe(viewLifecycleOwner) {
+            categoriesListAdapter.updateData(it.categoriesList)
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    fun openRecipesByCategoryId(categoryId: Int) {
-        val categories = BackendSingleton.getCategories()
-        val selectedCategory = categories.firstOrNull { it.id == categoryId }
-
-        if (selectedCategory != null) {
-            val categoryName = selectedCategory.title
-            val categoryImageUrl = selectedCategory.imageUrl
-
-            val bundle = Bundle().apply {
-                putInt(RecipesListFragment.Companion.ARG_CATEGORY_ID, categoryId)
-                putString(RecipesListFragment.Companion.ARG_CATEGORY_NAME, categoryName)
-                putString(RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
-            }
-
-            val recipesListFragment = RecipesListFragment().apply {
-                arguments = bundle
-            }
-
-            requireActivity().supportFragmentManager.commit {
-                replace(R.id.main_container, recipesListFragment)
-                setReorderingAllowed(true)
-                addToBackStack(null)
-            }
-        }
-    }
-
-    private fun initRecycler() {
-        val categoriesAdapter = CategoriesListAdapter(BackendSingleton.getCategories())
-        binding.rvCategories.adapter = categoriesAdapter
-        categoriesAdapter.setOnItemClickListener(object :
-            CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick(categoryId: Int) {
-                openRecipesByCategoryId(categoryId)
-
-            }
-
-        })
     }
 }

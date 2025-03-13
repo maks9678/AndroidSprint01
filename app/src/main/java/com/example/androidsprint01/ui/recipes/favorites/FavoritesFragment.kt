@@ -1,7 +1,5 @@
 package com.example.androidsprint01.ui.recipes.favorites
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import com.example.androidsprint01.R
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
@@ -21,11 +20,11 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     private var favoritesAdapter: RecipesListAdapter? = null
-    private val sharedPrefs: SharedPreferences by lazy {
-        requireActivity().getSharedPreferences(
-            RecipeFragment.Companion.ARG_PREFERENCES,
-            Context.MODE_PRIVATE
-        )
+    private val viewModel:FavoritesViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadFavorites()
     }
 
     override fun onCreateView(
@@ -42,26 +41,22 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         setupRecycler()
     }
 
-    private fun getFavorites(): Set<Int> {
-        val stringFavorites = sharedPrefs.getStringSet(RecipeFragment.Companion.KEY_FAVORITES, emptySet()) ?: emptySet()
-        return stringFavorites.map { it.toInt() }.toSet()
-    }
-
     fun setupRecycler() {
-        val favoritesIds = getFavorites()
-        if (favoritesIds.isEmpty()) {
+        val favoritesRecipe = viewModel.favoritesState.value?.favoritesList
+        if (favoritesRecipe.isNullOrEmpty()) {
             binding.tv0Favorites.visibility = View.VISIBLE
+        }else {
+            favoritesAdapter =
+                RecipesListAdapter(favoritesRecipe).apply {
+                    setOnItemClickListener(object : RecipesListAdapter.OnRecipeClickListener {
+                        override fun onRecipeItemClick(recipeId: Int) {
+                            openRecipeByRecipeId(recipeId)
+                        }
+                    })
+                }
+            binding.rvFavorites.adapter = favoritesAdapter
         }
-        val favoritesRecipe = BackendSingleton.getRecipesByIds(favoritesIds)
-        favoritesAdapter =
-            RecipesListAdapter(favoritesRecipe).apply {
-                setOnItemClickListener(object : RecipesListAdapter.OnRecipeClickListener {
-                    override fun onRecipeItemClick(recipeId: Int) {
-                        openRecipeByRecipeId(recipeId)
-                    }
-                })
-            }
-        binding.rvFavorites.adapter = favoritesAdapter
+
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
