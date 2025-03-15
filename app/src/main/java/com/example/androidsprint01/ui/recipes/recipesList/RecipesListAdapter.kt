@@ -67,6 +67,6 @@ class RecipesListAdapter(
 
     fun updateData(newData: List<Recipe>) {
         dataSetRecipes = newData
-        notifyItemRangeChanged(0, dataSetRecipes.size)
+        notifyDataSetChanged()
     }
 }

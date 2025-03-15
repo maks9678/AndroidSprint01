@@ -1,6 +1,7 @@
 package com.example.androidsprint01.ui.recipes.recipesList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
@@ -28,12 +30,6 @@ class RecipesListFragment(
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     val viewModel: RecipesListViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.getList(arguments ?: Bundle())
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,6 +41,8 @@ class RecipesListFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getList(arguments )
+        Log.e("!!!","${arguments}")
         initRecycler()
         setupObservers()
     }
@@ -61,19 +59,16 @@ class RecipesListFragment(
     }
 
     private fun setupObservers() {
-        viewModel.recipeListState.observe(viewLifecycleOwner) { recipeListState ->
-
+        viewModel.recipeListState.observe(viewLifecycleOwner, Observer { recipeListState ->
             binding.ivHeightListRecipes.setImageDrawable(recipeListState.categoryImage)
-
-            recipeListState.categoryName.let {
-                binding.tvHeightListRecipes.text =  it
-                binding.tvHeightListRecipes.contentDescription = binding.root.context.getString(
+                binding.tvHeightListRecipes.text =  recipeListState.categoryName
+            Log.e("!!!","${recipeListState.categoryName}")
+                binding.ivHeightListRecipes.contentDescription = binding.root.context.getString(
                     R.string.content_description_image_recipe,
-                    it
+                    recipeListState.categoryName
                 )
-            }
             recipesListAdapter.updateData(recipeListState.recipesList)
-        }
+        })
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {

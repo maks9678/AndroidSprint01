@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
@@ -18,11 +17,6 @@ class CategoriesListFragment(
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     private val viewModel: CategoriesListViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadCategoriesList()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +30,7 @@ class CategoriesListFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadCategoriesList()
         initUI()
         setupObservers()
     }
@@ -46,21 +41,23 @@ class CategoriesListFragment(
             CategoriesListAdapter.OnItemClickListener {
 
             override fun onItemClick(categoryId: Int) {
-                val bundle = viewModel.prepareDataForRecipesListFragment(categoryId)
-                bundle?.let{
+                val recipesListFragment = viewModel.prepareDataForRecipesListFragment(categoryId)
+
                 requireActivity().supportFragmentManager.commit {
-                    replace(R.id.main_container, bundle)
+                    replace(R.id.main_container, recipesListFragment)
                     setReorderingAllowed(true)
                     addToBackStack(null)
                 }
-            }}
+            }
         })
     }
-    private fun setupObservers(){
+
+    private fun setupObservers() {
         viewModel.categoriesListState.observe(viewLifecycleOwner) {
             categoriesListAdapter.updateData(it.categoriesList)
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

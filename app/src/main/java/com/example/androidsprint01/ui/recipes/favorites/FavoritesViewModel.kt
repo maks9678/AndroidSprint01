@@ -10,16 +10,11 @@ import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
-    data class StateFavorites(
-        val favoritesList: List<Recipe> = emptyList(),
-        val favoritesCount: Int = favoritesList.size,
-    )
 
-    private val _favoritesState = MutableLiveData(StateFavorites())
-    val favoritesState: LiveData<StateFavorites>
+    private val _favoritesState = MutableLiveData(FavoritesState())
+    val favoritesState: LiveData<FavoritesState>
         get() = _favoritesState
     val context = getApplication<Application>().getApplicationContext()
-
     val sharedPrefs =
         context.getSharedPreferences(RecipeFragment.Companion.ARG_PREFERENCES, Context.MODE_PRIVATE)
 
@@ -31,8 +26,15 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun loadFavorites() {
-        _favoritesState.postValue(favoritesState.value?.copy(
-            favoritesList = BackendSingleton.getRecipesByIds(getFavorites())
-        ))
+        _favoritesState.postValue(
+            favoritesState.value?.copy(
+                favoritesList = BackendSingleton.getRecipesByIds(getFavorites())
+            )
+        )
     }
+
+    data class FavoritesState(
+        val favoritesList: List<Recipe> = emptyList(),
+        val favoritesCount: Int = favoritesList.size,
+    )
 }

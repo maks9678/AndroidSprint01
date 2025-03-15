@@ -94,7 +94,7 @@ class RecipeFragment(
         dividerItem.setDividerInsetStartResource(requireContext(), R.dimen._0dp)
         dividerItem.setDividerInsetEndResource(requireContext(), R.dimen._0dp)
 
-        binding.apply {
+        with(binding) {
             rvIngredients.apply {
                 addItemDecoration(dividerItem)
                 adapter = ingredientsAdapter
