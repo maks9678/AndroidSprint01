@@ -10,7 +10,7 @@ import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.databinding.ItemListRecipesBinding
 
 class RecipesListAdapter(
-    private val dataSetRecipes: List<Recipe>
+    private var dataSetRecipes: List<Recipe>
 ) :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
 
@@ -64,4 +64,9 @@ class RecipesListAdapter(
     }
 
     override fun getItemCount(): Int = dataSetRecipes.size
+
+    fun updateData(newData: List<Recipe>) {
+        dataSetRecipes = newData
+        notifyDataSetChanged()
+    }
 }

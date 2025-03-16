@@ -94,7 +94,7 @@ class RecipeFragment(
         dividerItem.setDividerInsetStartResource(requireContext(), R.dimen._0dp)
         dividerItem.setDividerInsetEndResource(requireContext(), R.dimen._0dp)
 
-        binding.apply {
+        with(binding) {
             rvIngredients.apply {
                 addItemDecoration(dividerItem)
                 adapter = ingredientsAdapter
@@ -104,7 +104,6 @@ class RecipeFragment(
                 adapter = stepsAdapter
             }
         }
-
 
         binding.sbPortions.setOnSeekBarChangeListener(PortionSeekBarListener { progress ->
             viewModel.updatePortion(progress)
