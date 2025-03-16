@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.androidsprint01.R
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
@@ -40,7 +41,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     fun setupRecycler() {
         binding.rvFavorites.adapter = favoritesAdapter
-        viewModel.favoritesState.observe(viewLifecycleOwner) { recipeState ->
+        viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
             val favoritesRecipe = viewModel.favoritesState.value?.favoritesList
             Log.d("!!!","$favoritesRecipe")
             if (favoritesRecipe.isNullOrEmpty()) {
@@ -56,7 +57,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                         })
                     }
             }
-        }
+        })
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {

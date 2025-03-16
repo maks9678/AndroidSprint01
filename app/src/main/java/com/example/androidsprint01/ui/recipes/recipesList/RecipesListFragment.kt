@@ -60,13 +60,15 @@ class RecipesListFragment(
 
     private fun setupObservers() {
         viewModel.recipeListState.observe(viewLifecycleOwner, Observer { recipeListState ->
-            binding.ivHeightListRecipes.setImageDrawable(recipeListState.categoryImage)
-                binding.tvHeightListRecipes.text =  recipeListState.categoryName
-            Log.e("!!!","${recipeListState.categoryName}")
-                binding.ivHeightListRecipes.contentDescription = binding.root.context.getString(
+            with(binding) {
+                tvHeightListRecipes.text = recipeListState.categoryName
+                ivHeightListRecipes.setImageDrawable(recipeListState.categoryImage)
+                Log.e("!!!", "${recipeListState.categoryName}")
+                ivHeightListRecipes.contentDescription = binding.root.context.getString(
                     R.string.content_description_image_recipe,
                     recipeListState.categoryName
                 )
+            }
             recipesListAdapter.updateData(recipeListState.recipesList)
         })
     }
