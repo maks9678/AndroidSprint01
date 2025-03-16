@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.navigation.fragment.NavHostFragment
 import com.example.androidsprint01.ui.recipes.favorites.FavoritesFragment
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ActivityMainBinding
@@ -13,6 +14,10 @@ import com.example.androidsprint01.ui.categories.CategoriesListFragment
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+
+    val navHostFragment =
+        supportFragmentManager.findFragmentById(R.id.categoriesListFragment) as NavHostFragment
+    val navController = navHostFragment.navController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
