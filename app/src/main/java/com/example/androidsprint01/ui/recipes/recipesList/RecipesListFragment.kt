@@ -5,18 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
-import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
-import com.example.androidsprint01.ui.categories.CategoriesListFragment.Companion.ARG_LIST_RECIPE
 
 class RecipesListFragment(
     val recipesListAdapter: RecipesListAdapter = RecipesListAdapter(emptyList()),
@@ -46,17 +41,17 @@ class RecipesListFragment(
         super.onViewCreated(view, savedInstanceState)
         viewModel.getList(arguments )
         Log.e("!!!","${arguments}")
-        initRecycler(view)
+        initRecycler()
         setupObservers()
     }
 
-    private fun initRecycler(view: View) {
+    private fun initRecycler() {
         binding.rvListRecipes.adapter = recipesListAdapter
 
         recipesListAdapter.setOnItemClickListener(object :
             RecipesListAdapter.OnRecipeClickListener {
             override fun onRecipeItemClick(recipeId: Int) {
-                openRecipeByRecipeId(recipeId,view)
+                openRecipeByRecipeId(recipeId)
             }
         })
     }
@@ -76,15 +71,11 @@ class RecipesListFragment(
         })
     }
 
-    fun openRecipeByRecipeId(recipeId: Int,view: View) {
+    fun openRecipeByRecipeId(recipeId: Int) {
 
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
-
-        val button = view.findViewById<Button>(R.id.recipeFragment)
-        button.setOnClickListener {
-            findNavController().navigate(R.id.favoritesFragment,bundle)
-        }
+            findNavController().navigate(R.id.recipeFragment,bundle)
     }
 
     override fun onDestroyView() {

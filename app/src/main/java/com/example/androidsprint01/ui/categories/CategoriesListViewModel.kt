@@ -2,13 +2,11 @@ package com.example.androidsprint01.ui.categories
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.model.Categories
-import com.example.androidsprint01.model.ListRecipes
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,7 +28,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     }
 
-    fun prepareDataForRecipesListFragment(categoryId: Int): Bundle {
+    fun prepareDataBundle(categoryId: Int): Bundle {
         val selectedCategory = _categoriesListState.value?.categoriesList?.firstOrNull{it.id == categoryId}
         val bundle = Bundle()
         if (selectedCategory != null) {
