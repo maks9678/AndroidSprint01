@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/recipesListFragment">
+    app:startDestination="@id/categoriesListFragment">
+<NavHostFragment
 
+    />
     <fragment
         android:id="@+id/categoriesListFragment"
         android:name="com.example.androidsprint01.ui.categories.CategoriesListFragment"
-        android:label="CategoriesListFragment" />
+        android:label="CategoriesListFragment"
+        tools:layout="@layout/fragment_list_categories">
+        <action
+            android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
+            app:destination="@id/recipesListFragment" />
+        <action
+            android:id="@+id/action_categoriesListFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.androidsprint01.ui.recipes.favorites.FavoritesFragment"
-        android:label="FavoritesFragment" />
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.androidsprint01.ui.recipes.recipe.RecipeFragment"
-        android:label="RecipeFragment" />
+        android:label="RecipeFragment"
+        tools:layout="@layout/fragment_recipe">
+        <action
+            android:id="@+id/action_recipeFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipesListFragment"
         android:name="com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment"
-        android:label="RecipesListFragment" />
+        android:label="RecipesListFragment"
+        tools:layout="@layout/fragment_list_recipes">
+        <action
+            android:id="@+id/action_recipesListFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_recipesListFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
 </navigation>

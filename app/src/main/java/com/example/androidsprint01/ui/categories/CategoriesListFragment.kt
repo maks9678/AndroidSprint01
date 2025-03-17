@@ -4,15 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
+import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListFragment(
     val categoriesListAdapter: CategoriesListAdapter = CategoriesListAdapter(emptyList())
 ) : Fragment(R.layout.fragment_list_categories) {
+    companion object {
+        const val  ARG_LIST_RECIPE = "ARG_LIST_RECIPE"
+    }
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
@@ -31,22 +37,23 @@ class CategoriesListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadCategoriesList()
-        initUI()
+        initUI(view)
         setupObservers()
     }
 
-    private fun initUI() {
+    private fun initUI(view:View) {
         binding.rvCategories.adapter = categoriesListAdapter
         categoriesListAdapter.setOnItemClickListener(object :
             CategoriesListAdapter.OnItemClickListener {
 
             override fun onItemClick(categoryId: Int) {
-                val recipesListFragment = viewModel.prepareDataForRecipesListFragment(categoryId)
-
-                requireActivity().supportFragmentManager.commit {
-                    replace(R.id.main_container, recipesListFragment)
-                    setReorderingAllowed(true)
-                    addToBackStack(null)
+                val recipesListFragment: RecipesListFragment = viewModel.prepareDataForRecipesListFragment(categoryId)
+                val bundle = Bundle().apply {
+                    putParcelable(ARG_LIST_RECIPE, recipesListFragment)
+                }
+                val button = view.findViewById<Button>(R.id.recipesListFragment,)
+                button.setOnClickListener {
+                    findNavController().navigate(R.id.favoritesFragment,bundle)
                 }
             }
         })
