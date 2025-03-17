@@ -11,6 +11,7 @@ data class Recipe(
     val method: List<String>,
     val imageUrl: String
 ) : Parcelable
+
 @Parcelize
 data class Categories(
     val id: Int,
@@ -18,9 +19,15 @@ data class Categories(
     val description: String,
     val imageUrl: String
 ): Parcelable
+
 @Parcelize
 data class Ingredient(
     val quantity: String,
     val unitOfMeasure: String,
     val description: String
 ) : Parcelable
+
+
+
+
+

@@ -47,10 +47,7 @@ class CategoriesListFragment(
             CategoriesListAdapter.OnItemClickListener {
 
             override fun onItemClick(categoryId: Int) {
-                val recipesListFragment: RecipesListFragment = viewModel.prepareDataForRecipesListFragment(categoryId)
-                val bundle = Bundle().apply {
-                    putParcelable(ARG_LIST_RECIPE, recipesListFragment)
-                }
+                val bundle = viewModel.prepareDataForRecipesListFragment(categoryId)
                 val button = view.findViewById<Button>(R.id.recipesListFragment,)
                 button.setOnClickListener {
                     findNavController().navigate(R.id.favoritesFragment,bundle)

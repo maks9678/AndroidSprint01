@@ -5,14 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
+import com.example.androidsprint01.ui.categories.CategoriesListFragment.Companion.ARG_LIST_RECIPE
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListAdapter
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
@@ -36,10 +39,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadFavorites()
-        setupRecycler()
+        setupRecycler(view)
     }
 
-    fun setupRecycler() {
+    fun setupRecycler(view: View) {
         binding.rvFavorites.adapter = favoritesAdapter
         viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
             val favoritesRecipe = viewModel.favoritesState.value?.favoritesList
@@ -52,7 +55,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                     RecipesListAdapter(favoritesRecipe).apply {
                         setOnItemClickListener(object : RecipesListAdapter.OnRecipeClickListener {
                             override fun onRecipeItemClick(recipeId: Int) {
-                                openRecipeByRecipeId(recipeId)
+                                openRecipeByRecipeId(recipeId,view)
                             }
                         })
                     }
@@ -60,14 +63,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         })
     }
 
-    private fun openRecipeByRecipeId(recipeId: Int) {
+    private fun openRecipeByRecipeId(recipeId: Int,view: View) {
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle =
             Bundle().apply { putParcelable(RecipesListFragment.Companion.ARG_RECIPE, recipe) }
-        requireActivity().supportFragmentManager.commit {
-            replace<RecipeFragment>(R.id.main_container, args = bundle)
-            setReorderingAllowed(true)
-            addToBackStack(null)
+
+        val button = view.findViewById<Button>(R.id.recipeFragment,)
+        button.setOnClickListener {
+            findNavController().navigate(R.id.favoritesFragment,bundle)
         }
     }
 }

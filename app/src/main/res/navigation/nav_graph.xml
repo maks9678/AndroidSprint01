@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/categoriesListFragment">
-<NavHostFragment
 
-    />
     <fragment
         android:id="@+id/categoriesListFragment"
         android:name="com.example.androidsprint01.ui.categories.CategoriesListFragment"

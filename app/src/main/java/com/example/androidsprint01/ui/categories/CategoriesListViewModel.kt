@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.model.Categories
+import com.example.androidsprint01.model.ListRecipes
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,9 +30,8 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     }
 
-    fun prepareDataForRecipesListFragment(categoryId: Int): RecipesListFragment {
-        val selectedCategory =
-            _categoriesListState.value?.categoriesList?.firstOrNull { it.id == categoryId }
+    fun prepareDataForRecipesListFragment(categoryId: Int): Bundle {
+        val selectedCategory = _categoriesListState.value?.categoriesList?.firstOrNull{it.id == categoryId}
         val bundle = Bundle()
         if (selectedCategory != null) {
             val categoryName = selectedCategory.title
@@ -43,9 +43,6 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 putString(RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
             }
         }
-        Log.d("!!!","$bundle")
-        return RecipesListFragment().apply {
-            arguments = bundle
+        return bundle
         }
     }
-}
