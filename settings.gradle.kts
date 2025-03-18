@@ -25,7 +25,7 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-}
 
+}
 rootProject.name = "AndroidSprint01"
 include(":app")

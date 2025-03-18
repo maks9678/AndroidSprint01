@@ -10,10 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
-import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListAdapter
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private var _binding: FragmentFavoritesBinding? = null
@@ -37,9 +35,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         setupRecycler()
     }
 
-    fun setupRecycler() {
+    private fun setupRecycler() {
         viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
-            val favoritesRecipe = viewModel.favoritesState.value?.favoritesList
+            val favoritesRecipe = favoritesState.favoritesList
             Log.d("!!!","$favoritesRecipe")
             if (favoritesRecipe.isNullOrEmpty()) {
                 binding.tv0Favorites.visibility = View.VISIBLE
@@ -59,10 +57,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     private fun openRecipeByRecipeId(recipeId: Int) {
-        val recipe = BackendSingleton.getRecipeById(recipeId)
-        val bundle =
-            Bundle().apply { putParcelable(RecipesListFragment.Companion.ARG_RECIPE, recipe) }
-            findNavController().navigate(R.id.recipeFragment,bundle)
-
+        val action =
+            FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipeId)
+        findNavController().navigate(action)
     }
 }
