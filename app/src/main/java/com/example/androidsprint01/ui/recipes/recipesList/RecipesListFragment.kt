@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
-import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment(
@@ -77,11 +75,7 @@ class RecipesListFragment(
 
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
-        requireActivity().supportFragmentManager.commit {
-            replace<RecipeFragment>(R.id.main_container, args = bundle)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
+            findNavController().navigate(R.id.recipeFragment,bundle)
     }
 
     override fun onDestroyView() {

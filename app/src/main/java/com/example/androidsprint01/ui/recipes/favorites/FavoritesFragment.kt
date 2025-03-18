@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
-import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListAdapter
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
@@ -40,7 +38,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     fun setupRecycler() {
-        binding.rvFavorites.adapter = favoritesAdapter
         viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
             val favoritesRecipe = viewModel.favoritesState.value?.favoritesList
             Log.d("!!!","$favoritesRecipe")
@@ -56,6 +53,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                             }
                         })
                     }
+                binding.rvFavorites.adapter = favoritesAdapter
             }
         })
     }
@@ -64,10 +62,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         val recipe = BackendSingleton.getRecipeById(recipeId)
         val bundle =
             Bundle().apply { putParcelable(RecipesListFragment.Companion.ARG_RECIPE, recipe) }
-        requireActivity().supportFragmentManager.commit {
-            replace<RecipeFragment>(R.id.main_container, args = bundle)
-            setReorderingAllowed(true)
-            addToBackStack(null)
-        }
+            findNavController().navigate(R.id.recipeFragment,bundle)
+
     }
 }

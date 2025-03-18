@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
@@ -41,13 +41,9 @@ class CategoriesListFragment(
             CategoriesListAdapter.OnItemClickListener {
 
             override fun onItemClick(categoryId: Int) {
-                val recipesListFragment = viewModel.prepareDataForRecipesListFragment(categoryId)
+                val bundle = viewModel.prepareDataBundle(categoryId)
+                    findNavController().navigate(R.id.recipesListFragment,bundle)
 
-                requireActivity().supportFragmentManager.commit {
-                    replace(R.id.main_container, recipesListFragment)
-                    setReorderingAllowed(true)
-                    addToBackStack(null)
-                }
             }
         })
     }
