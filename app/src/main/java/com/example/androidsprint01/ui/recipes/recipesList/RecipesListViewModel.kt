@@ -3,28 +3,20 @@ package com.example.androidsprint01.ui.recipes.recipesList
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.BackendSingleton
+import com.example.androidsprint01.model.Categories
 import com.example.androidsprint01.model.Recipe
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment.Companion.ARG_CATEGORY_ID
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment.Companion.ARG_CATEGORY_NAME
-import kotlinx.coroutines.launch
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
 
 
     data class RecipesListState(
         val recipesList: List<Recipe> = emptyList(),
-        val categoryName: String? = null,
-        val categoryImageUrl: String? = null,
-        val categoryImage: Drawable? = null,
-        val categoryId: Int? = null
+        val category :Categories = Categories(0,"","",""),
     )
 
     private val context: Context = getApplication<Application>().applicationContext
@@ -33,17 +25,15 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         get() = _recipesListState
 
 
-    fun getList(arguments: Bundle?) {
-        arguments?.let {
+    fun openRecipesByCategoryId(arguments: Categories) {
+        arguments.let {
             _recipesListState.setValue(
                 recipeListState.value?.copy(
-                    categoryId = it.getInt(ARG_CATEGORY_ID),
-                    categoryName = it.getString(ARG_CATEGORY_NAME),
-                    categoryImageUrl = it.getString(ARG_CATEGORY_IMAGE_URL)
+                    category = it
                 )
             )
             loadRecipesList()
-            loadImage(it.getString(ARG_CATEGORY_IMAGE_URL))
+            loadImage(it.imageUrl)
         }
 
     }
@@ -53,20 +43,20 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             _recipesListState.setValue(
                 recipeListState.value?.copy(
                     recipesList = BackendSingleton.getRecipesByCategoryId(
-                        recipeListState.value?.categoryId
+                        recipeListState.value?.category?.id
                     )
                 )
             )
     }
 
-    private fun loadImage(image: String?) {
-        viewModelScope.launch {
+    fun loadImage(image: String): Drawable? {
         try {
-            val inputStream = image?.let { context.assets.open(it) }
+            val inputStream = image.let { context.assets.open(it) }
             val drawable = Drawable.createFromStream(inputStream, null)
-            _recipesListState.postValue(_recipesListState.value?.copy(categoryImage = drawable))
+            return drawable
         } catch (e: Exception) {
             Log.e("RecipeViewModel", "${e.message}")
+            return null
         }
     }
-}}
+}

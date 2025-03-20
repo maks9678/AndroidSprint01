@@ -12,7 +12,16 @@
         tools:layout="@layout/fragment_list_categories">
         <action
             android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
-            app:destination="@id/recipesListFragment" />
+            app:destination="@id/recipesListFragment"
+            app:enterAnim="@android:anim/fade_in">
+            <argument
+                android:name="category"
+                app:argType="com.example.androidsprint01.model.Categories" />
+        </action>
+        <action
+            android:id="@+id/action_categoriesListFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment"
+            app:enterAnim="@android:anim/fade_in"/>
     </fragment>
 
     <fragment
@@ -22,11 +31,16 @@
         tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_favoritesFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" >
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@android:anim/fade_in">
             <argument
                 android:name="recipeId"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_favoritesFragment_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment"
+            app:enterAnim="@android:anim/fade_in"/>
     </fragment>
 
     <fragment
@@ -45,9 +59,13 @@
         android:name="com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment"
         android:label="RecipesListFragment"
         tools:layout="@layout/fragment_list_recipes">
+        <argument
+            android:name="category"
+            app:argType="com.example.androidsprint01.model.Categories"/>
         <action
             android:id="@+id/action_recipesListFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" >
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@android:anim/fade_in">
 
             <argument
                 android:name="recipeId"
