@@ -1,13 +1,12 @@
 package com.example.androidsprint01.ui.categories
 
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDirections
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.model.Categories
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
     data class CategoriesListState(
@@ -28,19 +27,13 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     }
 
-    fun prepareDataBundle(categoryId: Int): Bundle {
+    fun prepareDataNavDirections(categoryId: Int): NavDirections {
         val selectedCategory = _categoriesListState.value?.categoriesList?.firstOrNull{it.id == categoryId}
-        val bundle = Bundle()
         if (selectedCategory != null) {
-            val categoryName = selectedCategory.title
-            val categoryImageUrl = selectedCategory.imageUrl
+            val action = CategoriesListFragmentDirections
+                .actionCategoriesListFragmentToRecipesListFragment(selectedCategory)
+            return action
+        }else throw IllegalArgumentException("Category with ID $categoryId does not exist")
 
-            bundle.apply {
-                putInt(RecipesListFragment.Companion.ARG_CATEGORY_ID, categoryId)
-                putString(RecipesListFragment.Companion.ARG_CATEGORY_NAME, categoryName)
-                putString(RecipesListFragment.Companion.ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
-            }
-        }
-        return bundle
         }
     }

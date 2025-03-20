@@ -41,8 +41,9 @@ class CategoriesListFragment(
             CategoriesListAdapter.OnItemClickListener {
 
             override fun onItemClick(categoryId: Int) {
-                val bundle = viewModel.prepareDataBundle(categoryId)
-                    findNavController().navigate(R.id.recipesListFragment,bundle)
+                val bundle = viewModel.prepareDataNavDirections(categoryId)
+
+                findNavController().navigate(bundle)
 
             }
         })
