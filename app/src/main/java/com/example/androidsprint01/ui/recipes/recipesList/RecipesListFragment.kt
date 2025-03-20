@@ -9,24 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment(
-    val recipesListAdapter: RecipesListAdapter = RecipesListAdapter(emptyList()),
+    private val recipesListAdapter: RecipesListAdapter = RecipesListAdapter(emptyList()),
 ) : Fragment(R.layout.fragment_list_recipes) {
     companion object {
         const val ARG_CATEGORY_ID = "ARG_CATEGORY_ID"
         const val ARG_CATEGORY_NAME = "ARG_CATEGORY_NAME"
         const val ARG_CATEGORY_IMAGE_URL = "ARG_CATEGORY_IMAGE_URL"
-        const val ARG_RECIPE = "ARG_RECIPE"
     }
-
     private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    val viewModel: RecipesListViewModel by viewModels()
+    private val viewModel: RecipesListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +36,7 @@ class RecipesListFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getList(arguments )
+        viewModel.getList(arguments)
         Log.e("!!!","${arguments}")
         initRecycler()
         setupObservers()
@@ -72,10 +69,9 @@ class RecipesListFragment(
     }
 
     fun openRecipeByRecipeId(recipeId: Int) {
-
-        val recipe = BackendSingleton.getRecipeById(recipeId)
-        val bundle = Bundle().apply { putParcelable(ARG_RECIPE, recipe) }
-            findNavController().navigate(R.id.recipeFragment,bundle)
+        val action =
+            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
+            findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

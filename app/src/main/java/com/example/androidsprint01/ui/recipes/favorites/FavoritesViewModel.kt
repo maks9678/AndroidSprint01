@@ -18,7 +18,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     val sharedPrefs =
         context.getSharedPreferences(RecipeFragment.Companion.ARG_PREFERENCES, Context.MODE_PRIVATE)
 
-    fun getFavorites(): Set<Int> {
+    private fun getFavorites(): Set<Int> {
         val stringFavorites =
             sharedPrefs.getStringSet(RecipeFragment.Companion.KEY_FAVORITES, emptySet())
                 ?: emptySet()
@@ -35,6 +35,5 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     data class FavoritesState(
         val favoritesList: List<Recipe> = emptyList(),
-        val favoritesCount: Int = favoritesList.size,
     )
 }

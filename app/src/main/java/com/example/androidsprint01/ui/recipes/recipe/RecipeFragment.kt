@@ -2,7 +2,6 @@ package com.example.androidsprint01.ui.recipes.recipe
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,14 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.androidsprint01.R
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
 import com.example.androidsprint01.model.Recipe
-import com.example.androidsprint01.ui.recipes.recipesList.RecipesListFragment
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlin.getValue
+
 
 class RecipeFragment(
     private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(),
@@ -44,9 +44,9 @@ class RecipeFragment(
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    var recipe: Recipe? = null
     var sharedPrefs: SharedPreferences? = null
     val viewModel: RecipeViewModel by viewModels()
+     val args: RecipeFragmentArgs by navArgs()
 
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
@@ -65,25 +65,18 @@ class RecipeFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE, Recipe::class.java)
-        } else {
-            arguments?.getParcelable(RecipesListFragment.Companion.ARG_RECIPE)
-        }
-
+        val recipeId = args.recipeId
         sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
 
-        recipe?.let {
-            if (viewModel.getFavorites().contains(it.id.toString())
-            ) {
+            if (viewModel.getFavorites().contains(recipeId.toString())) {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
             } else {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
             }
-            viewModel.loadRecipe(it.id)
-        }
+            viewModel.loadRecipe(recipeId)
         initUI()
-    }
+        }
+
 
     private fun initUI() {
         val dividerItem =
