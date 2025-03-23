@@ -67,8 +67,7 @@ class RecipeFragment(
 
         val recipeId = args.recipeId
         sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
-
-            if (viewModel.getFavorites().contains(recipeId.toString())) {
+        if (viewModel.getFavorites().contains(recipeId.toString())) {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
             } else {
                 binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
