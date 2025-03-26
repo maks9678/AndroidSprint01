@@ -8,13 +8,8 @@ import com.example.androidsprint01.databinding.ActivityMainBinding
 import java.net.HttpURLConnection
 import java.net.URL
 import android.util.Log
-import com.example.androidsprint01.model.Categories
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
+import com.example.androidsprint01.model.Category
 import kotlinx.serialization.json.Json
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -32,25 +27,30 @@ class MainActivity : AppCompatActivity() {
         binding.buttonCategories.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
         }
+        val url = URL("https://recipes.androidsprint.ru/api/category")
+        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
         val thread = Thread {
-            val url = URL("https://recipes.androidsprint.ru/api/category")
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.connect()
+            try {
+                connection.connect()
 
-            Log.i("!!!", "Выполняю запрос на потоке:${Thread.currentThread().name}")
-            Log.i("!!!", "responseCode:${connection.responseCode}")
-            Log.i("!!!", "responseMessage:${connection.responseMessage}")
+                Log.i("!!!", "Выполняю запрос на потоке:${Thread.currentThread().name}")
+                Log.i("!!!", "responseCode:${connection.responseCode}")
+                Log.i("!!!", "responseMessage:${connection.responseMessage}")
 
-            val responseBody = connection.inputStream.bufferedReader().readText()
-            Log.i("!!!", "Body:${responseBody}")
+                val responseBody = connection.inputStream.bufferedReader().readText()
+                Log.i("!!!", "Body:${responseBody}")
 
-            val categories: List<Categories> = Json.decodeFromString(responseBody)
-            categories.forEach {
-                Log.i("!!!", "Body:${it.title}")
+                val json = Json { ignoreUnknownKeys = true }
+                val listCategories : List<Category> = json.decodeFromString(responseBody)
+                Log.i("!!!", "$listCategories")
+            } catch (e: Exception) {
+                Log.i("!!!", "$e")
+            } finally {
+                connection.disconnect()
             }
         }
         thread.start()
         Log.i("!!!", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
-    }
 
+    }
 }

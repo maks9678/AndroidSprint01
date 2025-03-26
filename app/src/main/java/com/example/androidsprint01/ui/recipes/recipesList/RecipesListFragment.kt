@@ -68,7 +68,8 @@ class RecipesListFragment(
     fun openRecipeByRecipeId(recipeId: Int) {
         val action =
             RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
-            findNavController().navigate(action)
+
+        findNavController().navigate(action)
     }
 
     override fun onDestroyView() {

@@ -2,9 +2,7 @@ package com.example.androidsprint01.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
 
 @Parcelize
 @Serializable
@@ -16,10 +14,9 @@ import kotlinx.serialization.Serializable
     val imageUrl: String
 ) : Parcelable
 
-
 @Parcelize
 @Serializable
-data class Categories(
+data class Category(
     val id: Int,
     val title: String,
     val description: String,
@@ -34,10 +31,6 @@ data class Ingredient(
     val description: String
 ) : Parcelable
 
-@Serializable
-data class SendMessageRequest(
-    val listCategories: List<Categories>
-)
 
 
 
