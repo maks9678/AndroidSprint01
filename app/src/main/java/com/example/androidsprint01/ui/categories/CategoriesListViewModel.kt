@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
 import com.example.androidsprint01.data.BackendSingleton
-import com.example.androidsprint01.model.Categories
+import com.example.androidsprint01.model.Category
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
     data class CategoriesListState(
-        val categoriesList: List<Categories> = emptyList<Categories>(),
+        val categoriesList: List<Category> = emptyList<Category>(),
     )
 
     val _categoriesListState = MutableLiveData(CategoriesListState())

@@ -8,7 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidsprint01.data.BackendSingleton
-import com.example.androidsprint01.model.Categories
+import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,7 +16,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     data class RecipesListState(
         val recipesList: List<Recipe> = emptyList(),
-        val category :Categories = Categories(0,"","",""),
+        val category :Category = Category(0,"","",""),
     )
 
     private val context: Context = getApplication<Application>().applicationContext
@@ -25,7 +25,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         get() = _recipesListState
 
 
-    fun openRecipesByCategoryId(arguments: Categories) {
+    fun openRecipesByCategoryId(arguments: Category) {
         arguments.let {
             _recipesListState.setValue(
                 recipeListState.value?.copy(

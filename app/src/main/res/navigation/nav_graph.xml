@@ -19,7 +19,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim">
             <argument
                 android:name="category"
-                app:argType="com.example.androidsprint01.model.Categories" />
+                app:argType="com.example.androidsprint01.model.Category" />
         </action>
         <action
             android:id="@+id/action_categoriesListFragment_to_favoritesFragment"
@@ -73,7 +73,7 @@
         tools:layout="@layout/fragment_list_recipes">
         <argument
             android:name="category"
-            app:argType="com.example.androidsprint01.model.Categories"/>
+            app:argType="com.example.androidsprint01.model.Category"/>
         <action
             android:id="@+id/action_recipesListFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"

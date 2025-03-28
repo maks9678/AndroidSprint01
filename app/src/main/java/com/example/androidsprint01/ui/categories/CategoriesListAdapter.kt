@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ItemCategoryBinding
-import com.example.androidsprint01.model.Categories
+import com.example.androidsprint01.model.Category
 
-class CategoriesListAdapter(private var dataSet: List<Categories> = emptyList()) :
+class CategoriesListAdapter(private var dataSet: List<Category> = emptyList()) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -22,7 +22,7 @@ class CategoriesListAdapter(private var dataSet: List<Categories> = emptyList())
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(category: Categories) {
+        fun bind(category: Category) {
             binding.tvTitleCategory.text = category.title
             binding.tvDescriptionCategory.text = category.description
             binding.ivCardCategory.contentDescription =
@@ -60,7 +60,7 @@ class CategoriesListAdapter(private var dataSet: List<Categories> = emptyList())
 
     override fun getItemCount() = dataSet.size
 
-    fun updateData(newData: List<Categories>) {
+    fun updateData(newData: List<Category>) {
         dataSet = newData
         notifyItemRangeChanged(0, dataSet.size)
     }
