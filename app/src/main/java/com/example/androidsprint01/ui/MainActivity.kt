@@ -5,18 +5,24 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.androidsprint01.R
+import com.example.androidsprint01.RecipeApiService
 import com.example.androidsprint01.databinding.ActivityMainBinding
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.use
+import retrofit2.Retrofit
 import java.net.URL
 import java.util.concurrent.Executors
 
-const val BASE_URL= "https://recipes.androidsprint.ru/api/category"
+
+const val BASE_URL= "https://recipes.androidsprint.ru/api/"
+
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -33,6 +39,22 @@ class MainActivity : AppCompatActivity() {
         binding.buttonCategories.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
         }
+        val contentType = "application/json".toMediaType()
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .build()
+
+        val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
+val categoriesCall = service.getCategories()
+        val categoriesResponse = categoriesCall.execute()
+        val categories = categoriesResponse.body()
+        Log.i("!!!","$categories")
+
+
+
+
+
         val url = URL(BASE_URL)
         val json = Json { ignoreUnknownKeys = true }
         var listCategories = emptyList<Category>()

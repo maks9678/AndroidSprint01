@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
+import com.example.androidsprint01.RecipeRepository
 import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.model.Category
 
@@ -12,13 +13,13 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     data class CategoriesListState(
         val categoriesList: List<Category> = emptyList<Category>(),
     )
-
+val recipesRepository = RecipeRepository()
     val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState>
         get() = _categoriesListState
 
     fun loadCategoriesList() {
-        val categories = BackendSingleton.getCategories()
+        val categories = recipesRepository.categories
         _categoriesListState.postValue(
             categoriesListState.value?.copy(
                 categoriesList = categories
