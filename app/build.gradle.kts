@@ -56,6 +56,8 @@ dependencies {
     implementation (libs.androidx.navigation.ui.ktx)
 
     implementation (libs.gson)
+    implementation(libs.logging.interceptor)
+    implementation (libs.okhttp3.okhttp)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.fragment.ktx)
