@@ -16,7 +16,7 @@ import okio.use
 import java.net.URL
 import java.util.concurrent.Executors
 
-
+const val BASE_URL= "https://recipes.androidsprint.ru/api/category"
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonCategories.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.categoriesListFragment)
         }
-        val url = URL("https://recipes.androidsprint.ru/api/category")
+        val url = URL(BASE_URL)
         val json = Json { ignoreUnknownKeys = true }
         var listCategories = emptyList<Category>()
         val thread = Thread {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
             val client = OkHttpClient()
             val urlRecipes =
-                URL("https://recipes.androidsprint.ru/api/category/$idCategory/recipes")
+                URL("$BASE_URL/$idCategory/recipes")
             val request = Request.Builder()
                 .url(urlRecipes)
                 .build()
