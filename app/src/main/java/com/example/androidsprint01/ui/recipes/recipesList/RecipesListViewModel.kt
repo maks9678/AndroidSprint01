@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.androidsprint01.data.BackendSingleton
+import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 
@@ -16,9 +16,10 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     data class RecipesListState(
         val recipesList: List<Recipe> = emptyList(),
-        val category :Category = Category(0,"","",""),
+        val category: Category = Category(0, "", "", ""),
     )
 
+    val recipesRepository = RecipeRepository()
     private val context: Context = getApplication<Application>().applicationContext
     private val _recipesListState = MutableLiveData(RecipesListState())
     val recipeListState: LiveData<RecipesListState>
@@ -39,15 +40,17 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun loadRecipesList() {
-
-            _recipesListState.setValue(
+        recipesRepository.getRecipesByIds(
+            recipeListState.value?.category?.id ?: 0
+        ) { recipes ->
+            _recipesListState.postValue(
                 recipeListState.value?.copy(
-                    recipesList = BackendSingleton.getRecipesByCategoryId(
-                        recipeListState.value?.category?.id
-                    )
+                    recipesList = recipes
                 )
             )
+        }
     }
+
 
     fun loadImage(image: String): Drawable? {
         try {
