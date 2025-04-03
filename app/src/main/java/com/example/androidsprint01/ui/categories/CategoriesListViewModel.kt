@@ -1,6 +1,7 @@
 package com.example.androidsprint01.ui.categories
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,21 +13,22 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     data class CategoriesListState(
         val categoriesList: List<Category> = emptyList<Category>(),
     )
-val recipesRepository = RecipeRepository()
+
+    val recipesRepository = RecipeRepository()
     val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState>
         get() = _categoriesListState
 
     fun loadCategoriesList() {
-        recipesRepository.getCategories {  categories ->
+        recipesRepository.getCategories { categories ->
             if (categories != null) {
                 _categoriesListState.postValue(
-                          categoriesListState.value?.copy(
-                               categoriesList = categories
-                            )
-                      )
+                    categoriesListState.value?.copy(
+                        categoriesList = categories
+                    )
+                )
             } else {
-                println("Ошибка получения категорий")
+                Log.i("!!!", "Ошибка получения категорий")
             }
         }
 
@@ -34,12 +36,13 @@ val recipesRepository = RecipeRepository()
     }
 
     fun prepareDataNavDirections(categoryId: Int): NavDirections {
-        val selectedCategory = _categoriesListState.value?.categoriesList?.firstOrNull{it.id == categoryId}
+        val selectedCategory =
+            _categoriesListState.value?.categoriesList?.firstOrNull { it.id == categoryId }
         if (selectedCategory != null) {
             val action = CategoriesListFragmentDirections
                 .actionCategoriesListFragmentToRecipesListFragment(selectedCategory)
             return action
-        }else throw IllegalArgumentException("Category with ID $categoryId does not exist")
+        } else throw IllegalArgumentException("Category with ID $categoryId does not exist")
 
-        }
     }
+}

@@ -1,6 +1,7 @@
 package com.example.androidsprint01.model
 
 import android.os.Parcelable
+import com.example.androidsprint01.data.BASE_URL
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -12,7 +13,10 @@ import kotlinx.serialization.Serializable
     val ingredients: List<Ingredient>,
     val method: List<String>,
     val imageUrl: String
-) : Parcelable
+) : Parcelable{
+    val fullImageUrl :String
+        get()="${BASE_URL}images/$imageUrl"
+}
 
 @Parcelize
 @Serializable
@@ -21,7 +25,10 @@ data class Category(
     val title: String,
     val description: String,
     val imageUrl: String
-): Parcelable
+): Parcelable{
+    val fullImageUrl :String
+        get()="${BASE_URL}images/$imageUrl"
+}
 
 @Serializable
 @Parcelize

@@ -60,7 +60,7 @@ dependencies {
     implementation (libs.okhttp3.okhttp)
     implementation (libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-
+    implementation (libs.glide)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.fragment.ktx)

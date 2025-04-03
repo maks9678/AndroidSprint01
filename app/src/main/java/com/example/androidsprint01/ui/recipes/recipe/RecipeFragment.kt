@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
 import com.example.androidsprint01.model.Recipe
@@ -45,7 +46,7 @@ class RecipeFragment(
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
     var sharedPrefs: SharedPreferences? = null
     val viewModel: RecipeViewModel by viewModels()
-     val args: RecipeFragmentArgs by navArgs()
+    val args: RecipeFragmentArgs by navArgs()
 
     companion object {
         const val ARG_PREFERENCES = "RecipePreferences"
@@ -67,13 +68,13 @@ class RecipeFragment(
         val recipeId = args.recipeId
         sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
         if (viewModel.getFavorites().contains(recipeId.toString())) {
-                binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
-            } else {
-                binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
-            }
-            viewModel.loadRecipe(recipeId)
-        initUI()
+            binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
+        } else {
+            binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
         }
+        viewModel.loadRecipe(recipeId)
+        initUI()
+    }
 
 
     private fun initUI() {
@@ -107,9 +108,11 @@ class RecipeFragment(
             recipe?.let { currentRecipe ->
                 binding.tvRecipe.text = currentRecipe.title
                 binding.tvNumberPortions.text = recipeState.portion.toString()
-                recipeState.recipeImage?.let {
-                    binding.ivHeightRecipe.setImageDrawable(it)
-                }
+                Glide.with(binding.root.context)
+                    .load(currentRecipe.fullImageUrl)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_error)
+                    .into(binding.ivHeightRecipe)
                 binding.ibFavoritesRecipe.setOnClickListener {
                     viewModel.onFavoritesClicked()
                     updateFavoriteIcon(currentRecipe)
