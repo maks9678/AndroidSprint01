@@ -8,7 +8,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.androidsprint01.data.BackendSingleton
+import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment.Companion.ARG_PREFERENCES
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment.Companion.KEY_FAVORITES
@@ -22,6 +22,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipeImage: Drawable? = null,
     )
 
+    private val recipeRepository: RecipeRepository = RecipeRepository()
     private val context = getApplication<Application>().applicationContext
     private val sharedPrefs: SharedPreferences =
         context.getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
@@ -51,18 +52,17 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        val currentRecipe = BackendSingleton.getRecipeById(recipeId)
-
-        currentRecipe.let {
-            _recipeState.postValue(
-                recipeState.value?.copy(
-                    recipe = it,
-                    isFavorites = getFavorites().contains(recipeId.toString()),
-                    recipeImage = loadImage(it)
+        recipeRepository.getRecipeById(recipeId) { recipe ->
+            recipe?.let {
+                _recipeState.postValue(
+                    recipeState.value?.copy(
+                        recipe = it,
+                        isFavorites = getFavorites().contains(recipeId.toString()),
+                        recipeImage = loadImage(it)
+                    )
                 )
-            )
+            }
         }
-//        TODO("load from network")
     }
 
     fun onFavoritesClicked() {
@@ -85,6 +85,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             return null
         }
     }
+
     fun updatePortion(newPortion: Int) {
         _recipeState.postValue(
             recipeState.value?.copy(portion = newPortion)

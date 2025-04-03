@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.androidsprint01.R
-import com.example.androidsprint01.data.BackendSingleton
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
 import com.example.androidsprint01.model.Recipe
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -103,9 +102,9 @@ class RecipeFragment(
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
             Log.i("!!!", "${recipeState.isFavorites}")
-            val recipe: Recipe = recipeState.recipe ?: BackendSingleton.getRecipeById(1)
+            val recipe: Recipe? = recipeState.recipe
 
-            recipe.let { currentRecipe ->
+            recipe?.let { currentRecipe ->
                 binding.tvRecipe.text = currentRecipe.title
                 binding.tvNumberPortions.text = recipeState.portion.toString()
                 recipeState.recipeImage?.let {
