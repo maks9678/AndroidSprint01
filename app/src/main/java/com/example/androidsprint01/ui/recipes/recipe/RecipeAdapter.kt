@@ -1,10 +1,10 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ItemCategoryBinding
 import com.example.androidsprint01.model.Recipe
@@ -22,10 +22,11 @@ class RecipeAdapter(private val dataSet: List<Recipe>) :
                     recipe.title
                 )
             try {
-                val inputStream = binding.root.context.assets.open(recipe.imageUrl)
-                val drawable = Drawable.createFromStream(inputStream, null)
-                binding.ivCardCategory.setImageDrawable(drawable)
-                inputStream.close()
+                Glide.with(binding.root.context)
+                    .load(recipe.fullImageUrl)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_error)
+                    .into(binding.ivCardCategory)
             } catch (e: Exception) {
                 Log.e("CategoriesListAdapter", "${e.message}", e)
             }

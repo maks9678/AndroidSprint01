@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
@@ -33,7 +34,7 @@ class RecipesListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.openRecipesByCategoryId(args.category)
-        Log.e("!!!","${arguments}")
+        Log.e("!!!", "${arguments}")
         initRecycler()
         setupObservers()
     }
@@ -53,8 +54,12 @@ class RecipesListFragment(
         viewModel.recipeListState.observe(viewLifecycleOwner, Observer { recipeListState ->
             with(binding) {
                 tvHeightListRecipes.text = recipeListState.category.title
-                ivHeightListRecipes.setImageDrawable(
-                    viewModel.loadImage(recipeListState.category.imageUrl))
+                Glide.with(binding.root.context)
+                    .load(recipeListState.category.fullImageUrl)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_error)
+
+                    .into(ivHeightListRecipes)
                 Log.e("!!!", "${recipeListState.category}")
                 ivHeightListRecipes.contentDescription = binding.root.context.getString(
                     R.string.content_description_image_recipe,
