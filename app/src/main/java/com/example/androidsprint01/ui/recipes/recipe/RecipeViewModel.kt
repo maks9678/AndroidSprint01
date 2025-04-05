@@ -6,10 +6,12 @@ import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment.Companion.ARG_PREFERENCES
 import com.example.androidsprint01.ui.recipes.recipe.RecipeFragment.Companion.KEY_FAVORITES
+import kotlinx.coroutines.launch
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -50,15 +52,17 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        recipeRepository.getRecipeById(recipeId) { recipe ->
-            recipe?.let {
-                _recipeState.postValue(
-                    recipeState.value?.copy(
-                        recipe = it,
-                        isFavorites = getFavorites().contains(recipeId.toString()),
-                        imageUrl = it.fullImageUrl
+        viewModelScope.launch {
+            recipeRepository.getRecipeById(recipeId) { recipe ->
+                recipe?.let {
+                    _recipeState.postValue(
+                        recipeState.value?.copy(
+                            recipe = it,
+                            isFavorites = getFavorites().contains(recipeId.toString()),
+                            imageUrl = it.fullImageUrl
+                        )
                     )
-                )
+                }
             }
         }
     }
