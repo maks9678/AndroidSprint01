@@ -17,7 +17,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val isFavorites: Boolean = false,
         val portion: Int = 1,
-        val recipeImage: String = "",
+        val imageUrl: String = "",
     )
 
     private val recipeRepository: RecipeRepository = RecipeRepository()
@@ -56,7 +56,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                     recipeState.value?.copy(
                         recipe = it,
                         isFavorites = getFavorites().contains(recipeId.toString()),
-                        recipeImage = it.fullImageUrl
+                        imageUrl = it.fullImageUrl
                     )
                 )
             }
