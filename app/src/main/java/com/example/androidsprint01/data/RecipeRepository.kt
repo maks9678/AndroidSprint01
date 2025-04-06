@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import java.util.concurrent.Executors
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
@@ -23,55 +22,58 @@ class RecipeRepository() {
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
     suspend fun getCategories(): List<Category>? {
-        return  withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
+            try {
                 val categoriesCall = service.getCategories()
                 val categoriesResponse = categoriesCall.execute()
-                val categories: List<Category>? = categoriesResponse.body()
-
+                val categories = categoriesResponse.body()
+                categories
+            } catch (e: Exception) {
+                Log.e("!!!", "Проблема с получением категорий: $e")
+                emptyList()
+            }
         }
     }
 
     suspend fun getFavoritesByIdRecipes(setIdRecipe: Set<Int>): List<Recipe> {
-        withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             try {
                 val idsString = setIdRecipe.joinToString(separator = ",") { it.toString() }
                 Log.e("!!!", idsString)
                 val recipesCall = service.getRecipesByIds(idsString)
                 val recipesResponse = recipesCall.execute()
-                val recipes = recipesResponse.body()
-                val listRecipe = recipes ?: emptyList<Recipe>()
-                return@withContext listRecipe
+                recipesResponse.body() ?: emptyList()
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                return@withContext null
+                emptyList()
             }
         }
     }
 
     suspend fun getRecipesByIds(idRecipes: Int): List<Recipe> {
-        withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             try {
                 val recipeCall = service.getRecipesByCategoryId(idRecipes)
                 val recipeResponse = recipeCall.execute()
-                val recipes: List<Recipe> = recipeResponse.body() ?: emptyList()
-                return@withContext recipes
+                recipeResponse.body() ?: emptyList()
+
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                return@withContext emptyList()
+                emptyList()
             }
         }
     }
 
-    suspend fun getRecipeById(idRecipe: Int): Recipe {
-        withContext(context = Dispatchers.IO) {
+    suspend fun getRecipeById(idRecipe: Int): Recipe? {
+        return withContext(context = Dispatchers.IO) {
             try {
                 val recipeCall = service.getRecipeById(idRecipe)
                 val recipeResponse = recipeCall.execute()
                 val recipes = recipeResponse.body()
-                return@withContext recipes
+                recipes
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                return@withContext null
+                null
             }
         }
     }

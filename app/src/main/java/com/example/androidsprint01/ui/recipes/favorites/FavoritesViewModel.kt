@@ -30,13 +30,12 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun loadFavorites() {
         viewModelScope.launch {
-            recipeRepository.getFavoritesByIdRecipes(getFavorites()) { favoritesList ->
-                _favoritesState.postValue(
-                    favoritesState.value?.copy(
-                        favoritesList = favoritesList ?: emptyList()
-                    )
+            val favoritesList = recipeRepository.getFavoritesByIdRecipes(getFavorites())
+            _favoritesState.postValue(
+                favoritesState.value?.copy(
+                    favoritesList = favoritesList
                 )
-            }
+            )
         }
     }
 

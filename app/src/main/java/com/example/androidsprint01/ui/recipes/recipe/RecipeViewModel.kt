@@ -53,16 +53,15 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
-            recipeRepository.getRecipeById(recipeId) { recipe ->
-                recipe?.let {
-                    _recipeState.postValue(
-                        recipeState.value?.copy(
-                            recipe = it,
-                            isFavorites = getFavorites().contains(recipeId.toString()),
-                            imageUrl = it.fullImageUrl
-                        )
+            val recipe = recipeRepository.getRecipeById(recipeId)
+            recipe?.let {
+                _recipeState.postValue(
+                    recipeState.value?.copy(
+                        recipe = it,
+                        isFavorites = getFavorites().contains(recipeId.toString()),
+                        imageUrl = it.fullImageUrl
                     )
-                }
+                )
             }
         }
     }

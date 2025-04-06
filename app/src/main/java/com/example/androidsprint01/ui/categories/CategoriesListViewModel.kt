@@ -23,16 +23,15 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     fun loadCategoriesList() {
         viewModelScope.launch {
-            recipesRepository.getCategories { categories ->
-                if (categories != null) {
-                    _categoriesListState.postValue(
-                        categoriesListState.value?.copy(
-                            categoriesList = categories
-                        )
+            val categories = recipesRepository.getCategories()
+            if (categories != null) {
+                _categoriesListState.postValue(
+                    categoriesListState.value?.copy(
+                        categoriesList = categories
                     )
-                } else {
-                    Log.i("!!!", "Ошибка получения категорий")
-                }
+                )
+            } else {
+                Log.i("!!!", "Ошибка получения категорий")
             }
         }
     }

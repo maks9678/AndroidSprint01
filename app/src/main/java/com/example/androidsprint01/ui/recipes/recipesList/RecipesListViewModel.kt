@@ -35,15 +35,14 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun loadRecipesList() {
         viewModelScope.launch {
-            recipesRepository.getRecipesByIds(
+            val listRecipe = recipesRepository.getRecipesByIds(
                 recipeListState.value?.category?.id ?: 0
-            ) { recipes ->
-                _recipesListState.postValue(
-                    recipeListState.value?.copy(
-                        recipesList = recipes
-                    )
+            )
+            _recipesListState.postValue(
+                recipeListState.value?.copy(
+                    recipesList = listRecipe
                 )
-            }
+            )
         }
     }
 }
