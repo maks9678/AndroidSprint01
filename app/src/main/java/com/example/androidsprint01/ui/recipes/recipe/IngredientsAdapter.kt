@@ -1,5 +1,6 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,14 +19,24 @@ class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()
 
         fun bind(dataSet: Ingredient, quantity: Int) {
             binding.tvIngredientName.text = dataSet.description
-            val totalQuantity = BigDecimal(dataSet.quantity) * BigDecimal(quantity)
-            val formatQuantity = if (totalQuantity.remainder(BigDecimal.ONE) != BigDecimal.ZERO) {
-                totalQuantity.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
-            } else {
-                totalQuantity.toInt().toString()
+            Log.i("!!!", "${dataSet.quantity}")
+            val quantityAsBigDecimal = try {
+                BigDecimal(dataSet.quantity)
+            } catch (e: NumberFormatException) {
+                null
             }
-            binding.tvIngredientAmount.text =
-                "$formatQuantity ${dataSet.unitOfMeasure}"
+            if (quantityAsBigDecimal != null) {
+                val totalQuantity = quantityAsBigDecimal * BigDecimal(quantity)
+                val formatQuantity =
+                    if (totalQuantity.remainder(BigDecimal.ONE) != BigDecimal.ZERO) {
+                        totalQuantity.setScale(1, RoundingMode.HALF_UP).stripTrailingZeros()
+                            .toPlainString()
+                    } else {
+                        totalQuantity.toInt().toString()
+                    }
+                binding.tvIngredientAmount.text =
+                    "$formatQuantity ${dataSet.unitOfMeasure}"
+            } else binding.tvIngredientAmount.text = dataSet.quantity
         }
     }
 
