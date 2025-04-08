@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
+import kotlinx.coroutines.launch
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
     data class CategoriesListState(
@@ -20,7 +22,8 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         get() = _categoriesListState
 
     fun loadCategoriesList() {
-        recipesRepository.getCategories { categories ->
+        viewModelScope.launch {
+            val categories = recipesRepository.getCategories()
             if (categories != null) {
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
@@ -31,8 +34,6 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 Log.i("!!!", "Ошибка получения категорий")
             }
         }
-
-
     }
 
     fun prepareDataNavDirections(categoryId: Int): NavDirections {

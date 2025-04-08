@@ -4,15 +4,16 @@ import android.util.Log
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import java.util.concurrent.Executors
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository() {
-    val threadPool = Executors.newFixedThreadPool(10)
+class RecipeRepository(val dispatcher:CoroutineDispatcher = Dispatchers.IO) {
 
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
@@ -21,64 +22,52 @@ class RecipeRepository() {
         .build()
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
-    fun getCategories(callback: (List<Category>?) -> Unit) {
-        threadPool.submit {
+    suspend fun getCategories(): List<Category>? {
+        return withContext(dispatcher) {
             try {
-                val categoriesCall = service.getCategories()
-                val categoriesResponse = categoriesCall.execute()
-
-                val categories: List<Category>? = categoriesResponse.body()
-                callback(categories)
-
+                val categoriesResponse = service.getCategories()
+               categoriesResponse
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением категорий: $e")
-                callback(null)
+                emptyList()
             }
         }
     }
 
-    fun getFavoritesByIdRecipes(setIdRecipe: Set<Int>, callback: (List<Recipe>?) -> Unit) {
-        threadPool.submit {
+    suspend fun getFavoritesByIdRecipes(setIdRecipe: Set<Int>): List<Recipe> {
+        return withContext(dispatcher) {
             try {
                 val idsString = setIdRecipe.joinToString(separator = ",") { it.toString() }
-                Log.e("!!!",idsString)
-                val recipesCall = service.getRecipesByIds(idsString)
-                val recipesResponse = recipesCall.execute()
-                val recipes = recipesResponse.body()
-                val listRecipe = recipes ?: emptyList<Recipe>()
-                callback(listRecipe)
+                Log.e("!!!", idsString)
+                val recipesResponse = service.getRecipesByIds(idsString)
+                recipesResponse
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                callback(null)
+                emptyList()
             }
         }
     }
 
-    fun getRecipesByIds(idRecipes: Int, callback: (List<Recipe>) -> Unit) {
-        threadPool.submit {
-
+    suspend fun getRecipesByIds(idRecipes: Int): List<Recipe> {
+        return withContext(dispatcher) {
             try {
-                val recipeCall = service.getRecipesByCategoryId(idRecipes)
-                val recipeResponse = recipeCall.execute()
-                val recipes: List<Recipe> = recipeResponse.body() ?: emptyList()
-                callback(recipes)
+                val recipeResponse = service.getRecipesByCategoryId(idRecipes)
+                recipeResponse
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                callback(emptyList())
+                emptyList()
             }
         }
     }
 
-    fun getRecipeById(idRecipe: Int, callback: (Recipe?) -> Unit) {
-        threadPool.submit {
+    suspend fun getRecipeById(idRecipe: Int): Recipe? {
+        return withContext(context = dispatcher) {
             try {
-                val recipeCall = service.getRecipeById(idRecipe)
-                val recipeResponse = recipeCall.execute()
-                val recipes = recipeResponse.body()
-                callback(recipes)
+                val recipeResponse = service.getRecipeById(idRecipe)
+                recipeResponse
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
-                callback(null)
+                null
             }
         }
     }

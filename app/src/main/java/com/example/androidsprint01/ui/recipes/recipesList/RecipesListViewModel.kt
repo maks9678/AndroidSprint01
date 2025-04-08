@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
+import kotlinx.coroutines.launch
 
 class RecipesListViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -32,12 +34,13 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun loadRecipesList() {
-        recipesRepository.getRecipesByIds(
-            recipeListState.value?.category?.id ?: 0
-        ) { recipes ->
+        viewModelScope.launch {
+            val listRecipe = recipesRepository.getRecipesByIds(
+                recipeListState.value?.category?.id ?: 0
+            )
             _recipesListState.postValue(
                 recipeListState.value?.copy(
-                    recipesList = recipes
+                    recipesList = listRecipe
                 )
             )
         }

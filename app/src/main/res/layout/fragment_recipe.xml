@@ -33,22 +33,23 @@
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/ib_cd_favorites"
                 android:scaleType="fitCenter"
-                tools:src="@drawable/ic_favourites"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_favourites" />
 
             <TextView
                 android:id="@+id/tv_recipe"
                 style="@style/StyleHeading"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/indent_container_categories_and_favorites"
+                android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
                 android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
                 android:background="@drawable/shape_drawable"
                 android:padding="@dimen/tv_padding_header"
                 app:layout_constraintBottom_toBottomOf="@id/iv_height_recipe"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="dfg" />
+                tools:text="dвыаывавыавыавыа выапвыапвыап выап выпfg" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -82,13 +83,13 @@
 
         <SeekBar
             android:id="@+id/sb_portions"
+            style="@style/styleSeekBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/_6dp"
             android:layout_marginHorizontal="@dimen/_2dp"
+            android:layout_marginVertical="@dimen/_6dp"
             android:max="5"
-            android:min="1"
-            style="@style/styleSeekBar"/>
+            android:min="1" />
 
 
         <androidx.recyclerview.widget.RecyclerView
