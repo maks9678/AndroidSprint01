@@ -5,12 +5,16 @@ plugins {
     id("kotlin-parcelize")
     alias(libs.plugins.androidx.navigation.safeargs)
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp") version "2.0.0-1.0.24"
 
 }
+
 
 android {
     namespace = "com.example.androidsprint01"
     compileSdk = 35
+
+
 
     defaultConfig {
         applicationId = "com.example.androidsprint01"
@@ -36,6 +40,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
     }
 
     kotlinOptions {
@@ -52,6 +57,12 @@ android {
 }
 
 dependencies {
+
+
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp (libs.androidx.room.compiler)
+
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
 
