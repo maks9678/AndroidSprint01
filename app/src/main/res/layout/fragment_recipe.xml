@@ -13,7 +13,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tv_recipe"
+            app:layout_constraintTop_toTopOf="@+id/tv_recipe">
 
             <ImageView
                 android:id="@+id/iv_height_recipe"
@@ -37,19 +39,28 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_favourites" />
 
-            <TextView
-                android:id="@+id/tv_recipe"
-                style="@style/StyleHeading"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/indent_container_categories_and_favorites"
                 android:layout_marginBottom="@dimen/indent_container_categories_and_favorites"
-                android:background="@drawable/shape_drawable"
-                android:padding="@dimen/tv_padding_header"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@id/iv_height_recipe"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="dвыаывавыавыавыа выапвыапвыап выап выпfg" />
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_recipe"
+                    style="@style/StyleHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_drawable"
+                    android:padding="@dimen/tv_padding_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Длиннffgdgе ние" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
