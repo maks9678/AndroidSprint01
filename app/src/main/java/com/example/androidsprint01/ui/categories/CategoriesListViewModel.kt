@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import androidx.room.Room
+import com.example.androidsprint01.data.AppDatabase
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import kotlinx.coroutines.launch
@@ -16,6 +18,13 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         val categoriesList: List<Category> = emptyList<Category>(),
     )
 
+    val categoriesDao = Room.databaseBuilder(
+        application.applicationContext,
+        AppDatabase::class.java,
+        "database-categories"
+    ).fallbackToDestructiveMigration().build()
+
+
     val recipesRepository = RecipeRepository()
     val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState>
@@ -23,15 +32,25 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     fun loadCategoriesList() {
         viewModelScope.launch {
-            val categories = recipesRepository.getCategories()
-            if (categories != null) {
+            val categoriesCache = recipesRepository.getCategoriesFromCache(database = categoriesDao)
+            if (categoriesCache.isNotEmpty()) {
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
-                        categoriesList = categories
+                        categoriesList = categoriesCache
                     )
                 )
+                return@launch
             } else {
-                Log.i("!!!", "Ошибка получения категорий")
+                val categoriesBackend = recipesRepository.getCategories()
+                Log.d("!!!", "Categories from backend: ${categoriesBackend?.size}")
+                if (categoriesBackend != null) {
+                    categoriesDao.categoryDao().insertAllCategories(categoriesBackend)
+                    _categoriesListState.postValue(
+                        categoriesListState.value?.copy(
+                            categoriesList = categoriesBackend
+                        )
+                    )
+                }
             }
         }
     }

@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(val dispatcher:CoroutineDispatcher = Dispatchers.IO) {
+class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
@@ -22,11 +22,18 @@ class RecipeRepository(val dispatcher:CoroutineDispatcher = Dispatchers.IO) {
         .build()
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
+    suspend fun getCategoriesFromCache(database: AppDatabase): List<Category> {
+        Log.i("!!!", "${database.categoryDao().getAllCategories()}")
+        return database.categoryDao().getAllCategories()
+    }
+
     suspend fun getCategories(): List<Category>? {
         return withContext(dispatcher) {
             try {
                 val categoriesResponse = service.getCategories()
-               categoriesResponse
+                Log.i("!!!", "${categoriesResponse}")
+                categoriesResponse
+
             } catch (e: Exception) {
                 Log.e("!!!", "Проблема с получением категорий: $e")
                 emptyList()
