@@ -1,10 +1,12 @@
 package com.example.androidsprint01.data
 
+import android.content.Context
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.androidsprint01.model.Category
 
@@ -13,7 +15,21 @@ import com.example.androidsprint01.model.Category
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
 
-}
+    companion object{
+        @Volatile
+        var INSTANCE : AppDatabase?  =null
+
+        fun getCategoriesDatabase(context: Context): AppDatabase {
+            return INSTANCE?: synchronized(this) {
+            val categoriesDao = Room.databaseBuilder(
+                context,
+                AppDatabase::class.java,
+                "database-categories"
+            ).fallbackToDestructiveMigration().build()
+            INSTANCE=categoriesDao
+            categoriesDao}
+        }
+}}
 
 @Dao
 interface CategoriesDao {

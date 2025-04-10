@@ -23,7 +23,7 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
     suspend fun getCategoriesFromCache(database: AppDatabase): List<Category> {
-        Log.i("!!!", "${database.categoryDao().getAllCategories()}")
+        Log.i("RecipeRepository", "${database.categoryDao().getAllCategories()}")
         return database.categoryDao().getAllCategories()
     }
 
@@ -31,11 +31,11 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         return withContext(dispatcher) {
             try {
                 val categoriesResponse = service.getCategories()
-                Log.i("!!!", "${categoriesResponse}")
+                Log.i("RecipeRepository", "${categoriesResponse}")
                 categoriesResponse
 
             } catch (e: Exception) {
-                Log.e("!!!", "Проблема с получением категорий: $e")
+                Log.e("RecipeRepository", "Проблема с получением категорий: $e")
                 emptyList()
             }
         }
@@ -45,11 +45,11 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         return withContext(dispatcher) {
             try {
                 val idsString = setIdRecipe.joinToString(separator = ",") { it.toString() }
-                Log.e("!!!", idsString)
+                Log.e("RecipeRepository", idsString)
                 val recipesResponse = service.getRecipesByIds(idsString)
                 recipesResponse
             } catch (e: Exception) {
-                Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
+                Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 emptyList()
             }
         }
@@ -61,7 +61,7 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
                 val recipeResponse = service.getRecipesByCategoryId(idRecipes)
                 recipeResponse
             } catch (e: Exception) {
-                Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
+                Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 emptyList()
             }
         }
@@ -73,7 +73,7 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
                 val recipeResponse = service.getRecipeById(idRecipe)
                 recipeResponse
             } catch (e: Exception) {
-                Log.e("!!!", "Проблема с получением рецептов по id категорий: $e")
+                Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 null
             }
         }
