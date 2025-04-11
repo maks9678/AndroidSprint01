@@ -22,7 +22,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val imageUrl: String = "",
     )
 
-    private val recipeRepository: RecipeRepository = RecipeRepository()
+    private val recipeRepository: RecipeRepository = RecipeRepository(application)
     private val context = getApplication<Application>().applicationContext
     private val sharedPrefs: SharedPreferences =
         context.getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)

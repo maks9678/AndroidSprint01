@@ -1,6 +1,7 @@
 package com.example.androidsprint01.model
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.androidsprint01.data.BASE_URL
@@ -22,12 +23,12 @@ data class Recipe(
 
 @Parcelize
 @Serializable
-@Entity
+@Entity(tableName = "category")
 data class Category(
     @PrimaryKey val id: Int,
-    val title: String,
-    val description: String,
-    val imageUrl: String
+    @ColumnInfo("title")val title: String,
+    @ColumnInfo("description")val description: String,
+    @ColumnInfo("imageUrl")val imageUrl: String
 ) : Parcelable {
     val fullImageUrl: String
         get() = "${BASE_URL}images/$imageUrl"

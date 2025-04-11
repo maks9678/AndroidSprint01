@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
 import com.example.androidsprint01.model.Category
 
 
-@Database(entities = [Category::class], version = 2, exportSchema = false)
+@Database(entities = [Category::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
 
@@ -38,5 +38,4 @@ interface CategoriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCategories(categories: List<Category>)
-
 }

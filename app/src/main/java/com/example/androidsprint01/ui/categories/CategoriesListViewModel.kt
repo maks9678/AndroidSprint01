@@ -17,36 +17,34 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         val categoriesList: List<Category> = emptyList<Category>(),
     )
 
-    val database = AppDatabase.getCategoriesDatabase(application.applicationContext)
-
-
-    val recipesRepository = RecipeRepository()
+    val recipesRepository = RecipeRepository(application)
     val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState>
         get() = _categoriesListState
 
+    val database = AppDatabase.getCategoriesDatabase(application)
+    val categoryDao = database.categoryDao()
 
     fun loadCategoriesList() {
         viewModelScope.launch {
-            val categoriesCache = recipesRepository.getCategoriesFromCache(database = database)
+            val categoriesCache = recipesRepository.getCategoriesFromCache()
             if (categoriesCache.isNotEmpty()) {
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
                         categoriesList = categoriesCache
                     )
                 )
-            }
-                val categoriesBackend = recipesRepository.getCategories()
-                Log.d("!!!", "Categories from backend: ${categoriesBackend?.size}")
-                if (categoriesBackend != null) {
-                    database.categoryDao().insertAllCategories(categoriesBackend)
-                    _categoriesListState.postValue(
-                        categoriesListState.value?.copy(
-                            categoriesList = categoriesBackend
-                        )
+            } else Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")
+            val categoriesBackend = recipesRepository.getCategories()
+            Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend?.size}")
+            if (categoriesBackend != null) {
+                categoryDao.insertAllCategories(categoriesBackend)
+                _categoriesListState.postValue(
+                    categoriesListState.value?.copy(
+                        categoriesList = categoriesBackend
                     )
-
-            }
+                )
+            } else Log.d("CategoriesListViewModel", "No categories received from backend")
         }
     }
 

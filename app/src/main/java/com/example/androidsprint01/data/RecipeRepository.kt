@@ -1,5 +1,6 @@
 package com.example.androidsprint01.data
 
+import android.app.Application
 import android.util.Log
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
@@ -13,8 +14,11 @@ import retrofit2.Retrofit
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class RecipeRepository(application:Application,
+                       val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
+    val database = AppDatabase.getCategoriesDatabase(application)
+    val categoriesDao = database.categoryDao()
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -22,9 +26,10 @@ class RecipeRepository(val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         .build()
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
 
-    suspend fun getCategoriesFromCache(database: AppDatabase): List<Category> {
-        Log.i("RecipeRepository", "${database.categoryDao().getAllCategories()}")
-        return database.categoryDao().getAllCategories()
+    suspend fun getCategoriesFromCache(): List<Category> {
+
+        Log.i("RecipeRepository", "${categoriesDao.getAllCategories()}")
+        return categoriesDao.getAllCategories()
     }
 
     suspend fun getCategories(): List<Category>? {
