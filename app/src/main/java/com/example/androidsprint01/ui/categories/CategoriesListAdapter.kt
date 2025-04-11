@@ -53,6 +53,7 @@ class CategoriesListAdapter(private var dataSet: List<Category> = emptyList()) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
         viewHolder.bind(dataSet[position])
         viewHolder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(dataSet[position].id)
@@ -62,8 +63,8 @@ class CategoriesListAdapter(private var dataSet: List<Category> = emptyList()) :
     override fun getItemCount() = dataSet.size
 
     fun updateData(newData: List<Category>) {
+
         dataSet = newData
         notifyItemRangeChanged(0, dataSet.size)
     }
-
 }
