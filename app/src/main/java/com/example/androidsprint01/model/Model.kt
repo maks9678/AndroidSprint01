@@ -10,12 +10,13 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
+@Entity(tableName = "recipe")
 data class Recipe(
-    val id: Int,
-    val title: String,
-    val ingredients: List<Ingredient>,
-    val method: List<String>,
-    val imageUrl: String
+    @PrimaryKey val id: Int,
+    @ColumnInfo("title") val title: String,
+    @ColumnInfo("ingredients")val ingredients: List<Ingredient>,
+    @ColumnInfo("method")val method: List<String>,
+    @ColumnInfo("imageUrl")val imageUrl: String
 ) : Parcelable {
     val fullImageUrl: String
         get() = "${BASE_URL}images/$imageUrl"
@@ -36,13 +37,9 @@ data class Category(
 
 @Serializable
 @Parcelize
+@Entity(tableName = "ingredient")
 data class Ingredient(
-    val quantity: String,
-    val unitOfMeasure: String,
-    val description: String
+    @ColumnInfo("quantity") val quantity: String,
+    @ColumnInfo(name= "unit_of_measure") val unitOfMeasure: String,
+    @ColumnInfo("description")val description: String
 ) : Parcelable
-
-
-
-
-

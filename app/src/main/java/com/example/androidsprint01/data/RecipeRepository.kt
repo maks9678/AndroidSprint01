@@ -14,11 +14,16 @@ import retrofit2.Retrofit
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(application:Application,
-                       val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class RecipeRepository(
+    application: Application,
+    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
-    val database = AppDatabase.getCategoriesDatabase(application)
-    val categoriesDao = database.categoryDao()
+    val databaseRecipe = AppDatabase.getRecipesDatabase(application)
+    val databaseCategories = AppDatabase.getCategoriesDatabase(application)
+    val categoriesDao = databaseCategories.categoryDao()
+    val recipesDao = databaseRecipe.recipesDao()
+
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -30,6 +35,11 @@ class RecipeRepository(application:Application,
 
         Log.i("RecipeRepository", "${categoriesDao.getAllCategories()}")
         return categoriesDao.getAllCategories()
+    }
+
+    suspend fun getRecipesFromCache(): List<Recipe> {
+        Log.i("RecipeRepository", "${recipesDao.getAllRecipes()}")
+        return recipesDao.getAllRecipes()
     }
 
     suspend fun getCategories(): List<Category>? {
@@ -60,11 +70,14 @@ class RecipeRepository(application:Application,
         }
     }
 
-    suspend fun getRecipesByIds(idRecipes: Int): List<Recipe> {
+    suspend fun getRecipesByIds(idCategory: Int): List<Recipe> {
         return withContext(dispatcher) {
             try {
-                val recipeResponse = service.getRecipesByCategoryId(idRecipes)
-                recipeResponse
+                val recipeResponse = service.getRecipesByCategoryId(idCategory)
+                val recipesWithCategory = recipeResponse.map { recipe ->
+                    recipe.copy( idCategory)
+                }
+                recipesWithCategory
             } catch (e: Exception) {
                 Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 emptyList()

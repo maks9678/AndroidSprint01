@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface RecipeApiService {
 
     @GET("category")
-    suspend fun getCategories():List<Category>
+    suspend fun getCategories(): List<Category>
 
     @GET("category/{idListRecipes}/recipes")
     suspend fun getRecipesByCategoryId(@Path("idListRecipes") idRecipes: Int): List<Recipe>
