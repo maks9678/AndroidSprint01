@@ -2,6 +2,7 @@ package com.example.androidsprint01.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.androidsprint01.data.BASE_URL
@@ -12,6 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = "recipe")
 data class Recipe(
+
     @PrimaryKey val id: Int,
     @ColumnInfo("title") val title: String,
     @ColumnInfo("ingredients")val ingredients: List<Ingredient>,

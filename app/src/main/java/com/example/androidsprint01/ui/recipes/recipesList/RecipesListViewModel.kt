@@ -19,7 +19,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         val category: Category = Category(0, "", "", ""),
     )
 
-    val database = AppDatabase.getRecipesDatabase(application)
+    val database = AppDatabase.getsDatabase(application)
     val recipesDao = database.recipesDao()
 
     val recipesRepository = RecipeRepository(application)
@@ -40,8 +40,8 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun loadRecipesList() {
         viewModelScope.launch {
-            val categoryId = recipeListState.value?.category?.id?:0
-            val recipeCache = recipesRepository.getRecipesFromCache()
+            val categoryId = recipeListState.value?.category?.id ?: 0
+            val recipeCache = recipesRepository.getRecipesFromCacheById(categoryId)
             if (recipeCache.isNotEmpty()) {
                 _recipesListState.postValue(
                     recipeListState.value?.copy(
@@ -50,10 +50,11 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
                 )
                 Log.i("RecipesListViewModel", "$recipeCache")
             } else Log.i("RecipesListViewModel", "Cache is empty, fetching from network")
+
             val recipesBackend = recipesRepository
                 .getRecipesByIds(categoryId)
             if (recipesBackend.isNotEmpty()) {
-                recipesDao.addRecipes(recipesBackend)
+                recipesDao.addRecipes( recipesBackend)
                 _recipesListState.postValue(recipeListState.value?.copy(recipesBackend))
             Log.i("RecipesListViewModel", "$recipesBackend")
             } else Log.i("RecipesListViewModel", "No recipes received from backend")

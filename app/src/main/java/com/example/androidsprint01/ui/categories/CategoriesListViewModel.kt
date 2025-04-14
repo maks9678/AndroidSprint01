@@ -22,7 +22,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     val categoriesListState: LiveData<CategoriesListState>
         get() = _categoriesListState
 
-    val database = AppDatabase.getCategoriesDatabase(application)
+    val database = AppDatabase.getsDatabase(application)
     val categoryDao = database.categoryDao()
 
     fun loadCategoriesList() {
@@ -37,8 +37,9 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
             } else Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")
             val categoriesBackend = recipesRepository.getCategories()
             Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend?.size}")
-            if (categoriesBackend != null) {
-                categoryDao.insertAllCategories(categoriesBackend)
+
+            if (categoriesBackend != null && categoriesBackend != categoriesCache) {
+                categoryDao.insertAllCategories(categoriesBackend.map{it.copy(id = it.id*100)})
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
                         categoriesList = categoriesBackend
@@ -48,12 +49,15 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
+
     fun prepareDataNavDirections(categoryId: Int): NavDirections {
         val selectedCategory =
             _categoriesListState.value?.categoriesList?.firstOrNull { it.id == categoryId }
         if (selectedCategory != null) {
-            val action = CategoriesListFragmentDirections
-                .actionCategoriesListFragmentToRecipesListFragment(selectedCategory)
+            val action =
+                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                    selectedCategory
+                )
             return action
         } else throw IllegalArgumentException("Category with ID $categoryId does not exist")
 

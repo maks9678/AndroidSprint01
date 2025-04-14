@@ -13,7 +13,7 @@ import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 
 @TypeConverters(Converters::class)
-@Database(entities = [Category::class, Recipe::class], version = 5, exportSchema = false)
+@Database(entities = [Category::class, Recipe::class], version = 10, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
     abstract fun recipesDao(): RecipesDao
@@ -22,38 +22,22 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         var INSTANCE: AppDatabase? = null
 
-        fun getCategoriesDatabase(context: Context): AppDatabase {
+        fun getsDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val database = Room.databaseBuilder(
-                    context.applicationContext, // Используем applicationContext
+                    context.applicationContext,
                     AppDatabase::class.java,
-                    "database-categories"
+                    "database"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = database
                 database
             }
-        }
 
-        @Volatile
-        var InstantRecipe: AppDatabase? = null
-        fun getRecipesDatabase(context: Context): AppDatabase {
-            return InstantRecipe ?: synchronized(this) {
-                val database = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "database-recipe"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                InstantRecipe = database
-                database
-            }
         }
     }
 }
-
 
 @Dao
 interface CategoriesDao {
@@ -66,10 +50,13 @@ interface CategoriesDao {
 
 @Dao
 interface RecipesDao {
+
     @Query("SELECT * FROM recipe")
     suspend fun getAllRecipes(): List<Recipe>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipes(recipes: List<Recipe>)
 
+    @Query("SELECT * FROM recipe WHERE id BETWEEN :startId AND :endId")
+    suspend fun getRecipesByCategoryId(startId: Int, endId: Int): List<Recipe>
 }

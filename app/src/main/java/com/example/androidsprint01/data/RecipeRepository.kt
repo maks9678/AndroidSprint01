@@ -18,11 +18,9 @@ class RecipeRepository(
     application: Application,
     val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-
-    val databaseRecipe = AppDatabase.getRecipesDatabase(application)
-    val databaseCategories = AppDatabase.getCategoriesDatabase(application)
-    val categoriesDao = databaseCategories.categoryDao()
-    val recipesDao = databaseRecipe.recipesDao()
+    val database = AppDatabase.getsDatabase(application)
+    val categoriesDao = database.categoryDao()
+    val recipesDao = database.recipesDao()
 
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
@@ -37,9 +35,12 @@ class RecipeRepository(
         return categoriesDao.getAllCategories()
     }
 
-    suspend fun getRecipesFromCache(): List<Recipe> {
+    suspend fun getRecipesFromCacheById(idCategory: Int): List<Recipe> {
         Log.i("RecipeRepository", "${recipesDao.getAllRecipes()}")
-        return recipesDao.getAllRecipes()
+        return recipesDao.getRecipesByCategoryId(
+            idCategory * 100,
+            idCategory * 100 + 99
+        )
     }
 
     suspend fun getCategories(): List<Category>? {
@@ -74,10 +75,7 @@ class RecipeRepository(
         return withContext(dispatcher) {
             try {
                 val recipeResponse = service.getRecipesByCategoryId(idCategory)
-                val recipesWithCategory = recipeResponse.map { recipe ->
-                    recipe.copy( idCategory)
-                }
-                recipesWithCategory
+                recipeResponse
             } catch (e: Exception) {
                 Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 emptyList()
