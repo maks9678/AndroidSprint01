@@ -14,11 +14,14 @@ import retrofit2.Retrofit
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(application:Application,
-                       val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
-
-    val database = AppDatabase.getCategoriesDatabase(application)
+class RecipeRepository(
+    application: Application,
+    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
+    val database = AppDatabase.getsDatabase(application)
     val categoriesDao = database.categoryDao()
+    val recipesDao = database.recipesDao()
+
     val contentType = "application/json".toMediaType()
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -30,6 +33,14 @@ class RecipeRepository(application:Application,
 
         Log.i("RecipeRepository", "${categoriesDao.getAllCategories()}")
         return categoriesDao.getAllCategories()
+    }
+
+    suspend fun getRecipesFromCacheById(idCategory: Int): List<Recipe> {
+        Log.i("RecipeRepository", "${recipesDao.getAllRecipes()}")
+        return recipesDao.getRecipesByCategoryId(
+            idCategory * 100,
+            idCategory * 100 + 99
+        )
     }
 
     suspend fun getCategories(): List<Category>? {
@@ -60,10 +71,10 @@ class RecipeRepository(application:Application,
         }
     }
 
-    suspend fun getRecipesByIds(idRecipes: Int): List<Recipe> {
+    suspend fun getRecipesByIds(idCategory: Int): List<Recipe> {
         return withContext(dispatcher) {
             try {
-                val recipeResponse = service.getRecipesByCategoryId(idRecipes)
+                val recipeResponse = service.getRecipesByCategoryId(idCategory)
                 recipeResponse
             } catch (e: Exception) {
                 Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")

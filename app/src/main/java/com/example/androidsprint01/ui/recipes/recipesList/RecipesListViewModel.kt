@@ -1,10 +1,12 @@
 package com.example.androidsprint01.ui.recipes.recipesList
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.androidsprint01.data.AppDatabase
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
@@ -16,6 +18,9 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         val recipesList: List<Recipe> = emptyList(),
         val category: Category = Category(0, "", "", ""),
     )
+
+    val database = AppDatabase.getsDatabase(application)
+    val recipesDao = database.recipesDao()
 
     val recipesRepository = RecipeRepository(application)
     private val _recipesListState = MutableLiveData(RecipesListState())
@@ -35,14 +40,24 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun loadRecipesList() {
         viewModelScope.launch {
-            val listRecipe = recipesRepository.getRecipesByIds(
-                recipeListState.value?.category?.id ?: 0
-            )
-            _recipesListState.postValue(
-                recipeListState.value?.copy(
-                    recipesList = listRecipe
+            val categoryId = recipeListState.value?.category?.id ?: 0
+            val recipeCache = recipesRepository.getRecipesFromCacheById(categoryId)
+            if (recipeCache.isNotEmpty()) {
+                _recipesListState.postValue(
+                    recipeListState.value?.copy(
+                        recipesList = recipeCache
+                    )
                 )
-            )
+                Log.i("RecipesListViewModel", "$recipeCache")
+            } else Log.i("RecipesListViewModel", "Cache is empty, fetching from network")
+
+            val recipesBackend = recipesRepository
+                .getRecipesByIds(categoryId)
+            if (recipesBackend.isNotEmpty()) {
+                recipesDao.addRecipes( recipesBackend)
+                _recipesListState.postValue(recipeListState.value?.copy(recipesBackend))
+            Log.i("RecipesListViewModel", "$recipesBackend")
+            } else Log.i("RecipesListViewModel", "No recipes received from backend")
         }
     }
 }
