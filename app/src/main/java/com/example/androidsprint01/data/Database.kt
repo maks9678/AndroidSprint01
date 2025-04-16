@@ -13,7 +13,7 @@ import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 
 @TypeConverters(Converters::class)
-@Database(entities = [Category::class, Recipe::class], version = 10, exportSchema = false)
+@Database(entities = [Category::class, Recipe::class], version = 17, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
     abstract fun recipesDao(): RecipesDao
@@ -22,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         var INSTANCE: AppDatabase? = null
 
-        fun getsDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val database = Room.databaseBuilder(
                     context.applicationContext,
@@ -34,7 +34,6 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE = database
                 database
             }
-
         }
     }
 }
@@ -59,4 +58,12 @@ interface RecipesDao {
 
     @Query("SELECT * FROM recipe WHERE id BETWEEN :startId AND :endId")
     suspend fun getRecipesByCategoryId(startId: Int, endId: Int): List<Recipe>
+
+    @Query("UPDATE recipe SET isFavorite = :isFavorite WHERE id = :recipeId")
+    suspend fun updateFavoriteStatus(recipeId: Int, isFavorite: Boolean)
+
+    @Query("SELECT * FROM recipe WHERE isFavorite = 1")
+    suspend fun getFavoriteRecipes(): List<Recipe>
+
+
 }

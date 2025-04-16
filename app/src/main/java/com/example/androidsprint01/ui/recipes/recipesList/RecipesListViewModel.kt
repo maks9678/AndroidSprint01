@@ -19,9 +19,6 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
         val category: Category = Category(0, "", "", ""),
     )
 
-    val database = AppDatabase.getsDatabase(application)
-    val recipesDao = database.recipesDao()
-
     val recipesRepository = RecipeRepository(application)
     private val _recipesListState = MutableLiveData(RecipesListState())
     val recipeListState: LiveData<RecipesListState>
@@ -54,8 +51,7 @@ class RecipesListViewModel(application: Application) : AndroidViewModel(applicat
             val recipesBackend = recipesRepository
                 .getRecipesByIds(categoryId)
             if (recipesBackend.isNotEmpty()) {
-                recipesDao.addRecipes( recipesBackend)
-                _recipesListState.postValue(recipeListState.value?.copy(recipesBackend))
+                _recipesListState.postValue(recipeListState.value?.copy(recipesList = recipesBackend))
             Log.i("RecipesListViewModel", "$recipesBackend")
             } else Log.i("RecipesListViewModel", "No recipes received from backend")
         }

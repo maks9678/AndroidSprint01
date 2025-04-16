@@ -22,7 +22,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     val categoriesListState: LiveData<CategoriesListState>
         get() = _categoriesListState
 
-    val database = AppDatabase.getsDatabase(application)
+    val database = AppDatabase.getDatabase(application)
     val categoryDao = database.categoryDao()
 
     fun loadCategoriesList() {

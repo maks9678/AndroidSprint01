@@ -31,14 +31,19 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadFavorites()
+
         setupRecycler()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadFavorites()
     }
 
     private fun setupRecycler() {
         viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
             val favoritesRecipe = favoritesState.favoritesList
-            Log.d("!!!","$favoritesRecipe")
+            Log.d("FavoritesFragment","$favoritesRecipe")
             if (favoritesRecipe.isNullOrEmpty()) {
                 binding.tv0Favorites.visibility = View.VISIBLE
             } else {
