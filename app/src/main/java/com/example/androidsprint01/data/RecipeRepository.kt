@@ -63,8 +63,9 @@ class RecipeRepository(
 
                 val recipeResponse = service.getRecipesByCategoryId(idCategory)
                 val recipe = recipeResponse.mapIndexed { index, recipe ->
-                    recipe.copy(id = idCategory * 100 + index)
-                }
+                    val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idCategory * 100 + index }
+                    val isFavorite = recipeFromCache?.isFavorite ?: false
+                    recipe.copy(id = idCategory * 100 + index, isFavorite = isFavorite)}
                 recipesDao.addRecipes(recipe)
                 recipe
             } catch (e: Exception) {
@@ -76,10 +77,21 @@ class RecipeRepository(
 
     suspend fun getRecipeById(idRecipe: Int): Recipe? {
         return withContext(context = dispatcher) {
-            val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idRecipe }
-            recipeFromCache ?: try {
-                val recipeResponse = service.getRecipeById(idRecipe)
-                recipeResponse
+            try {
+                val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idRecipe }
+                Log.i("RecipeRepository", "recipeFromCache :${recipeFromCache?.isFavorite}")
+                if (recipeFromCache != null) {
+                    recipeFromCache
+                } else {
+                    val recipeResponse = service.getRecipeById(idRecipe)
+                    val isFavorite =
+                        recipesDao.getAllRecipes().find { it.id == recipeResponse.id }?.isFavorite
+                            ?: false
+                    val recipe =
+                        recipeResponse.copy(isFavorite = isFavorite)
+                    Log.i("RecipeRepository", "recipe :${recipe.isFavorite}")
+                    recipe
+                }
             } catch (e: Exception) {
                 Log.e("RecipeRepository", "Проблема с получением рецептa по id категорий: $e")
                 null
@@ -101,6 +113,5 @@ class RecipeRepository(
                 emptyList()
             }
         }
-
     }
 }

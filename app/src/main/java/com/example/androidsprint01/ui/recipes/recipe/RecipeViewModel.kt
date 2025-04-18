@@ -1,6 +1,7 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +14,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     data class RecipeState(
         val recipe: Recipe? = null,
-        val isFavorites: Boolean = recipe?.isFavorite == true,
         val portion: Int = 1,
         val imageUrl: String = "",
     )
@@ -29,11 +29,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 _recipeState.postValue(
                     currentState.copy(
                         recipe = currentState.recipe?.copy(
-                            isFavorite = isFavorite
+                            isFavorite =!isFavorite
                         )
                     )
                 )
-                recipeRepository.updateFavoriteStatus(recipeId, isFavorite)
+                recipeRepository.updateFavoriteStatus(recipeId, !isFavorite)
             }
         }
     }
@@ -41,11 +41,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
             val recipe = recipeRepository.getRecipeById(recipeId)
+            Log.i("RecipeViewModel", "loadRecipe: ${recipe?.isFavorite}")
             recipe?.let {
                 _recipeState.postValue(
                     recipeState.value?.copy(
                         recipe = it,
-                        isFavorites = it.isFavorite,
                         imageUrl = it.fullImageUrl
                     )
                 )
@@ -54,8 +54,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onFavoritesClicked() {
-        _recipeState.value?.let { currentState ->
-            updateRecipe(!currentState.isFavorites, currentState.recipe!!.id)
+        recipeState.value?.recipe?.let { currentRecipe ->
+            updateRecipe(currentRecipe.isFavorite, currentRecipe.id)
         }
     }
 

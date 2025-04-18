@@ -89,7 +89,7 @@ class RecipeFragment(
 
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
-            Log.i("RecipeFragment", "${recipeState.isFavorites}")
+            Log.i("RecipeFragment", "${recipeState.recipe?.isFavorite}")
             val recipe: Recipe? = recipeState.recipe
 
             recipe?.let { currentRecipe ->
@@ -111,6 +111,7 @@ class RecipeFragment(
             }
         })
     }
+
     fun updateFavoriteIcon(currentRecipe: Recipe) {
         val isFavorite = currentRecipe.isFavorite
         binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)

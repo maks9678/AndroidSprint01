@@ -13,7 +13,7 @@ import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
 
 @TypeConverters(Converters::class)
-@Database(entities = [Category::class, Recipe::class], version = 17, exportSchema = false)
+@Database(entities = [Category::class, Recipe::class], version = 19, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoriesDao
     abstract fun recipesDao(): RecipesDao
@@ -64,6 +64,4 @@ interface RecipesDao {
 
     @Query("SELECT * FROM recipe WHERE isFavorite = 1")
     suspend fun getFavoriteRecipes(): List<Recipe>
-
-
 }
