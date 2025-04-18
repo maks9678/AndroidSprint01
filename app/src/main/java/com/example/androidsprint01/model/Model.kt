@@ -18,7 +18,8 @@ data class Recipe(
     @ColumnInfo("title") val title: String,
     @ColumnInfo("ingredients")val ingredients: List<Ingredient>,
     @ColumnInfo("method")val method: List<String>,
-    @ColumnInfo("imageUrl")val imageUrl: String
+    @ColumnInfo("imageUrl")val imageUrl: String,
+    @ColumnInfo("isFavorite")var isFavorite: Boolean=false,
 ) : Parcelable {
     val fullImageUrl: String
         get() = "${BASE_URL}images/$imageUrl"
@@ -31,7 +32,8 @@ data class Category(
     @PrimaryKey val id: Int,
     @ColumnInfo("title")val title: String,
     @ColumnInfo("description")val description: String,
-    @ColumnInfo("imageUrl")val imageUrl: String
+    @ColumnInfo("imageUrl")val imageUrl: String,
+    @ColumnInfo("isFavorite") val isFavorite: Boolean=false
 ) : Parcelable {
     val fullImageUrl: String
         get() = "${BASE_URL}images/$imageUrl"

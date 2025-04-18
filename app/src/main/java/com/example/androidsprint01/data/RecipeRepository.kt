@@ -18,7 +18,7 @@ class RecipeRepository(
     application: Application,
     val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    val database = AppDatabase.getsDatabase(application)
+    val database = AppDatabase.getDatabase(application)
     val categoriesDao = database.categoryDao()
     val recipesDao = database.recipesDao()
 
@@ -31,7 +31,7 @@ class RecipeRepository(
 
     suspend fun getCategoriesFromCache(): List<Category> {
 
-        Log.i("RecipeRepository", "${categoriesDao.getAllCategories()}")
+        Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
         return categoriesDao.getAllCategories()
     }
 
@@ -47,7 +47,7 @@ class RecipeRepository(
         return withContext(dispatcher) {
             try {
                 val categoriesResponse = service.getCategories()
-                Log.i("RecipeRepository", "${categoriesResponse}")
+                Log.i("RecipeRepository", "getCategories :${categoriesResponse}")
                 categoriesResponse
 
             } catch (e: Exception) {
@@ -57,25 +57,17 @@ class RecipeRepository(
         }
     }
 
-    suspend fun getFavoritesByIdRecipes(setIdRecipe: Set<Int>): List<Recipe> {
-        return withContext(dispatcher) {
-            try {
-                val idsString = setIdRecipe.joinToString(separator = ",") { it.toString() }
-                Log.e("RecipeRepository", idsString)
-                val recipesResponse = service.getRecipesByIds(idsString)
-                recipesResponse
-            } catch (e: Exception) {
-                Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
-                emptyList()
-            }
-        }
-    }
-
     suspend fun getRecipesByIds(idCategory: Int): List<Recipe> {
         return withContext(dispatcher) {
             try {
+
                 val recipeResponse = service.getRecipesByCategoryId(idCategory)
-                recipeResponse
+                val recipe = recipeResponse.mapIndexed { index, recipe ->
+                    val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idCategory * 100 + index }
+                    val isFavorite = recipeFromCache?.isFavorite ?: false
+                    recipe.copy(id = idCategory * 100 + index, isFavorite = isFavorite)}
+                recipesDao.addRecipes(recipe)
+                recipe
             } catch (e: Exception) {
                 Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
                 emptyList()
@@ -86,11 +78,39 @@ class RecipeRepository(
     suspend fun getRecipeById(idRecipe: Int): Recipe? {
         return withContext(context = dispatcher) {
             try {
-                val recipeResponse = service.getRecipeById(idRecipe)
-                recipeResponse
+                val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idRecipe }
+                Log.i("RecipeRepository", "recipeFromCache :${recipeFromCache?.isFavorite}")
+                if (recipeFromCache != null) {
+                    recipeFromCache
+                } else {
+                    val recipeResponse = service.getRecipeById(idRecipe)
+                    val isFavorite =
+                        recipesDao.getAllRecipes().find { it.id == recipeResponse.id }?.isFavorite
+                            ?: false
+                    val recipe =
+                        recipeResponse.copy(isFavorite = isFavorite)
+                    Log.i("RecipeRepository", "recipe :${recipe.isFavorite}")
+                    recipe
+                }
             } catch (e: Exception) {
-                Log.e("RecipeRepository", "Проблема с получением рецептов по id категорий: $e")
+                Log.e("RecipeRepository", "Проблема с получением рецептa по id категорий: $e")
                 null
+            }
+        }
+    }
+
+    suspend fun updateFavoriteStatus(recipeId: Int, isFavorite: Boolean) {
+        recipesDao.updateFavoriteStatus(recipeId, isFavorite)
+    }
+
+    suspend fun getFavoriteRecipes(): List<Recipe> {
+        return withContext(dispatcher) {
+            try {
+                val currentListFavorite = recipesDao.getFavoriteRecipes()
+                currentListFavorite
+            } catch (e: Exception) {
+                Log.e("RecipeRepository", "Проблема с получением избранных рецептов: $e")
+                emptyList()
             }
         }
     }

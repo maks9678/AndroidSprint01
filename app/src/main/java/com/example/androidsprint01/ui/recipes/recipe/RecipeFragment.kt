@@ -1,7 +1,5 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,14 +42,9 @@ class RecipeFragment(
     private var _binding: FragmentRecipeBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    var sharedPrefs: SharedPreferences? = null
+
     val viewModel: RecipeViewModel by viewModels()
     val args: RecipeFragmentArgs by navArgs()
-
-    companion object {
-        const val ARG_PREFERENCES = "RecipePreferences"
-        const val KEY_FAVORITES = "recipe_favourites"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,12 +59,6 @@ class RecipeFragment(
         super.onViewCreated(view, savedInstanceState)
 
         val recipeId = args.recipeId
-        sharedPrefs = requireContext().getSharedPreferences(ARG_PREFERENCES, Context.MODE_PRIVATE)
-        if (viewModel.getFavorites().contains(recipeId.toString())) {
-            binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites_true)
-        } else {
-            binding.ibFavoritesRecipe.setImageResource(R.drawable.ic_favourites)
-        }
         viewModel.loadRecipe(recipeId)
         initUI()
     }
@@ -102,7 +89,7 @@ class RecipeFragment(
 
         })
         viewModel.recipeState.observe(viewLifecycleOwner, Observer { recipeState ->
-            Log.i("!!!", "${recipeState.isFavorites}")
+            Log.i("RecipeFragment", "${recipeState.recipe?.isFavorite}")
             val recipe: Recipe? = recipeState.recipe
 
             recipe?.let { currentRecipe ->
@@ -115,18 +102,18 @@ class RecipeFragment(
                     .into(binding.ivHeightRecipe)
                 binding.ibFavoritesRecipe.setOnClickListener {
                     viewModel.onFavoritesClicked()
-                    updateFavoriteIcon(currentRecipe)
                 }
+                updateFavoriteIcon(currentRecipe)
                 ingredientsAdapter.updateIngredients(recipeState.portion)
                 ingredientsAdapter.updateData(currentRecipe.ingredients)
                 stepsAdapter.updateData(currentRecipe.method)
-                Log.e("!!!", "${binding.tvNumberPortions.text}")
+
             }
         })
     }
 
     fun updateFavoriteIcon(currentRecipe: Recipe) {
-        var isFavorite = viewModel.getFavorites().contains(currentRecipe.id.toString())
+        val isFavorite = currentRecipe.isFavorite
         binding.ibFavoritesRecipe.setImageResource(if (isFavorite) R.drawable.ic_favourites_true else R.drawable.ic_favourites)
     }
 }
