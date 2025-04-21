@@ -1,16 +1,15 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Recipe
 import kotlinx.coroutines.launch
 
-class RecipeViewModel(application: Application) : AndroidViewModel(application) {
+class RecipeViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
 
     data class RecipeState(
         val recipe: Recipe? = null,
@@ -18,7 +17,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val imageUrl: String = "",
     )
 
-    private val recipeRepository: RecipeRepository = RecipeRepository(application)
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState>
         get() = _recipeState
@@ -29,7 +27,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 _recipeState.postValue(
                     currentState.copy(
                         recipe = currentState.recipe?.copy(
-                            isFavorite =!isFavorite
+                            isFavorite = !isFavorite
                         )
                     )
                 )
