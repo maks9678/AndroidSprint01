@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs)
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp") version "2.0.0-1.0.24"
-
+    id("com.google.dagger.hilt.android") version "2.56.1"
 }
 
 
@@ -57,8 +57,8 @@ android {
 }
 
 dependencies {
-
-
+    implementation ("com.google.dagger:hilt-android:2.56.1")
+    ksp (libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     ksp (libs.androidx.room.compiler)

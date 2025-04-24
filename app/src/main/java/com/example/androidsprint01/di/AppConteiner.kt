@@ -15,7 +15,6 @@ import retrofit2.Retrofit
 class AppConteiner(context: Context) {
     val database = AppDatabase.getDatabase(context)
     val contentType = "application/json".toMediaType()
-    val logging = HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(Json.asConverterFactory(contentType))

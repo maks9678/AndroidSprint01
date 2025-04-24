@@ -87,10 +87,6 @@ class RecipeRepository(
         }
     }
 
-    suspend fun updateFavoriteStatus(recipeId: Int, isFavorite: Boolean) {
-        recipesDao.updateFavoriteStatus(recipeId, isFavorite)
-    }
-
     suspend fun getFavoriteRecipes(): List<Recipe> {
         return withContext(dispatcher) {
             try {
@@ -101,5 +97,9 @@ class RecipeRepository(
                 emptyList()
             }
         }
+    }
+
+    suspend fun updateRecipe(recipe:Recipe) {
+        recipesDao.addRecipes(listOf(recipe))
     }
 }

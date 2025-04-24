@@ -29,7 +29,8 @@ class CategoriesListViewModel(private val recipesRepository: RecipeRepository) :
                         categoriesList = categoriesCache
                     )
                 )
-            } else Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")
+            } else {Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")}
+
             val categoriesBackend = recipesRepository.getCategories()
             Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend?.size}")
 

@@ -21,41 +21,42 @@ class RecipeViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
     val recipeState: LiveData<RecipeState>
         get() = _recipeState
 
-    fun updateRecipe(isFavorite: Boolean, recipeId: Int) {
+    fun updateRecipe(recipe: Recipe) {
         viewModelScope.launch {
-            _recipeState.value?.let { currentState ->
+                recipeRepository.updateRecipe(recipe)
                 _recipeState.postValue(
-                    currentState.copy(
-                        recipe = currentState.recipe?.copy(
-                            isFavorite = !isFavorite
-                        )
-                    )
+                    recipeState.value?.copy(recipe = recipe)
                 )
-                recipeRepository.updateFavoriteStatus(recipeId, !isFavorite)
             }
+        }
+
+    fun loadRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            Log.i("RecipeViewModel", "loadRecipe: ${recipe.isFavorite}")
+            _recipeState.postValue(
+                recipeState.value?.copy(
+                    recipe = recipe,
+                    imageUrl = recipe.fullImageUrl
+                )
+            )
         }
     }
 
-    fun loadRecipe(recipeId: Int) {
+    fun loadRecipeFromDB(recipeId: Int){
         viewModelScope.launch {
             val recipe = recipeRepository.getRecipeById(recipeId)
-            Log.i("RecipeViewModel", "loadRecipe: ${recipe?.isFavorite}")
-            recipe?.let {
-                _recipeState.postValue(
-                    recipeState.value?.copy(
-                        recipe = it,
-                        imageUrl = it.fullImageUrl
-                    )
-                )
-            }
-        }
+            recipe?.let{
+            loadRecipe(recipe)
+        }}
     }
 
     fun onFavoritesClicked() {
+        viewModelScope.launch{
         recipeState.value?.recipe?.let { currentRecipe ->
-            updateRecipe(currentRecipe.isFavorite, currentRecipe.id)
+            val _updateRecipe = currentRecipe.copy(isFavorite = !currentRecipe.isFavorite)
+            updateRecipe(_updateRecipe)
         }
-    }
+    }}
 
     fun updatePortion(newPortion: Int) {
         _recipeState.postValue(
