@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
+import com.example.androidsprint01.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentListRecipesBinding
 
 class RecipesListFragment(
@@ -20,8 +20,15 @@ class RecipesListFragment(
     private var _binding: FragmentListRecipesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    private val viewModel: RecipesListViewModel by viewModels()
+    private lateinit var  viewModel: RecipesListViewModel
     private val args: RecipesListFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
+        viewModel = appConteiner.recipesListViewModelFactory.create()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

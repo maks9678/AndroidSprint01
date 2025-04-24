@@ -1,16 +1,15 @@
 package com.example.androidsprint01.ui.recipes.recipe
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Recipe
 import kotlinx.coroutines.launch
 
-class RecipeViewModel(application: Application) : AndroidViewModel(application) {
+class RecipeViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
 
     data class RecipeState(
         val recipe: Recipe? = null,
@@ -18,46 +17,46 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val imageUrl: String = "",
     )
 
-    private val recipeRepository: RecipeRepository = RecipeRepository(application)
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState>
         get() = _recipeState
 
-    fun updateRecipe(isFavorite: Boolean, recipeId: Int) {
+    fun updateRecipe(recipe: Recipe) {
         viewModelScope.launch {
-            _recipeState.value?.let { currentState ->
+                recipeRepository.updateRecipe(recipe)
                 _recipeState.postValue(
-                    currentState.copy(
-                        recipe = currentState.recipe?.copy(
-                            isFavorite =!isFavorite
-                        )
-                    )
+                    recipeState.value?.copy(recipe = recipe)
                 )
-                recipeRepository.updateFavoriteStatus(recipeId, !isFavorite)
             }
+        }
+
+    fun loadRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            Log.i("RecipeViewModel", "loadRecipe: ${recipe.isFavorite}")
+            _recipeState.postValue(
+                recipeState.value?.copy(
+                    recipe = recipe,
+                    imageUrl = recipe.fullImageUrl
+                )
+            )
         }
     }
 
-    fun loadRecipe(recipeId: Int) {
+    fun loadRecipeFromDB(recipeId: Int){
         viewModelScope.launch {
             val recipe = recipeRepository.getRecipeById(recipeId)
-            Log.i("RecipeViewModel", "loadRecipe: ${recipe?.isFavorite}")
-            recipe?.let {
-                _recipeState.postValue(
-                    recipeState.value?.copy(
-                        recipe = it,
-                        imageUrl = it.fullImageUrl
-                    )
-                )
-            }
-        }
+            recipe?.let{
+            loadRecipe(recipe)
+        }}
     }
 
     fun onFavoritesClicked() {
+        viewModelScope.launch{
         recipeState.value?.recipe?.let { currentRecipe ->
-            updateRecipe(currentRecipe.isFavorite, currentRecipe.id)
+            val _updateRecipe = currentRecipe.copy(isFavorite = !currentRecipe.isFavorite)
+            updateRecipe(_updateRecipe)
         }
-    }
+    }}
 
     fun updatePortion(newPortion: Int) {
         _recipeState.postValue(

@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
+import com.example.androidsprint01.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment(
@@ -16,7 +16,14 @@ class CategoriesListFragment(
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    private val viewModel: CategoriesListViewModel by viewModels()
+    private lateinit var viewModel: CategoriesListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
+        viewModel = appConteiner.categoriesListViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

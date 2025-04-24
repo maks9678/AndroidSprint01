@@ -6,19 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
+import com.example.androidsprint01.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListAdapter
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
+class FavoritesFragment(
+    private var favoritesAdapter: RecipesListAdapter = RecipesListAdapter(emptyList())
+) :
+    Fragment(R.layout.fragment_favorites) {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    private var favoritesAdapter: RecipesListAdapter = RecipesListAdapter(emptyList())
-    private val viewModel: FavoritesViewModel by viewModels()
+
+    private lateinit var viewModel: FavoritesViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
+        viewModel = appConteiner.favoritesViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +51,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     private fun setupRecycler() {
-        viewModel.favoritesState.observe(viewLifecycleOwner,Observer{ favoritesState ->
+        viewModel.favoritesState.observe(viewLifecycleOwner, Observer { favoritesState ->
             val favoritesRecipe = favoritesState.favoritesList
-            Log.d("FavoritesFragment","$favoritesRecipe")
+            Log.d("FavoritesFragment", "$favoritesRecipe")
             if (favoritesRecipe.isNullOrEmpty()) {
                 binding.tv0Favorites.visibility = View.VISIBLE
             } else {
