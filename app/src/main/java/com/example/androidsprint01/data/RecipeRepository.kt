@@ -17,6 +17,7 @@ class RecipeRepository @Inject constructor(
 
 ) {
     val dispatcher: CoroutineDispatcher = Dispatchers.IO
+
     suspend fun getCategoriesFromCache(): List<Category> {
 
         Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
@@ -31,7 +32,7 @@ class RecipeRepository @Inject constructor(
         )
     }
 
-    suspend fun getCategories(): List<Category>? {
+    suspend fun getCategories(): List<Category> {
         return withContext(dispatcher) {
             try {
                 val categoriesResponse = recipeApiService.getCategories()

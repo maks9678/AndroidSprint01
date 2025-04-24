@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemMethodBinding
-import dagger.hilt.android.AndroidEntryPoint
 
 
 class MethodAdapter(var dataSet: List<String> = emptyList<String>(),) :

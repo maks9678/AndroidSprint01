@@ -8,7 +8,6 @@ import com.example.androidsprint01.databinding.ItemIngredientBinding
 import com.example.androidsprint01.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
-import dagger.hilt.android.AndroidEntryPoint
 
 
 class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()) :
@@ -21,7 +20,7 @@ class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()
 
         fun bind(dataSet: Ingredient, quantity: Int) {
             binding.tvIngredientName.text = dataSet.description
-            Log.i("!!!", "${dataSet.quantity}")
+            Log.i("IngredientsAdapter", "${dataSet.quantity}")
             val quantityAsBigDecimal = try {
                 BigDecimal(dataSet.quantity)
             } catch (e: NumberFormatException) {

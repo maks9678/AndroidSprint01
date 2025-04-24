@@ -35,9 +35,9 @@ class CategoriesListViewModel @Inject constructor(private val recipesRepository:
             } else {Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")}
 
             val categoriesBackend = recipesRepository.getCategories()
-            Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend?.size}")
+            Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend.size}")
 
-            if (categoriesBackend != null && categoriesBackend != categoriesCache) {
+            if (categoriesBackend.isNotEmpty() && categoriesBackend != categoriesCache) {
                 recipesRepository.categoriesDao.insertAllCategories(categoriesBackend.map {
                     it.copy(
                         id = it.id * 100

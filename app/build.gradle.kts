@@ -57,11 +57,10 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.dagger:hilt-android:2.56.1")
+    implementation (libs.hilt.android)
     ksp (libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    ksp (libs.androidx.room.compiler)
+
 
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
