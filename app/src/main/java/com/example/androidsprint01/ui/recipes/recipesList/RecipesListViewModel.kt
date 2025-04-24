@@ -8,9 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipesListViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
+@HiltViewModel
+class RecipesListViewModel @Inject constructor(val recipeRepository: RecipeRepository) : ViewModel() {
 
     data class RecipesListState(
         val recipesList: List<Recipe> = emptyList(),

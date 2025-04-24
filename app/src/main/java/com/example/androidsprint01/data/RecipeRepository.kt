@@ -6,15 +6,17 @@ import com.example.androidsprint01.model.Recipe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(
+class RecipeRepository @Inject constructor(
     val recipeApiService: RecipeApiService,
     val categoriesDao: CategoriesDao,
     val recipesDao: RecipesDao,
-    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+
 ) {
+    val dispatcher: CoroutineDispatcher = Dispatchers.IO
     suspend fun getCategoriesFromCache(): List<Category> {
 
         Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")

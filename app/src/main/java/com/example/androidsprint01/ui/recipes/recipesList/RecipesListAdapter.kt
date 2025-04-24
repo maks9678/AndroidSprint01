@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
 import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.databinding.ItemListRecipesBinding
+import dagger.hilt.android.AndroidEntryPoint
+
 
 class RecipesListAdapter(
     private var dataSetRecipes: List<Recipe>

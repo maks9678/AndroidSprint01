@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
