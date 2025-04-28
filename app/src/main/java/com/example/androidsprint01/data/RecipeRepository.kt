@@ -26,7 +26,7 @@ class RecipeRepository @Inject constructor(
 
     suspend fun getRecipesFromCacheById(idCategory: Int): List<Recipe> {
         Log.i("RecipeRepository", "${recipesDao.getAllRecipes()}")
-        return recipesDao.getRecipesByCategoryId(
+        return recipesDao.getRecipesByCategoryIds(
             idCategory * 100,
             idCategory * 100 + 99
         )

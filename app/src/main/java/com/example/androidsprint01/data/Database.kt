@@ -36,8 +36,11 @@ interface RecipesDao {
     suspend fun addRecipes(recipes: List<Recipe>)
 
     @Query("SELECT * FROM recipe WHERE id BETWEEN :startId AND :endId")
-    suspend fun getRecipesByCategoryId(startId: Int, endId: Int): List<Recipe>
+    suspend fun getRecipesByCategoryIds(startId: Int, endId: Int): List<Recipe>
 
     @Query("SELECT * FROM recipe WHERE isFavorite = 1")
     suspend fun getFavoriteRecipes(): List<Recipe>
+
+    @Query("SELECT * FROM recipe WHERE categoryId = :categoryId")
+    suspend fun getRecipesByCategoryId(categoryId:Int): List<Recipe>
 }
