@@ -25,8 +25,9 @@ class CategoriesListViewModel @Inject constructor(private val recipesRepository:
 
     fun loadCategoriesList() {
         viewModelScope.launch {
+
             val categoriesCache = recipesRepository.getCategoriesFromCache()
-            if (categoriesCache.isNotEmpty()) {
+            if (!categoriesCache.isNullOrEmpty()) {
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
                         categoriesList = categoriesCache
@@ -49,6 +50,7 @@ class CategoriesListViewModel @Inject constructor(private val recipesRepository:
                     )
                 )
             } else Log.d("CategoriesListViewModel", "No categories received from backend")
+
         }
     }
 

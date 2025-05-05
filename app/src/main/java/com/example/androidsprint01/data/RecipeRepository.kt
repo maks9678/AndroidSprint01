@@ -19,9 +19,8 @@ class RecipeRepository @Inject constructor(
     val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend fun getCategoriesFromCache(): List<Category> {
-
-        Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
-        return categoriesDao.getAllCategories()
+    Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
+    return categoriesDao.getAllCategories()
     }
 
     suspend fun getRecipesFromCacheById(idCategory: Int): List<Recipe> {
@@ -51,6 +50,7 @@ class RecipeRepository @Inject constructor(
             try {
 
                 val recipeResponse = recipeApiService.getRecipesByCategoryId(idCategory)
+                Log.e("RecipeRepository", "$recipeResponse")
                 val recipe = recipeResponse.mapIndexed { index, recipe ->
                     val recipeFromCache =
                         recipesDao.getAllRecipes().find { it.id == idCategory * 100 + index }
@@ -65,18 +65,22 @@ class RecipeRepository @Inject constructor(
             }
         }
     }
+    suspend fun getRecipeListFromCache(categoryId: Int): List<Recipe> {
+        return recipesDao.getRecipesByCategoryId(categoryId)
+    }
 
     suspend fun getRecipeById(idRecipe: Int): Recipe? {
         return withContext(context = dispatcher) {
             try {
-                val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idRecipe }
+                val allRecipes = recipesDao.getAllRecipes()
+                val recipeFromCache = allRecipes.find { it.id == idRecipe }
                 Log.i("RecipeRepository", "recipeFromCache :${recipeFromCache?.isFavorite}")
                 if (recipeFromCache != null) {
                     recipeFromCache
                 } else {
                     val recipeResponse = recipeApiService.getRecipeById(idRecipe)
                     val isFavorite =
-                        recipesDao.getAllRecipes().find { it.id == recipeResponse.id }?.isFavorite
+                        allRecipes.find { it.id == recipeResponse.id }?.isFavorite
                             ?: false
                     val recipe =
                         recipeResponse.copy(isFavorite = isFavorite)

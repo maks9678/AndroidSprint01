@@ -21,6 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 class RecipeModule() {
@@ -30,7 +31,9 @@ class RecipeModule() {
         Room.databaseBuilder(
             context, AppDatabase::class.java,
             "database"
-        ).build()
+        )
+            .build()
+
 
     @Singleton
     @Provides

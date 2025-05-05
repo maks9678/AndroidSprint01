@@ -2,7 +2,6 @@ package com.example.androidsprint01.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.androidsprint01.data.BASE_URL
@@ -16,7 +15,7 @@ data class Recipe(
 
     @PrimaryKey val id: Int,
     @ColumnInfo("title") val title: String,
-    @ColumnInfo("categoryId") val categoryId: String,
+    @ColumnInfo("categoryId") val categoryId:Int?=null ,
     @ColumnInfo("ingredients") val ingredients: List<Ingredient>,
     @ColumnInfo("method") val method: List<String>,
     @ColumnInfo("imageUrl") val imageUrl: String,

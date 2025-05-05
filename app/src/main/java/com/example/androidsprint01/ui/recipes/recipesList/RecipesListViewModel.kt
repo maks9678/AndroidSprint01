@@ -39,22 +39,26 @@ class RecipesListViewModel @Inject constructor(val recipeRepository: RecipeRepos
     private fun loadRecipesList() {
         viewModelScope.launch {
             val categoryId = recipeListState.value?.category?.id ?: 0
-            val recipeCache = recipeRepository.getRecipesFromCacheById(categoryId)
-            if (recipeCache.isNotEmpty()) {
-                _recipesListState.postValue(
-                    recipeListState.value?.copy(
-                        recipesList = recipeCache
-                    )
-                )
-                Log.i("RecipesListViewModel", "$recipeCache")
-            } else Log.i("RecipesListViewModel", "Cache is empty, fetching from network")
+            Log.i("RecipesListViewModel", "$categoryId")
+            try {
+            val recipes = recipeRepository.getRecipeListFromCache(categoryId)
 
+            _recipesListState.postValue(
+                recipeListState.value?.copy(
+                    recipesList = recipes
+                )
+            )
+            Log.i("RecipesListViewModel", "$recipes")
             val recipesBackend = recipeRepository
                 .getRecipesByIds(categoryId)
+                Log.i("RecipesListViewModel", "$recipesBackend")
             if (recipesBackend.isNotEmpty()) {
                 _recipesListState.postValue(recipeListState.value?.copy(recipesList = recipesBackend))
                 Log.i("RecipesListViewModel", "$recipesBackend")
             } else Log.i("RecipesListViewModel", "No recipes received from backend")
+        }catch (e:Exception){
+                Log.i("RecipesListViewModel", "$e")
+        }
         }
     }
 }

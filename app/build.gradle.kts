@@ -5,7 +5,7 @@ plugins {
     id("kotlin-parcelize")
     alias(libs.plugins.androidx.navigation.safeargs)
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp") version "2.0.0-1.0.24"
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android") version "2.56.1"
 }
 
@@ -17,6 +17,7 @@ android {
 
 
     defaultConfig {
+
         applicationId = "com.example.androidsprint01"
         minSdk = 28
         targetSdk = 35
@@ -24,6 +25,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -60,7 +62,7 @@ dependencies {
     implementation (libs.hilt.android)
     ksp (libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
-
+    ksp("androidx.room:room-compiler:2.6.1")
 
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
