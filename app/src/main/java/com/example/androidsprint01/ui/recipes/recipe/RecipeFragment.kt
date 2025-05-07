@@ -9,18 +9,20 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.example.androidsprint01.R
-import com.example.androidsprint01.RecipeApplication
+import com.example.androidsprint01.di.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentRecipeBinding
 import com.example.androidsprint01.model.Recipe
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
-
+@AndroidEntryPoint
 class RecipeFragment(
     private var ingredientsAdapter: IngredientsAdapter = IngredientsAdapter(),
     private var stepsAdapter: MethodAdapter = MethodAdapter()
@@ -43,13 +45,11 @@ class RecipeFragment(
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
 
-    lateinit var viewModel: RecipeViewModel
+    val viewModel: RecipeViewModel by viewModels()
     val args: RecipeFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
-        viewModel = appConteiner.recipeViewModelFactory.create()
     }
 
     override fun onCreateView(

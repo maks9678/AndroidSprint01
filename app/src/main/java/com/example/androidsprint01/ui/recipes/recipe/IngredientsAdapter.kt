@@ -9,6 +9,7 @@ import com.example.androidsprint01.model.Ingredient
 import java.math.BigDecimal
 import java.math.RoundingMode
 
+
 class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
     var quantity: Int = 1
@@ -19,7 +20,7 @@ class IngredientsAdapter(var dataSet: List<Ingredient> = emptyList<Ingredient>()
 
         fun bind(dataSet: Ingredient, quantity: Int) {
             binding.tvIngredientName.text = dataSet.description
-            Log.i("!!!", "${dataSet.quantity}")
+            Log.i("IngredientsAdapter", "${dataSet.quantity}")
             val quantityAsBigDecimal = try {
                 BigDecimal(dataSet.quantity)
             } catch (e: NumberFormatException) {

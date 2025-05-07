@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
-import com.example.androidsprint01.RecipeApplication
+import com.example.androidsprint01.di.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentFavoritesBinding
 import com.example.androidsprint01.ui.recipes.recipesList.RecipesListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment(
     private var favoritesAdapter: RecipesListAdapter = RecipesListAdapter(emptyList())
 ) :
@@ -21,13 +24,11 @@ class FavoritesFragment(
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
 
-    private lateinit var viewModel: FavoritesViewModel
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
-        viewModel = appConteiner.favoritesViewModelFactory.create()
     }
 
     override fun onCreateView(

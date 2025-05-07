@@ -8,9 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
 import com.example.androidsprint01.model.Recipe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipesListViewModel(val recipeRepository: RecipeRepository) : ViewModel() {
+@HiltViewModel
+class RecipesListViewModel @Inject constructor(val recipeRepository: RecipeRepository) : ViewModel() {
 
     data class RecipesListState(
         val recipesList: List<Recipe> = emptyList(),
@@ -36,22 +39,26 @@ class RecipesListViewModel(val recipeRepository: RecipeRepository) : ViewModel()
     private fun loadRecipesList() {
         viewModelScope.launch {
             val categoryId = recipeListState.value?.category?.id ?: 0
-            val recipeCache = recipeRepository.getRecipesFromCacheById(categoryId)
-            if (recipeCache.isNotEmpty()) {
-                _recipesListState.postValue(
-                    recipeListState.value?.copy(
-                        recipesList = recipeCache
-                    )
-                )
-                Log.i("RecipesListViewModel", "$recipeCache")
-            } else Log.i("RecipesListViewModel", "Cache is empty, fetching from network")
+            Log.i("RecipesListViewModel", "$categoryId")
+            try {
+            val recipes = recipeRepository.getRecipeListFromCache(categoryId)
 
+            _recipesListState.postValue(
+                recipeListState.value?.copy(
+                    recipesList = recipes
+                )
+            )
+            Log.i("RecipesListViewModel", "$recipes")
             val recipesBackend = recipeRepository
                 .getRecipesByIds(categoryId)
+                Log.i("RecipesListViewModel", "$recipesBackend")
             if (recipesBackend.isNotEmpty()) {
                 _recipesListState.postValue(recipeListState.value?.copy(recipesList = recipesBackend))
                 Log.i("RecipesListViewModel", "$recipesBackend")
             } else Log.i("RecipesListViewModel", "No recipes received from backend")
+        }catch (e:Exception){
+                Log.i("RecipesListViewModel", "$e")
+        }
         }
     }
 }

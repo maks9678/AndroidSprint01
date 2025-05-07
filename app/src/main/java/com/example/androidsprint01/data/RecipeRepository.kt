@@ -6,30 +6,32 @@ import com.example.androidsprint01.model.Recipe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 const val BASE_URL = "https://recipes.androidsprint.ru/api/"
 
-class RecipeRepository(
+class RecipeRepository @Inject constructor(
     val recipeApiService: RecipeApiService,
     val categoriesDao: CategoriesDao,
     val recipesDao: RecipesDao,
-    val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
-    suspend fun getCategoriesFromCache(): List<Category> {
 
-        Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
-        return categoriesDao.getAllCategories()
+) {
+    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+
+    suspend fun getCategoriesFromCache(): List<Category> {
+    Log.i("RecipeRepository", "getCategoriesFromCache: ${categoriesDao.getAllCategories()}")
+    return categoriesDao.getAllCategories()
     }
 
     suspend fun getRecipesFromCacheById(idCategory: Int): List<Recipe> {
         Log.i("RecipeRepository", "${recipesDao.getAllRecipes()}")
-        return recipesDao.getRecipesByCategoryId(
+        return recipesDao.getRecipesByCategoryIds(
             idCategory * 100,
             idCategory * 100 + 99
         )
     }
 
-    suspend fun getCategories(): List<Category>? {
+    suspend fun getCategories(): List<Category> {
         return withContext(dispatcher) {
             try {
                 val categoriesResponse = recipeApiService.getCategories()
@@ -48,6 +50,7 @@ class RecipeRepository(
             try {
 
                 val recipeResponse = recipeApiService.getRecipesByCategoryId(idCategory)
+                Log.e("RecipeRepository", "$recipeResponse")
                 val recipe = recipeResponse.mapIndexed { index, recipe ->
                     val recipeFromCache =
                         recipesDao.getAllRecipes().find { it.id == idCategory * 100 + index }
@@ -62,18 +65,22 @@ class RecipeRepository(
             }
         }
     }
+    suspend fun getRecipeListFromCache(categoryId: Int): List<Recipe> {
+        return recipesDao.getRecipesByCategoryId(categoryId)
+    }
 
     suspend fun getRecipeById(idRecipe: Int): Recipe? {
         return withContext(context = dispatcher) {
             try {
-                val recipeFromCache = recipesDao.getAllRecipes().find { it.id == idRecipe }
+                val allRecipes = recipesDao.getAllRecipes()
+                val recipeFromCache = allRecipes.find { it.id == idRecipe }
                 Log.i("RecipeRepository", "recipeFromCache :${recipeFromCache?.isFavorite}")
                 if (recipeFromCache != null) {
                     recipeFromCache
                 } else {
                     val recipeResponse = recipeApiService.getRecipeById(idRecipe)
                     val isFavorite =
-                        recipesDao.getAllRecipes().find { it.id == recipeResponse.id }?.isFavorite
+                        allRecipes.find { it.id == recipeResponse.id }?.isFavorite
                             ?: false
                     val recipe =
                         recipeResponse.copy(isFavorite = isFavorite)

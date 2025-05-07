@@ -5,24 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.androidsprint01.R
-import com.example.androidsprint01.RecipeApplication
 import com.example.androidsprint01.databinding.FragmentListCategoriesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoriesListFragment(
     val categoriesListAdapter: CategoriesListAdapter = CategoriesListAdapter(emptyList())
 ) : Fragment(R.layout.fragment_list_categories) {
     private var _binding: FragmentListCategoriesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding accessed before initialized")
-    private lateinit var viewModel: CategoriesListViewModel
+    val viewModel: CategoriesListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
-        viewModel = appConteiner.categoriesListViewModelFactory.create()
+        //val appConteiner = (requireActivity().application as RecipeApplication).appConteiner
+        //viewModel = appConteiner.categoriesListViewModelFactory.create()
     }
 
     override fun onCreateView(
@@ -32,7 +34,6 @@ class CategoriesListFragment(
     ): View {
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

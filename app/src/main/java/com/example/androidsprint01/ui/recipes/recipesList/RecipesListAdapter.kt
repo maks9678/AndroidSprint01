@@ -9,6 +9,7 @@ import com.example.androidsprint01.R
 import com.example.androidsprint01.model.Recipe
 import com.example.androidsprint01.databinding.ItemListRecipesBinding
 
+
 class RecipesListAdapter(
     private var dataSetRecipes: List<Recipe>
 ) :

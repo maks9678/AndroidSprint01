@@ -9,6 +9,7 @@ import com.example.androidsprint01.R
 import com.example.androidsprint01.databinding.ItemCategoryBinding
 import com.example.androidsprint01.model.Category
 
+
 class CategoriesListAdapter(private var dataSet: List<Category> = emptyList()) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
 

@@ -1,11 +1,10 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     alias(libs.plugins.androidx.navigation.safeargs)
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp") version "2.0.0-1.0.24"
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android") version "2.56.1"
 }
 
@@ -17,6 +16,7 @@ android {
 
 
     defaultConfig {
+
         applicationId = "com.example.androidsprint01"
         minSdk = 28
         targetSdk = 35
@@ -24,6 +24,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -57,21 +58,20 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.dagger:hilt-android:2.56.1")
-    ksp (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
-    ksp (libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
-    implementation (libs.androidx.navigation.fragment.ktx)
-    implementation (libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.room.ktx)
-    implementation (libs.gson)
+    implementation(libs.gson)
     implementation(libs.logging.interceptor)
-    implementation (libs.okhttp3.okhttp)
-    implementation (libs.retrofit)
+    implementation(libs.okhttp3.okhttp)
+    implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation (libs.glide)
+    implementation(libs.glide)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.fragment.ktx)

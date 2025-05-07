@@ -8,9 +8,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.androidsprint01.data.RecipeRepository
 import com.example.androidsprint01.model.Category
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CategoriesListViewModel(private val recipesRepository: RecipeRepository) : ViewModel() {
+@HiltViewModel
+class CategoriesListViewModel @Inject constructor(private val recipesRepository: RecipeRepository) : ViewModel() {
     data class CategoriesListState(
         val categoriesList: List<Category> = emptyList<Category>(),
     )
@@ -22,8 +25,9 @@ class CategoriesListViewModel(private val recipesRepository: RecipeRepository) :
 
     fun loadCategoriesList() {
         viewModelScope.launch {
+
             val categoriesCache = recipesRepository.getCategoriesFromCache()
-            if (categoriesCache.isNotEmpty()) {
+            if (!categoriesCache.isNullOrEmpty()) {
                 _categoriesListState.postValue(
                     categoriesListState.value?.copy(
                         categoriesList = categoriesCache
@@ -32,9 +36,9 @@ class CategoriesListViewModel(private val recipesRepository: RecipeRepository) :
             } else {Log.d("CategoriesListViewModel", "Cache is empty, fetching from network")}
 
             val categoriesBackend = recipesRepository.getCategories()
-            Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend?.size}")
+            Log.d("CategoriesListViewModel", "Categories from backend: ${categoriesBackend.size}")
 
-            if (categoriesBackend != null && categoriesBackend != categoriesCache) {
+            if (categoriesBackend.isNotEmpty() && categoriesBackend != categoriesCache) {
                 recipesRepository.categoriesDao.insertAllCategories(categoriesBackend.map {
                     it.copy(
                         id = it.id * 100
@@ -46,6 +50,7 @@ class CategoriesListViewModel(private val recipesRepository: RecipeRepository) :
                     )
                 )
             } else Log.d("CategoriesListViewModel", "No categories received from backend")
+
         }
     }
 

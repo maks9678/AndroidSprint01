@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsprint01.databinding.ItemMethodBinding
 
+
 class MethodAdapter(var dataSet: List<String> = emptyList<String>(),) :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
 
