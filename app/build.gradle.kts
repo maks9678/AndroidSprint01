@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -59,20 +58,20 @@ android {
 }
 
 dependencies {
-    implementation (libs.hilt.android)
-    ksp (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
-    ksp("androidx.room:room-compiler:2.6.1")
+    ksp(libs.androidx.room.compiler)
 
-    implementation (libs.androidx.navigation.fragment.ktx)
-    implementation (libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.room.ktx)
-    implementation (libs.gson)
+    implementation(libs.gson)
     implementation(libs.logging.interceptor)
-    implementation (libs.okhttp3.okhttp)
-    implementation (libs.retrofit)
+    implementation(libs.okhttp3.okhttp)
+    implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation (libs.glide)
+    implementation(libs.glide)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.fragment.ktx)
